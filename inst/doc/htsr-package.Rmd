@@ -1,0 +1,419 @@
+---
+title: "htsr-package"
+author: 
+  affiliation: HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France
+  name: Pierre Chevallier
+date: November 23, 2020
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{htsr-package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(htsr)
+verc <- as.character(packageVersion("htsr"))
+cat("Version : ", verc)
+```
+
+---
+
+# Content
+* Origin
+  * Brief history
+  * Hydraccess
+  * Sqlite data base
+* Principles
+* Dependencies
+  * System library
+  * User library
+  * Special case of RODBC
+* File formats
+  * Sqlite data base
+  * Time-series
+  * Calibrations and discharge measurements
+  * Gaps
+* Functions
+  * Short cut fonction
+  * Data base functions
+  * File functions
+  * Hydro-meteo time-series
+  * Plot functions
+  * Shiny functions
+  * Micellaneous functions
+* Development main references
+  * Sqlite management
+  * R coding
+* Appendix
+  * Correspondence of the data base tables between Hydraccess and Sqlite htsr
+  * Fields of the main tables
+
+# Origin
+## Brief history
+IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made
+codes (Hydrom and Pluviom), which were later adapted to commercial applications like Microsoft Access or Oracle.
+
+With the development of open access platforms and applications in the one hand, and the need of 
+more flexibility in the other hand, it appears useful to build a set of functions able to manage hydro-meteo time-series independently of the operating system and of proprietary 
+tools.
+
+The package was developed on the basis of the public domain data base management system Sqlite and 
+on the hydro-meteo time-series data base application Hydraccess. 
+ 
+It works on Linux, Windows or MacOS platforms, with the free programming language R (<https://www.r-project.org/>) and the interface RStudio (<https://rstudio.com/>) preliminary 
+installed.
+
+## Hydraccess
+Hydraccess was developed at IRD (<https://www.ird.fr>) by Philippe Vauchel. It is based on several tools provided by Microsoft Office (R) including Microsoft Access. It can be obtained from <https://hybam.obs-mip.fr/fr/hydraccess-2/>
+
+Hydracces is available in French, English, Spanish, Portuguese and Russian.
+
+## Sqlite data base
+Sqlite is an embedded data base on the public domain (<https://en.wikipedia.org/wiki/SQLite>).
+It is self-contained, and serverless, without preliminary configuration. It can be installed using the instructions given by <https://sqlite.org/download.html>.
+
+# Principle  
+
+The Sqlite data base is organized with the same tables and fields as the Hydraccess structure, except that the table names are changed for practical reasons. A correspondence of these names in given in appendix.
+
+In Hydraccess, two families or time-series coexist: "hydro data" (Type_Station = H) and "weather data" (Type_Station = M). The first one includes the main tables Cotes/WL, Debits/DI and Qualite/QU; the second one includes Pluies/PR and Meteo/WE. Other tables regarding discharge measurements or calibration are also affected to the "hydro data" family.
+
+This distinction does not exist anymore in the Sqlite data base processes. That means that one should verify if no stations  have the same name in the one and the other family. If it is the case the name must be changed before converting a Hydraccess data base in a Sqlite data base.
+
+A time-series is always attached to a **station**, which describes its location and managing infos, and to a **sensor**, which is attached to the data type and to the used device. Both are indexed with a main id. 
+
+In Hydraccess:
+
+* **The station id** has no particular syntax; it associated to a number of description fields. Note that the station Name field is mandatory.
+
+* **The capteur/sensor id** has at most 5 digits and the first one defines the timestep of the variable: **I** for instantaneous, **J** for daily and **M** for monthly. By convention, a daily value is affected at 12:00:00 and a monthly value to the day 16 at 00:00:00. This convention remains for the Sqlite data base. The other 4 digits of the sensor id are free in Hydraccess. In the Sqlite data base the sensor id length is not any more limited, but it could be a good idea to conserve it. Other description fields are also associated with the sensors.
+
+In brief, that means that a time-series record must have 4 objects:
+
+* a date-time;
+
+* a numeric value;
+
+* a station id factor;
+
+* a sensor id factor.
+
+Practically it associates the two tables "station" and "sensor" with one of the five following: "water level", "discharge", "weather", "precipitation" or "quality".
+
+The other associated tables can be used for intermediary calculations, like the computation of the discharge from the water level, or for more detailed information.
+
+
+# Dependencies
+
+The following packages and their own dependencies are needed to apply the htsr package.
+
+## System library
+
+* `base`, `grDevices`, `stats`, `utils`
+
+
+## User library
+
+* included in `tidyverse`: `dplyr`, `tibble`, `ggplot2`, `readr`, `stringr`, `purrr`
+
+* others: `DBI`, `directlabels`, `editData`,  `lubridate`, `openair`, `raster`, `RColorBrewer`, `readxl`, `RSQLite`, `RODBC`, `shiny`, `WriteXLS`, `zoo`
+
+## Special case of RODBC
+
+Because Hydraccess is only configured for Microsoft Windows, the associated data bases work only on this platform. That means that the operation, which consists to convert a Hydraccess data base into a Sqlite data base must be done in this environment. The `RODBC` package is associated to the htsr package, but it can be only used in the Windows platform through the function `d_convert_hydraccess`. In particular, **this function does not work on Linux**.
+ 
+Because a Hydracces data base is proprietary depending, a preliminary configuration of the MS-Windows platform must be done:
+
+* Install "Microsoft Database Engine" (freely available on Microsoft web site).
+
+* In the administration tools, config the connection ODBC 32b with the Access data base to be used. An alternative consists to execute `\windows\sysWOW64\odbcad32.exe`.
+
+* Open the RStudio session in 32b (this can be precised in the RStudio general options ; RStudio must be re-launched for taking the change into account).
+
+# File formats
+
+## Sqlite data base
+
+* extension : `.sqlite`
+
+* SQLite data base with 38 tables.
+
+## Time-series
+
+* extension : `.hts`
+
+* Rdata file containing a “tibble” object, `tstab`, with 4 columns : `Date`, 
+`Value`, `Station`, `Sensor`
+
+```
+> tstab
+   Date                Value Station Sensor
+   <dttm>              <dbl> <fct>   <fct> 
+ 1 2015-10-03 12:00:00  2.17 CKS2500 IQ  
+```
+
+## Gaps
+
+* extension : `.gap`
+
+* Rdata file containing a “tibble” object, `ze`, with 3 columns
+
+```
+> ze
+# A tibble: 14 x 3
+   date                valeur stacapt
+   <dttm>               <dbl> <chr>  
+ 1 2015-10-03 17:00:00      1 _      
+ 2 2015-12-11 23:30:00      1 _ 
+ ```
+
+# Functions
+
+5 categories of functions are provided by the htsr package, with, in addition, one short-cut
+function. They are distinguished with a prefix character and listed below.
+
+Infos on their uses are detailed in the on-line help or using in the console the command `?<FUNCTION_NAME>` or `help(<FUNCTION_NAME>)`.
+
+## Short-cut function
+
+* `fc(file)`, shortcut for file.choose(file), which is very frequently needed.
+
+## Data base functions (prefix `d_`)
+
+### Data base tools
+* `d_backup(db.sqlite)`, backups a htsr sqlite data base.
+
+* `d_compact(bd.sqlite)`, compacts a htsr sqlite data base
+
+* `d_create(db.sqlite, cr_table = TRUE, bku = TRUE)`, creates a htsr sqlite data base
+
+* `d_inventory(db.sqlite, stalist = NA, form.out = NA)` and `d_invent(fsq)`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
+
+* `d_sensor(db.sqlite, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, creates, modifies or removes a sensor
+
+* `d_station(db.sqlite, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, creates, modifies or removes a station
+
+* `d_table(db.sqlite, table, op = "C", bku = TRUE)` creates or removes a table
+
+### Data import/export
+
+* `d_exp_discalib(db.sqlite, sta, calib=TRUE, dism=TRUE)`, exports discharge measurements and calibrations from data base
+
+* `d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` and `d_exphts(fsq)`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
+
+* `d_imp_hts(db.sqlite, file.hts, table, bku = TRUE)`, imports a hts file into a data base
+
+* `d_rem_hts(db.sqlite, table, sta, sen, start = NA, end = NA)`, removes a htsr record from a data base
+
+* `d_wind(db.sqlite, sta = NA, swd = NA, swv = NA)`, creates a wind table
+
+### Conversion
+
+* `d_convert_hydraccess(db.sqlite, db.hydraccess)`,  converts a full Hydraccess database into a new htsr sqlite database. **NB:** Only works in Windows environment with a 32b R session.
+
+* `d_convert_weewx(db.sqlite, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)`, converts a weewx data base (<http://weewx.com/>) into a htsr sqlite base
+
+
+## File functions (prefix `f_`)
+
+* `f_change_id(file, sta, sen, overwrite)`, changes station id or sensor id in a hts file.. Generates a file with the prefix `nw_`.
+
+* `f_convert(f, form_start = "hts", form_end = "xlsx", ta = NA, sen = NA, output = NA, variable = NA)`, converts data-series file in another format: `hts`, `xls/xlsx`, `csv` or `hdsm`)`
+
+* `f_properties(file, gaps = FALSE)` displays the properties of a hts time-series.
+
+## Hydro-meteo time-series (prefix `h_`)
+
+### Data manipulations
+
+* `h_common(files)`, extracts 2 (or more) time-series on their common period. Generates a file with the prefix `co_`.
+
+* `h_condition(files, condition)`, conditionally extracts a time-series regarding another one. Generates a file with the prefix `cd_`.
+
+* `h_cumul(file, start = NA, end = NA)`, cumulates the values of a time-series. Generates a file with the prefix `cu_`.
+
+* `h_nodata(file, threshold=NA, test="=", start=NA, end=NA)`, replaces values with NA conditionally or in a time interval. Generates a file with the prefix `na_`.
+
+* `h_rbind(files, sensor, gap = TRUE)`, binds 2 time-series on consecutive periods
+
+* `h_replace(file, old.val, new.val)`, replaces a value by another. Generates a file with the prefix `re_`.
+
+* `h_rollav (file, ti = 7, position = c("central", "right"))`, computes a rolling average of a daily time-series. Generates a file with the prefix `ro_`.
+
+* `h_substitute(files)`, substitutes the missing values in a series by existing values of another series. Generates a file with the prefix `su_`.
+
+* `h_weightedsum(files, weights = NA, constant = 0)`, makes a weighted sum of time-series. Generates a file with the prefix `ws_`.
+
+### Data critics
+
+* `h_gaperr(file, nv = 1, itv0 = 43201, df)`, replaces errors with gaps in a time-series based on neighboring values. Generates a file with the prefix `eg_`.
+
+* `h_gapfill(file, npdt)`, produces a simple gapfilling in a time-series. Generates a file with the prefix `gf_`.
+
+* `h_gaprem_itv(file, itv0 = 43201)`, removes gaps in a time-series with a time interval threshold. Generates a file with the prefix `gr_`.
+
+### Time treatments
+
+* `h_month(file, op="M", ba=NA, rmna=FALSE, climedit=FALSE, caledit_j=FALSE, caledit_m=FALSE, gapfill=FALSE)`, makes monthly operations, based on a daily time-series.  Generates hts files with the suffixes `_C`, `_G` or `_M` and MS Excel files with the prefixes `ad_` and `cm_`.
+
+* `h_restrict(file, start=NA, end=NA)`, restricts a series between 2 dates. Generates hts files with the suffixes `re_`.
+
+* `h_season(file, monthstart)`, produces a seasonal selection. Generates a file with the prefix `sx_`, where x is 2, 3 or 4.
+
+* `h_timestep(file, tst, op = "M")`, computes infra-daily data with a fixed time step. Generates a file with the suffix `_xxxx`, where xxxx is the `tst` value.
+
+### Hydro-meteo processes
+
+* `h_stat_basic(file)`, gives basic statistics of a time-series
+
+* `h_etp(method = c("Turc", "Penman-Monteith", "Priestley-Taylor", "Makkink", "Heargraves-Samani"), freq = c("day", "month"), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)`, computes the potential evapotranspiration with several methods. Generates a file with the prefix `xEtpyy_`, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).
+
+* `h_rainsnow(fpr, fta, ta0,ta1,sta=NA)`, shares the solid and liquid precipitations with a temperature criteria. Generates a file with the prefix `pr_`. Generates a file with the prefix `sn_`.
+
+## Plot functions (prefix `p_`)
+
+### General plots
+
+* `p_plothts()`, plots hts files. Shiny interface of `p_line` & `p_bar`
+
+* Bar plotting
+
+  + `p_bar(nbst = nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down = NA, y.up = NA, pal)`
+
+  + `p_bar_app(filename = NA, pset = TRUE, pfil = TRUE, rpal = 0,savefig = FALSE, width = 8, height = 6, fileo = "plot.png"`
+
+* Line / point plotting
+
+  + `p_line(nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down, y.up, pal = pal, linet, rppt, pointt, linew, smooth)`
+
+  + ` p_line_app (filename = NA, pset = TRUE, pfil = TRUE, rpal = 0, smooth = FALSE, savefig = FALSE, width = 8, height = 6, fileo = "plot.png")`
+
+### Other plots
+
+* `p_box_month(file, title = "Title", axeY = "Y-axis", savefig = FALSE, fileo = "plot.png", width = 8, height = 6)`, plots a boxplot of the 12 months of a time-series.
+
+* `p_clim(p_clim <- function (files, type="line", hydro.month=1, title="Title", yaxis="Value", y.down=NA, y.up=NA, rpal=FALSE, pal=mapalette, legend.l=NA))`, plots climatologies in hydrological year.
+
+* `p_discalib(fcalib, sen, plotcalib= TRUE, plotdism=TRUE, title="Title", savefig=FALSE, width= 8, height= 6, fout="plot.png", limx =FALSE, limy = FALSE, xinf=NA, xsup=NA, yinf=NA, ysup=NA)`, plots calibration curves water levels vs discharges.
+
+* `p_gaps(nbf, title = "Inventory", BW = FALSE, margin = 0.1)`, plots of data inventory
+
+* `p_hypso(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,height= 6, fileo="plot.png")`, plots the hypsometry curve of one or more basins
+
+
+* `p_scatter(files, intercept.zero = FALSE, remove.zero = FALSE, lg.axis = c(NA, NA),title = "Title")`, plots a scatter plot of 2 or more time-series
+
+* `p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = "default",  breaks = 5, offset = 5, paddle = FALSE)`, plots wind rose
+
+## Micellaneous functions (prefix `z_`)
+
+* `z_coord(ncoord = NA, ccoord = NA, type)`, converts coordinate from numeric to cheracter and reverse.
+
+* `z_set (tz = FALSE, mapal = FALSE, confp = FALSE)`, edit settings for time zone and manual palette colors
+
+
+# Development main references
+
+## SQLite management
+
+* SQLite, sql database engine, 2017, Tutorial Point, <https://www.tutorialspoint.com/sqlite/sqlite_pdf_version.htm>
+
+* Ripley B., ODBC Connectivity, 2020. <https://CRAN.R-project.org/package=RODBC>
+
+* <https://www.sqlite.org/index.html>
+
+## R coding
+
+* Chang W., 2013. R Graphics Cookbook. O'Reilly. 398p. ISBN 978-1-449-31695-2. Actualized on <https://r-graphics.org/>
+
+* Wickham H., 2015. R Packages - Organize, test, document, and share your code. 
+O'Reilly. 190p. ISBN 978-1-491-91059-7. Actualized version on <https://r-pkgs.org/>
+
+* Wickham H. & Grolemund G., 2017. R for Data Science - Import, tidy, transform, 
+vizualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
+
+* <https://www.tidyverse.org/>
+
+# Appendix
+## Correspondence of the data base tables between Hydraccess and Sqlite htsr
+### Main tables
+
+```
+--------------------------------------------
+  Designation     Hydraccess    Sqlite name 
+--------------- -------------- -------------
+   Discharge        Debits          DI      
+ Precipitation      Pluies          PR      
+    Quality        Qualite          QU      
+    Sensors        Capteurs         SS      
+    Station      Station_Base       ST      
+    Weather         Meteo           WE      
+  Water level       Cotes           WL      
+--------------------------------------------
+
+```
+
+   
+### Other tables
+
+```
+--------------------------------------------------------------
+        Designation              Hydraccess       Sqlite name 
+--------------------------- -------------------- -------------
+           Basin                  Bassins             BA      
+     Calibration Date            Etal_Dates           CD      
+          Country                Zones_Pays           CO      
+ Disch. measur. proceeding     Jaugeages_Dep          DP      
+   Discharge measurement         Jaugeages            DM      
+      Elevation zero              Zero_NG             EZ      
+         Equipment              Equipements           EQ      
+           Event                 Evenements           EV      
+        Large basis            Bassins_Grands         LB      
+  Liquid flow calibration         Etal_HQ             LC      
+          Manager              Gestionnaires          MG      
+         Nature id              Codes_Nature          NC      
+      Operating mode         Modes_Opératoires        OM      
+        Origine id.            Codes_Origine          OC      
+          Profile               Profils_Data          PF      
+       Profile data             Profils_Data          PD      
+         Propeller                Helices             PP      
+        Quality id.            Codes_Qualite          QC      
+          Region                  Regions             RE      
+           River                  Rivieres            RV      
+       Sensor comm.            Capteurs_Comm          SM      
+      Sensor history          Capteurs_HistApp        SH      
+         Settings               Parametrage           SE      
+        Small basin            Bassins_Petits         SB      
+  Solid flow calibration          Etal_HK             SC      
+     Station equipment       Stations_Equipment       SQ      
+       Station file          Dossiers_Stations        SF      
+         Sub-zone                Zone_Sous            SZ      
+       Temp_station2           Temp_Stations2         TS      
+           Valve                   Vannes             VA      
+           Zone                    Zones              ZO      
+--------------------------------------------------------------
+```  
+   
+## Fields of the main tables
+They correspond to French spelling, which is used in Hydraccess. The compulsory fields are marked with (!).
+
+### Stations_Base/ST
+Ordre, Type_Station (!), Id_Station (!), Id_Secondaire, Id_Tertiaire, Type_Meteo, Nom, Pays, Zone, SousZone, GrandBassin, Bassin, PetitBassin, Riviere, Gestionnaire, Latitude, Longitude, Altitude, Superficie_bv, Mois_Debut_Hydro, Debut_Activite, Activite, Critere_OuiNon, Critere_Numerique, Critere_Texte, Nom_Observateur, Adresse, Teletransmission, Enregistreur, Fictive, Commentaire, Flag, District, Localite
+
+### Capteurs/SS
+Type_Station (!), Id_Station (!), Capteur (!), Table (!), Nature, Description, Commentaire, Code_Limni, Principal, Fictif, Maj_Journaliers, Maj_Traduction, Acquisition_Auto, Operationnel, Liste_Inst, Liste_Jour, Liste_Mois, Agregation, Decalage_Temps, Mini, Maxi, Gradient_Maxi, Precision, Decimales, Pente
+
+### Cotes/WL, Debits/DI, Meteo/WE, Qualite/QU
+Type_Station (!), Id_Station (!), Capteur (!), Table (!), Date (!), Valeur, Origine, Qualite
+
+### Pluies/PR
+Type_Station (!), Id_Station (!), Capteur (!), Table (!), Date (!), Valeur, Origine, Qualite, Nature
+
