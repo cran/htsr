@@ -74,7 +74,7 @@ a ggplot2 object
 \description{
 Line plot based on htsr time-series. The parameters can be
 setted by \code{\link{p_line_app}}. For a step by step operation the function
-\code{\link{p_plothts}} is more convenient.
+\code{\link{ps_plothts}} is more convenient.
 }
 \details{
 For a full description of the settings, see \code{\link{p_line_app}}

@@ -34,7 +34,7 @@ table with four columns : Date, Value, Station, Sensor. It is the default format
 The function \code{\link{f_convert}} converts it in Excel or csv format.
 }
 \details{
-For a step by step operation the function \code{\link{d_exphts}} is more convenient.
+For a step by step operation the function \code{\link{ds_exp_hts}} is more convenient.
 }
 \examples{
 \dontrun{
@@ -46,7 +46,7 @@ f <- d_exp_hts("foo.sqlite","M","station","sensor")
 
 }
 \seealso{
-\code{\link{d_exphts}} manual settings of the parameters
+\code{\link{ds_exp_hts}} manual settings of the parameters
 }
 \author{
 P. Chevallier - oct 2017 - dec 2019

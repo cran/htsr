@@ -10,8 +10,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+<meta name="author" content="Pierre Chevallier" />
 
-<meta name="date" content="2020-11-23" />
 
 <title>htsr-package</title>
 
@@ -278,13 +278,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">htsr-package</h1>
 <h4 class="author">Pierre Chevallier</h4>
-<address class="author_afil">
-HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="date">November 23, 2020</h4>
 
 
 
-<pre><code>#&gt; Version :  1.0.4</code></pre>
-<hr />
+<p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France</em></p>
+<p><strong>v1.1.0 - December 6, 2020</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -315,7 +313,6 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <li>File functions</li>
 <li>Hydro-meteo time-series</li>
 <li>Plot functions</li>
-<li>Shiny functions</li>
 <li>Micellaneous functions</li>
 </ul></li>
 <li>Development main references
@@ -334,9 +331,9 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <h1>Origin</h1>
 <div id="brief-history" class="section level2">
 <h2>Brief history</h2>
-<p>IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made codes (Hydrom and Pluviom), which were later adapted to commercial applications like Microsoft Access or Oracle.</p>
-<p>With the development of open access platforms and applications in the one hand, and the need of more flexibility in the other hand, it appears useful to build a set of functions able to manage hydro-meteo time-series independently of the operating system and of proprietary tools.</p>
-<p>The package was developed on the basis of the public domain data base management system Sqlite and on the hydro-meteo time-series data base application Hydraccess.</p>
+<p>IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made codes (Hydrom and Pluviom), which were in the late 90ties adapted with commercial applications like Microsoft Access or Oracle and more recently for web interface (Sierem (<a href="http://www.hydrosciences.org/spip.php?article1236" class="uri">http://www.hydrosciences.org/spip.php?article1236</a>)).</p>
+<p>With the development of open access platforms and applications, in the one hand, and the need of more flexibility, in the other hand, it appears useful to build a set of functions able to manage hydro-meteo time-series independently of the operating system and of proprietary tools.</p>
+<p>The <code>htsr</code> package was developed on the basis of the public domain data base management system Sqlite and on the hydro-meteo time-series data base application Hydraccess.</p>
 <p>It works on Linux, Windows or MacOS platforms, with the free programming language R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) and the interface RStudio (<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>) preliminary installed.</p>
 </div>
 <div id="hydraccess" class="section level2">
@@ -346,7 +343,7 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 </div>
 <div id="sqlite-data-base" class="section level2">
 <h2>Sqlite data base</h2>
-<p>Sqlite is an embedded data base on the public domain (<a href="https://en.wikipedia.org/wiki/SQLite" class="uri">https://en.wikipedia.org/wiki/SQLite</a>). It is self-contained, and serverless, without preliminary configuration. It can be installed using the instructions given by <a href="https://sqlite.org/download.html" class="uri">https://sqlite.org/download.html</a>.</p>
+<p>Sqlite is an embedded data base on the public domain (<a href="https://en.wikipedia.org/wiki/SQLite" class="uri">https://en.wikipedia.org/wiki/SQLite</a>). It is self-contained, and serverless, without preliminary configuration. It can be installed using the instructions given by <a href="https://sqlite.org/download.html" class="uri">https://sqlite.org/download.html</a>. It can be used directly through many dedicated applications available for a large set of operating systems.</p>
 </div>
 </div>
 <div id="principle" class="section level1">
@@ -441,17 +438,17 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <li><code>fc(file)</code>, shortcut for file.choose(file), which is very frequently needed.</li>
 </ul>
 </div>
-<div id="data-base-functions-prefix-d_" class="section level2">
-<h2>Data base functions (prefix <code>d_</code>)</h2>
+<div id="data-base-functions-prefix-d_-or-ds_" class="section level2">
+<h2>Data base functions (prefix <code>d_</code> or <code>ds_</code>)</h2>
 <div id="data-base-tools" class="section level3">
 <h3>Data base tools</h3>
 <ul>
 <li><p><code>d_backup(db.sqlite)</code>, backups a htsr sqlite data base.</p></li>
 <li><p><code>d_compact(bd.sqlite)</code>, compacts a htsr sqlite data base</p></li>
 <li><p><code>d_create(db.sqlite, cr_table = TRUE, bku = TRUE)</code>, creates a htsr sqlite data base</p></li>
-<li><p><code>d_inventory(db.sqlite, stalist = NA, form.out = NA)</code> and <code>d_invent(fsq)</code>, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of <code>d_inventory</code></p></li>
-<li><p><code>d_sensor(db.sqlite, op = &quot;C&quot;, sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, creates, modifies or removes a sensor</p></li>
-<li><p><code>d_station(db.sqlite, op = &quot;C&quot;, sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, creates, modifies or removes a station</p></li>
+<li><p><code>d_inventory(db.sqlite, stalist = NA, form.out = NA)</code> or <code>ds_inventory(fsq)</code>, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of <code>d_inventory</code></p></li>
+<li><p><code>d_sensor(db.sqlite, op = &quot;C&quot;, sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a sensor. The second is a Shiny interface of <code>d_sensor</code></p></li>
+<li><p><code>d_station(db.sqlite, op = &quot;C&quot;, sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a station. The second is a Shiny interface of <code>d_station</code></p></li>
 <li><p><code>d_table(db.sqlite, table, op = &quot;C&quot;, bku = TRUE)</code> creates or removes a table</p></li>
 </ul>
 </div>
@@ -459,7 +456,7 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <h3>Data import/export</h3>
 <ul>
 <li><p><code>d_exp_discalib(db.sqlite, sta, calib=TRUE, dism=TRUE)</code>, exports discharge measurements and calibrations from data base</p></li>
-<li><p><code>d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)</code> and <code>d_exphts(fsq)</code>, extract hts files from a sqlite data base. The second is a shiny interface of <code>d_exp_hts</code></p></li>
+<li><p><code>d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)</code> or <code>ds_exp_hts(fsq)</code>, extract hts files from a sqlite data base. The second is a shiny interface of <code>d_exp_hts</code></p></li>
 <li><p><code>d_imp_hts(db.sqlite, file.hts, table, bku = TRUE)</code>, imports a hts file into a data base</p></li>
 <li><p><code>d_rem_hts(db.sqlite, table, sta, sen, start = NA, end = NA)</code>, removes a htsr record from a data base</p></li>
 <li><p><code>d_wind(db.sqlite, sta = NA, swd = NA, swv = NA)</code>, creates a wind table</p></li>
@@ -481,8 +478,8 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <li><p><code>f_properties(file, gaps = FALSE)</code> displays the properties of a hts time-series.</p></li>
 </ul>
 </div>
-<div id="hydro-meteo-time-series-prefix-h_" class="section level2">
-<h2>Hydro-meteo time-series (prefix <code>h_</code>)</h2>
+<div id="hydro-meteo-time-series-prefix-h_-or-hs_" class="section level2">
+<h2>Hydro-meteo time-series (prefix <code>h_</code> or <code>hs_</code>)</h2>
 <div id="data-manipulations" class="section level3">
 <h3>Data manipulations</h3>
 <ul>
@@ -508,27 +505,29 @@ HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France<br><h4 class="da
 <div id="time-treatments" class="section level3">
 <h3>Time treatments</h3>
 <ul>
+<li><p><code>hs_step(fhts)</code>, combines in a shiny environement both functions <code>h_timestep()</code> and <code>h_month()</code></p></li>
+<li><p><code>h_timestep(file, tst, op = &quot;M&quot;)</code>, computes infra-daily data with a fixed time step. Generates a file with the suffix <code>_xxxx</code>, where xxxx is the <code>tst</code> value.</p></li>
 <li><p><code>h_month(file, op=&quot;M&quot;, ba=NA, rmna=FALSE, climedit=FALSE, caledit_j=FALSE, caledit_m=FALSE, gapfill=FALSE)</code>, makes monthly operations, based on a daily time-series. Generates hts files with the suffixes <code>_C</code>, <code>_G</code> or <code>_M</code> and MS Excel files with the prefixes <code>ad_</code> and <code>cm_</code>.</p></li>
 <li><p><code>h_restrict(file, start=NA, end=NA)</code>, restricts a series between 2 dates. Generates hts files with the suffixes <code>re_</code>.</p></li>
 <li><p><code>h_season(file, monthstart)</code>, produces a seasonal selection. Generates a file with the prefix <code>sx_</code>, where x is 2, 3 or 4.</p></li>
-<li><p><code>h_timestep(file, tst, op = &quot;M&quot;)</code>, computes infra-daily data with a fixed time step. Generates a file with the suffix <code>_xxxx</code>, where xxxx is the <code>tst</code> value.</p></li>
 </ul>
 </div>
 <div id="hydro-meteo-processes" class="section level3">
 <h3>Hydro-meteo processes</h3>
 <ul>
 <li><p><code>h_stat_basic(file)</code>, gives basic statistics of a time-series</p></li>
+<li><p><code>h_wl_di(fsq, sta, seni, seno, dstart = NA, dend = NA, dbo = TRUE)</code>, computes a discharge time-series from water levels data and calibration curves.</p></li>
 <li><p><code>h_etp(method = c(&quot;Turc&quot;, &quot;Penman-Monteith&quot;, &quot;Priestley-Taylor&quot;, &quot;Makkink&quot;, &quot;Heargraves-Samani&quot;), freq = c(&quot;day&quot;, &quot;month&quot;), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)</code>, computes the potential evapotranspiration with several methods. Generates a file with the prefix <code>xEtpyy_</code>, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).</p></li>
 <li><p><code>h_rainsnow(fpr, fta, ta0,ta1,sta=NA)</code>, shares the solid and liquid precipitations with a temperature criteria. Generates a file with the prefix <code>pr_</code>. Generates a file with the prefix <code>sn_</code>.</p></li>
 </ul>
 </div>
 </div>
-<div id="plot-functions-prefix-p_" class="section level2">
-<h2>Plot functions (prefix <code>p_</code>)</h2>
+<div id="plot-functions-prefix-p_-or-ps_" class="section level2">
+<h2>Plot functions (prefix <code>p_</code> or <code>ps_</code>)</h2>
 <div id="general-plots" class="section level3">
 <h3>General plots</h3>
 <ul>
-<li><p><code>p_plothts()</code>, plots hts files. Shiny interface of <code>p_line</code> &amp; <code>p_bar</code></p></li>
+<li><p><code>ps_plothts()</code>, plots hts files. Shiny interface of <code>p_line</code> &amp; <code>p_bar</code></p></li>
 <li><p>Bar plotting</p>
 <ul>
 <li><p><code>p_bar(nbst = nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down = NA, y.up = NA, pal)</code></p></li>

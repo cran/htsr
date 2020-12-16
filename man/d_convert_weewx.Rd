@@ -30,7 +30,7 @@ d_imp_weewx("foo.sqlite","weewx.sql")
 
 }
 \seealso{
-\code{\link{d_inventory}} or \code{\link{d_invent}} list the content
+\code{\link{d_inventory}} or \code{\link{ds_inventory}} list the content
 of the data base ;
  \code{\link{d_exp_hts}} to extract time-series.
 }

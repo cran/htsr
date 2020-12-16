@@ -18,59 +18,74 @@ d_sensor(
 \arguments{
 \item{db.sqlite}{Full name of the data base}
 
-\item{op}{Create, modify or remove C/M/R}
+\item{op}{Create (default), modify or remove C/M/R}
 
-\item{sta}{station id}
+\item{sta}{Station id}
 
-\item{sen}{sensor id}
+\item{sen}{Sensor id}
 
-\item{table}{table of the sensor}
+\item{table}{Table of the sensor}
 
-\item{name_fld}{list of field names}
+\item{name_fld}{List of field names}
 
-\item{value_fld}{list of field values}
+\item{value_fld}{List of field values}
 
 \item{bku}{Automatic Backup TRUE (default) / FALSE}
 }
 \value{
-Sensor created, modified ou removed from the data base
+Sensor created, modified or removed from the data base
 }
 \description{
-Create, Modify or Remove a sensor
+Create, Modify or Remove a sensor. A shiny version of this function
+is available: \code{link{ds_sensor}}
 }
 \details{
-If op is C, the fields sta, table and
-sen are compulsory and cannot be modified afterwards.
+If op is C, the fields sta, table and sen are compulsory and cannot be modified afterwards.
 
 Allowed entries for table are: WL (water levels), DI (discharges),
 QU (Quality), PR (precipitations), WE (weather).
 
+The field names are expressed in French for compatibility reason with Hydraccess.
+A translation is given in [].
+
 If op is C or M, the following fields can be completed :
-Nature= as.character(NA), Description = as.character(NA),
-Commentaire= as.character(NA), Code_Limni= as.character(NA),
-Principal = as.logical(NA), Fictif = as.logical(NA),
-Maj_Journaliers = as.logical(NA), Maj_Traduction = as.logical(NA),
-Acquisition_Auto = as.logical(NA), Operationnel = as.logical(NA),
-Liste_Inst = as.character(NA), Liste_Jour = as.character(NA),
-Liste_Mois = as.character(NA), Agregation = as.character(NA),
-Decalage_Temps = as.numeric(NA), Mini = as.numeric(NA),
-Maxi = as.numeric(NA), Gradient_Maxi = as.numeric(NA),
-Precision = as.numeric(NA), Decimales = as.numeric(NA),
-Pente = as.numeric(NA))
+\itemize{
+\item [Nature] Nature= as.character(NA),
+\item [Description] Description = as.character(NA),
+\item [Comment] Commentaire= as.character(NA),
+\item [Limni id] Code_Limni= as.character(NA),
+\item [Principal] Principal = as.logical(NA),
+\item [Fictive] Fictif = as.logical(NA),
+\item [Daily update] Maj_Journaliers = as.logical(NA),
+\item [Daily tanslation] Maj_Traduction = as.logical(NA),
+\item [Automatic acquisition] Acquisition_Auto = as.logical(NA),
+\item [Operationnal] Operationnel = as.logical(NA),
+\item [Instantaneous list] Liste_Inst = as.character(NA),
+\item [Daily list] Liste_Jour = as.character(NA),
+\item [Montply list] Liste_Mois = as.character(NA),
+\item [Aggregation] Agregation = as.character(NA),
+\item [Time shift] Decalage_Temps = as.numeric(NA),
+\item [Min] Mini = as.numeric(NA),
+\item [Max] Maxi = as.numeric(NA),
+\item [Gradient] Gradient_Maxi = as.numeric(NA),
+\item [Accuracy] Precision = as.numeric(NA),
+\item [Decimals] Decimales = as.numeric(NA),
+\item [Slope] Pente = as.numeric(NA))
+}
 
 If op is R, all data corresponding to the sensor of the selected
 station are removed.
 }
 \seealso{
 \itemize{
- \item \code{\link{d_inventory}} or \code{\link{d_invent}} to explore the
+ \item \code{\link{d_inventory}} or \code{\link{ds_inventory}} to explore the
  data base content;
- \item \code{\link{d_exphts}} to extract a time-series;
- \item \code{\link{d_create},\link{d_table}} to create a data base and/or create/remove
+ \item \code{\link{ds_exp_hts}} to extract a time-series;
+ \item \code{\link{d_create}, \link{d_table}} to create a data base and/or create/remove
  a table ;
- \item \code{\link{d_station}} for create/remove a station.
+ \item \code{\link{d_station}} or \code{\link{ds_station}}for create/remove a station.
 }
 }
 \author{
-P. Chevallier - Feb 2018-Jan 2019
+P. Chevallier - Feb 2018-Nov 2020
 }

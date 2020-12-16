@@ -1,6 +1,6 @@
 #' @title Convert a full Hydraccess database into a new htsr sqlite database (Windows only)
 #'
-#' @author P. Chevallier - Nov 2018-Nov 2019
+#' @author P. Chevallier - Nov 2018-Nov 2020
 #'
 #' @description Because the Hydraccess application only works into a Windows environment,
 #' this function cannot be applied on other platforms (Mas OS or Linux). Additionally,
@@ -9,9 +9,9 @@
 #' @param db.sqlite Full name of the sqlite data base
 #' @param db.hydraccess Full name of the hydraccess data base
 #'
-#' @seealso \code{\link{d_inventory}} or \code{\link{d_invent}} for displaying
+#' @seealso \code{\link{d_inventory}} or \code{\link{ds_inventory}} for displaying
 #' the content of the sqlite data base;
-#'  \code{\link{d_exphts}} for extracting a time-series.
+#'  \code{\link{ds_exp_hts}} for extracting a time-series.
 #'
 #' @details
 #' If the specified sqlite data base already exists, a confirmation
@@ -130,7 +130,8 @@ d_convert_hydraccess <- function(db.sqlite,db.hydraccess){
     nomtable1 <- paste0("'",nomtable,"'")
     new.nomtable1 <- paste0("'",new.nomtable,"'")
     sel <- paste ("ALTER TABLE",nomtable1, "RENAME TO", new.nomtable1)
-    RSQLite::dbSendQuery(conn, sel)
+    rs <- RSQLite::dbSendQuery(conn, sel)
+    dbClearResult(rs)
     txt <- paste("\nWriting table; old:", nomtable, "new:", new.nomtable)
     message(txt)
   }

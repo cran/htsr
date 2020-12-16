@@ -13,22 +13,6 @@ library(editData)
 
 # load data
 load(file=system.file("extdata/settings.RData",package="htsr"))
-# nbst <- as.numeric(readline("Number of files to plot : "))
-# filei <- as.character(NA)[1:nbst]
-# ser <- as.character(NA)[1:nbst]
-# for(i in 1:nbst) {
-#   filei[i] <- file.choose()
-#   ser[i] <- paste0("ser_id",i)
-# }
-# myfil <- tibble::tibble(filename = filei, series_id = ser, color = "black",
-#                   lineshape = 1, linewidth = 0.2, plotpoint = FALSE, pointshape = 20,
-#                   pointsize = 8)
-# fil <- myfil
-# myconf <- tibble::tibble (title = "Title",  yaxis_label = "Y-axis label",
-#   norm_val = FALSE, fix_time = FALSE, dstart = "2010-01-01", dend = "2020-01-01",
-#   fix_scale = FALSE, ymin = NA, ymax = NA, lin_trend = FALSE, facet = FALSE)
-# conf <- myconf
-# save(nbst, fil, conf, mapalette, tzo, file = system.file("extdata/settings.RData",package="htsr"))
 
 # Define UI ------
 ui <- fluidPage(

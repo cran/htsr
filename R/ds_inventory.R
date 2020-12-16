@@ -4,7 +4,7 @@
 #'
 #' @description Shiny application of the \code{\link{d_inventory}} function
 #'
-#' @details When launched, this function first ask to choose the sqlite data base.
+#' @details
 #'  Complete the requested information in the left panel, then press the submit button.
 #'  If the station field is empty, the function will return the list of the stations
 #'  in the data base. If the station field is filled, the function will return the
@@ -18,7 +18,7 @@
 #' @return a shiny session
 #'
 #'
-d_invent <- function(fsq){
+ds_inventory <- function(fsq){
   fsq <- fsq
   save(fsq, file=system.file("extdata/fichier_fsq.RData",package="htsr"))
   runApp(system.file("extdata/app_invent", package="htsr"))

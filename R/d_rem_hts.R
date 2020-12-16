@@ -93,7 +93,8 @@ d_rem_hts <- function(db.sqlite, table, sta, sen, start=NA, end=NA) {
   conn <- dbConnect(SQLite(),db.sqlite)
   selec <- paste ("DELETE FROM", table, "WHERE Id_Station = ", sta1,
                   "AND Capteur = ", sen1)
-  dbSendQuery(conn, selec)
+  rs <-dbSendQuery(conn, selec)
+  dbClearResult(rs)
 
   # Rewrite the not selected records into the sensor
   xrec1 <- as.data.frame(dplyr::filter(xrec, Date < start & Date > end))

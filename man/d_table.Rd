@@ -28,8 +28,8 @@ WE, (Weather), PR (Precipitations), QU (Quality)
 }
 \seealso{
 \itemize{
- \item \code{\link{d_inventory}} or \code{\link{d_invent}} to list the content of the base ;
- \item \code{\link{d_exphts}} to extract a time-series
+ \item \code{\link{d_inventory}} or \code{\link{ds_inventory}} to list the content of the base ;
+ \item \code{\link{ds_exp_hts}} to extract a time-series
 }
 }
 \author{

@@ -1,7 +1,7 @@
 #' @title Infra-daily fixed timestep
 #'
 #' @author P. Chevallier - Oct 2017 - Dec 2018
-#' @description Compute a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
+#' @description Computes a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
 #' - possible option: sum, mean, max or min
 #'
 #' @param file Instantaneous time-series

@@ -4,8 +4,3 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----setup, echo=FALSE--------------------------------------------------------
-library(htsr)
-verc <- as.character(packageVersion("htsr"))
-cat("Version : ", verc)
-

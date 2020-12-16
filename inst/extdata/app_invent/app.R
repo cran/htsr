@@ -6,17 +6,20 @@ ui <- fluidPage(
     titlePanel("Data base inventory"),
 
     sidebarLayout(
-        sidebarPanel(
+        sidebarPanel(width = 3,
             h4("Sqlite data base:"),
             textOutput("FSQ"),
             br(),
+            div("Station_id blank: all stations are displayed"),
+            div("Station_id filled: its sensors are displayed"),
             textInput("Station_id", "Station ID"),
-            actionButton("submit", "Submit"),
-            div("When finished press Done"),
+            actionButton("station", "Submit"),
+            br(),
+            br(),
+
             actionButton("close", "Done")),
         mainPanel(
-            textOutput("wait"),
-            tableOutput("table")
+            tableOutput("station"),
         )
     )
 )
@@ -24,21 +27,24 @@ ui <- fluidPage(
 # Define server
 server <- function(input, output) {
 
+    re <- eventReactive(input$station, ({
+        st <- input$Station_id
+        if (st == "") st <- NA
+        a <- htsr::d_inventory(db.sqlite = fsq, sta_sen = st, form.out = NA)
+        if(is.na(st)) rep <- a[[1]] else {
+            rep <- a[[2]]
+            if(ncol(rep) > 2) {
+                rep$Date_start <- as.character(rep$Date_start)
+                rep$Date_end <- as.character(rep$Date_end)
+            }
+        }
+        return(rep)
+    }))
+
     output$FSQ <- renderText({basename(fsq)})
 
-    output$wait <- renderText("Please wait for calculation...")
+    output$station <- renderTable({re()})
 
-    re <- eventReactive(input$submit, ({
-        if (input$Station_id == "") st <- NA else st <- input$Station_id
-        a <- htsr::d_inventory(db.sqlite = fsq, stalist = st, form.out = NA)
-        if (input$Station_id == "") tabl <- a[[1]] else tabl <- a[[2]]
-        if (input$Station_id != ""){
-            tabl$Date_start <- as.character(tabl$Date_start)
-            tabl$Date_end <- as.character(tabl$Date_end)
-        }
-        return(tabl)
-    }))
-    output$table <- renderTable({re()})
     observeEvent(input$close, stopApp())
 }
 

@@ -18,7 +18,7 @@ A hts time-series file with a fixed timestep. The duuration of the time-step
 in minutes is added to the file name.
 }
 \description{
-Compute a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
+Computes a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
 - possible option: sum, mean, max or min
 }
 \details{

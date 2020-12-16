@@ -1,22 +1,20 @@
 #' @title Inventory of an htsr data base
 #'
-#' @author P. Chevallier - Jan - Sep 2019
+#' @author P. Chevallier - Jan 2019 - Nov 2020
 #'
 #' @description The function produces an inventory of the stations and of sensors of an htsr data base.
-#' If only a display is needed, the function \code{\link{d_invent}} is more convenient?
+#' If only a display is needed, the function \code{\link{ds_inventory}} is more convenient.
 #'
 #' @param db.sqlite Data base file
-#' @param stalist List of station ids to inventory, NA by default
+#' @param sta_sen Station_id, with its list of sensors
 #' @param form.out Display option: NA (console, default) or excel (xlsx) or text (csv; ou csv,)
 #'
 #' @seealso
-#'  \code{\link{d_invent}}
+#'  \code{\link{ds_inventory}}
 #'
 #' @details
-#'- stalist can contain a list of station ids, which will be inventoried with their sensors.
-#'If stalist is NA (default), all stations containing data are processed.
-#'Two tables are returned, one with the station main characteristics and the other one
-#'whith the sensor data.
+#' If sta_sen is NA (default), all stations and sensors are processed.
+#' If sta_sen is a Station_id, only the sensors of this station are processed.
 #'
 #' @details
 #'- form.out can take the following values : NA, "csv," text file with
@@ -27,17 +25,10 @@
 
 #' @return Two tables with the inventory of stations and sensors of a data base.
 #' If the output format is an excel file, they are displayed in two sheets
-#'of the same excel file.
-#'
-#'
+#' of the same excel file.
 
 
-# FONCTION d_Inventory
-
-
-d_inventory <- function(db.sqlite, stalist=NA, form.out=NA){
-
-  Id_station <- Sensor <- NULL
+d_inventory <- function(db.sqlite, sta_sen=NA, form.out=NA){
 
   #Warning
   if (!file.exists(db.sqlite))
@@ -45,55 +36,47 @@ d_inventory <- function(db.sqlite, stalist=NA, form.out=NA){
   if(!(form.out %in% c(NA, "xlsx", "csv,", "csv;"))) form.out <- NA
   conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
   ltab <- RSQLite::dbListTables(conn)
-  RSQLite::dbDisconnect(conn)
-  if(!("ST" %in% ltab))
+  if(!("ST" %in% ltab)){
+    RSQLite::dbDisconnect(conn)
     return(warning("\nThis data base doesn't have station table.\n"))
+  }
 
-  # Connection
-  conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
+  # Verify station list
   sel <- paste ("SELECT * FROM ST")
   lsta <- RSQLite::dbGetQuery(conn, sel)
-  RSQLite::dbDisconnect(conn)
-
-  # Loop Id_Station
   nsta <- nrow(lsta)
-  if (nsta == 0)
-    return(warning("\nNo station in the data base\n"))
-#  k <- 0
-  for(i in 1: nsta){
-    conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
-    sta <- lsta$Id_Station[i]
-    if(!is.na(stalist) && sta %in% stalist == FALSE) next
-    nom_sta <- lsta$Nom[i]
-    type_sta <- lsta$Type_Station[i]
-    pays <- lsta$Pays[i]
-    lat <- lsta$Latitude[i]
-    lon <- lsta$Longitude [i]
-    alt <- lsta$Altitude [i]
-    bv <- lsta$Superficie_bv[i]
-    if (!exists("stas")) stas <- sta else stas <- c(stas, sta)
-    if (!exists("nom_stas")) nom_stas <- nom_sta else nom_stas <- c(nom_stas, nom_sta)
-    if (!exists("type_stas")) type_stas <- type_sta else type_stas <- c(type_stas, type_sta)
-    if (!exists("payss")) payss <- pays else payss <- c(payss, pays)
-    if (!exists("lats")) lats <- lat else lats <- c(lats, lat)
-    if (!exists("lons")) lons <- lon else lons <- c(lons, lon)
-    if (!exists("alts")) alts <- alt else alts <- c(alts, alt)
-    if (!exists("bvs")) bvs <- bv else bvs <- c(bvs, bv)
-
-    #Selection capteur
-    sta1 <- paste0("'",sta, "'")
-    sel <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1)
-    lsen <- RSQLite::dbGetQuery(conn, sel)
+  if (nsta == 0){
     RSQLite::dbDisconnect(conn)
+    return(warning("\nNo station in the data base\n"))
+  }
 
-    # Loop Capteur
-    nsen <- nrow(lsen)
-    for(j in 1: nsen) {
+  # Initialisation
+  stac <- nom_stac <-senc <- descric <-tablec <- nbrc <- d_endc <- d_startc <- NULL
+  nosensor <- nostation <- NULL
+  Id_station <- Sensor <- NULL
+  Altitude <- Id_Station <- Latitude <- Longitude <- Nom <- Pays <- Station_type <- NULL
+  Superficie_bv <-  Type_Station <- NULL
+
+  # tableau x1
+  x1 <- dplyr::select(lsta, Id_station = Id_Station, Station_type = Type_Station,
+                      Station_name = Nom, Country = Pays, Latitude,
+                       Longitude, Altitude, Basin_areas = Superficie_bv)
+  x1 <- dplyr::arrange(x1, Station_type, Id_station)
+
+  # Loop Capteur
+  # Cas où sta_sen est NA
+  if (is.na(sta_sen)) {
+    for(i in 1: nsta){
+      sta <- lsta$Id_Station[i]
+      nom_sta <- lsta$Nom[i]
+      sta1 <- paste0("'",sta, "'")
+      sel <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1)
+      lsen <- RSQLite::dbGetQuery(conn, sel)
+      nsen <- nrow(lsen)
       if (nsen == 0) {
-        next
-      } else {
-#        k <- k+1
-        conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
+        message("The station ", sta, " has no sensor")
+      }
+      else for(j in 1: nsen) {
         sen <- lsen$Capteur[j]
         sen1 <- paste0("'",sen, "'")
         sel <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1,
@@ -101,69 +84,113 @@ d_inventory <- function(db.sqlite, stalist=NA, form.out=NA){
         x <- RSQLite::dbGetQuery(conn, sel)
         descri <- x$Description
         tablex <- x$Tabl
-        sel <- paste ("SELECT * FROM", tablex, "WHERE Id_Station =", sta1,
-                "AND Capteur =", sen1)
+        sel <- paste ("SELECT * FROM", tablex, "WHERE Id_Station =", paste0("'",sta, "'"),
+                "AND Capteur =", paste0("'",sen, "'"))
         x <- RSQLite::dbGetQuery(conn, sel)
-        RSQLite::dbDisconnect(conn)
         nbr <- nrow(x)
-        if (nbr == 0) next
-        xd <- as.POSIXct(x$Date, origin = "1970-01-01", tz = "UTC")
-        d_start <- min(xd)
-        d_end <- max(xd)
-        if (!exists("stac")) stac <- sta else stac <- c(stac, sta)
-        if (!exists("nom_stac")) nom_stac <- nom_sta else nom_stac <- c(nom_stac, nom_sta)
-        if (!exists("senc")) senc <- sen else senc <- c(senc, sen)
-        if (!exists("descric")) descric <- descri else descric <- c(descric, descri)
-        if (!exists("tablec")) tablec <- tablex else tablec <- c(tablec, tablex)
-        if (!exists("nbrc")) nbrc <- nbr else nbrc <- c(nbrc, nbr)
-        if (!exists("d_endc")) d_endc <- d_end else d_endc <- c(d_endc, d_end)
-        if (!exists("d_startc")) d_startc <- d_start else d_startc <- c(d_startc, d_start)
+        if (nbr > 0) {
+          xd <- as.POSIXct(x$Date, origin = "1970-01-01", tz = "UTC")
+          d_start <- min(xd)
+          d_end <- max(xd)
+        } else d_start <- d_end <- NA
+        stac <- c(stac, sta)
+        nom_stac <- c(nom_stac, nom_sta)
+        senc <- c(senc, sen)
+        descric <- c(descric, descri)
+        tablec <- c(tablec, tablex)
+        nbrc <- c(nbrc, nbr)
+        d_endc <- c(d_endc, d_end)
+        d_startc <- c(d_startc, d_start)
       }
     }
-  }
-  x1 <- tibble::tibble(Id_station = stas, Station_type = type_stas,Station_name = nom_stas,
-    Country = payss, Latitude = lats,
-    Longitude = lons, Altitude = alts, Basin_area = bvs)
-  x1 <- dplyr::arrange(x1, Id_station)
-  if (!exists("stac")) return( warning ("No sensor for the station!"))
-  x2 <- tibble::tibble(Id_station = stac, Station_name = nom_stac, Sensor = senc, Description = descric,
-    Table = tablec, Nb_Rec = nbrc, Date_start = d_startc, Date_end = d_endc)
-  x2 <- dplyr::arrange(x2, Id_station, Sensor)
+  } else {
 
+    # Cas où sta_sen est une station
+    # Cas où sta_sen est dans la liste des stations
+    if(sta_sen %in% lsta$Id_Station) {
+      k <- 0
+      for (j in 1:length(lsta$Id_Station)) if(sta_sen == lsta$Id_Station[j]) k <- j
+      sta <- lsta$Id_Station[k]
+      nom_sta <- lsta$Nom[k]
+      sta1 <- paste0("'",sta, "'")
+      sel <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1)
+      lsen <- RSQLite::dbGetQuery(conn, sel)
+      nsen <- nrow(lsen)
+      if (nsen == 0) nosensor <- sta
+      # if (nsen == 0) next
+      else for(j in 1: nsen) {
+        sen <- lsen$Capteur[j]
+        sen1 <- paste0("'",sen, "'")
+        sel <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1,
+                      "AND Capteur =", sen1)
+        x <- RSQLite::dbGetQuery(conn, sel)
+        descri <- x$Description
+        tablex <- x$Tabl
+        sel <- paste ("SELECT * FROM", tablex, "WHERE Id_Station =", paste0("'",sta, "'"),
+                      "AND Capteur =", paste0("'",sen, "'"))
+        x <- RSQLite::dbGetQuery(conn, sel)
+        nbr <- nrow(x)
+        if (nbr > 0) {
+          xd <- as.POSIXct(x$Date, origin = "1970-01-01", tz = "UTC")
+          d_start <- min(xd)
+          d_end <- max(xd)
+        } else d_start <- d_end <- NA
+        stac <- c(stac, sta)
+        nom_stac <- c(nom_stac, nom_sta)
+        senc <- c(senc, sen)
+        descric <- c(descric, descri)
+        tablec <- c(tablec, tablex)
+        nbrc <- c(nbrc, nbr)
+        d_endc <- c(d_endc, d_end)
+        d_startc <- c(d_startc, d_start)
+      }
+
+    # Cas où sta_sen n'est pas dans la liste des stations
+    } else nostation <- sta_sen
+
+  }
+  # tableau x2
+  if (!is.null(nostation)) x2 <- tibble (station = nostation, comment = " is not in the data base")
+  else {
+    if (!is.null(nosensor)) x2 <- tibble (station = nosensor, comment = " has no sensor")
+    else {
+      x2 <- tibble::tibble(Id_station = stac, Station_name = nom_stac, Sensor = senc, Description = descric,
+          Table = tablec, Nb_Rec = nbrc, Date_start = as_datetime(d_startc), Date_end = as_datetime(d_endc))
+      x2 <- dplyr::arrange(x2, Id_station, Sensor)
+    }
+  }
+
+  # déconnexion et ecriture des résultats
+  RSQLite::dbDisconnect(conn)
   if(is.na(form.out)== TRUE) {
-#    View(x1)
-#    View(x2)
-    message("\nStations and sensor tables are returned in a list")
     a <- list(x1, x2)
     return(a)
   } else {
     nfse <- tools::file_path_sans_ext(db.sqlite)
     fileo1 <- paste0(nfse, "_inv-sta")
     fileo2 <- paste0(nfse, "_inv-sen")
-    if(form.out== "csv,"){
+    if(form.out== "csv,") {
       fileo1 <- paste0(fileo1,".csv")
       fileo2 <- paste0(fileo2,".csv")
       write.csv (x1,file=fileo1, row.names=FALSE)
       write.csv (x2,file=fileo2, row.names=FALSE)
-      message("\nThe files ",fileo1," and ", fileo2," are written.\n")
+      return(message("\nThe files ",fileo1," and ", fileo2," are written.\n"))
     }
     if(form.out== "csv;"){
       fileo1 <- paste0(fileo1,".csv")
       fileo2 <- paste0(fileo2,".csv")
       write.csv2 (x1,file=fileo1, row.names=FALSE)
       write.csv2 (x2,file=fileo2, row.names=FALSE)
-      message("\nThe files ",fileo1," and ", fileo2," are written.\n")
+      return(message("\nThe files ",fileo1," and ", fileo2," are written.\n"))
     }
     if(form.out== "xlsx"){
       fileo <- paste0(paste0(nfse, "_inv"),".xlsx")
       xx <- list(x1,x2)
       WriteXLS::WriteXLS (xx, ExcelFileName=fileo,SheetNames=c("Stations","Sensors"),
                           col.names=TRUE, row.names=FALSE, na="#N/A")
-      message("\nThe file ",fileo," is written.\n")
+      return(message("\nThe file ",fileo," is written.\n"))
     }
   }
-
-  return()
 }
 # FIN
 

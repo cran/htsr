@@ -15,12 +15,12 @@
 #' @param rplot Plot the extracted file TRUE / FALSE (default)
 #'
 #' @seealso
-#' \code{\link{d_exphts}} manual settings of the parameters
+#' \code{\link{ds_exp_hts}} manual settings of the parameters
 #'
 
 #'
 #' @details
-#' For a step by step operation the function \code{\link{d_exphts}} is more convenient.
+#' For a step by step operation the function \code{\link{ds_exp_hts}} is more convenient.
 #'
 #' @return The function returns:
 #' \itemize{

@@ -38,10 +38,10 @@ d_import_hydraccess("foo.sqlite","foo.mdb")
 
 }
 \seealso{
-\code{\link{d_inventory}} or \code{\link{d_invent}} for displaying
+\code{\link{d_inventory}} or \code{\link{ds_inventory}} for displaying
 the content of the sqlite data base;
- \code{\link{d_exphts}} for extracting a time-series.
+ \code{\link{ds_exp_hts}} for extracting a time-series.
 }
 \author{
-P. Chevallier - Nov 2018-Nov 2019
+P. Chevallier - Nov 2018-Nov 2020
 }

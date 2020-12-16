@@ -4,12 +4,12 @@
 \alias{d_inventory}
 \title{Inventory of an htsr data base}
 \usage{
-d_inventory(db.sqlite, stalist = NA, form.out = NA)
+d_inventory(db.sqlite, sta_sen = NA, form.out = NA)
 }
 \arguments{
 \item{db.sqlite}{Data base file}
 
-\item{stalist}{List of station ids to inventory, NA by default}
+\item{sta_sen}{Station_id, with its list of sensors}
 
 \item{form.out}{Display option: NA (console, default) or excel (xlsx) or text (csv; ou csv,)}
 }
@@ -20,13 +20,11 @@ of the same excel file.
 }
 \description{
 The function produces an inventory of the stations and of sensors of an htsr data base.
-If only a display is needed, the function \code{\link{d_invent}} is more convenient?
+If only a display is needed, the function \code{\link{ds_inventory}} is more convenient.
 }
 \details{
-- stalist can contain a list of station ids, which will be inventoried with their sensors.
-If stalist is NA (default), all stations containing data are processed.
-Two tables are returned, one with the station main characteristics and the other one
-whith the sensor data.
+If sta_sen is NA (default), all stations and sensors are processed.
+If sta_sen is a Station_id, only the sensors of this station are processed.
 
 - form.out can take the following values : NA, "csv," text file with
 '.' as decimal separator and ',' as field separator / "csv;"
@@ -34,8 +32,8 @@ text file with ',' as decimal separator and ';' as field separator
 / "xlsx" Excel file.
 }
 \seealso{
-\code{\link{d_invent}}
+\code{\link{ds_inventory}}
 }
 \author{
-P. Chevallier - Jan - Sep 2019
+P. Chevallier - Jan 2019 - Nov 2020
 }

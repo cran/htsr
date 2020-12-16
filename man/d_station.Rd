@@ -8,6 +8,7 @@ d_station(
   db.sqlite,
   op = "C",
   sta = NA,
+  ty_st = NA,
   name_st = NA,
   name_fld = NA,
   value_fld = NA,
@@ -21,6 +22,8 @@ d_station(
 
 \item{sta}{Station id}
 
+\item{ty_st}{Station type: "H" hydro or "M" meteo}
+
 \item{name_st}{Station name}
 
 \item{name_fld}{List of field names}
@@ -33,31 +36,54 @@ d_station(
 Station created, modified ou removed from the data base
 }
 \description{
-Create, Modify or Remove a station in a tshm data base
+Create, Modify or Remove a station in a tshm data base. A shiny version of this function is
+available: \code{\link{ds_station}}.
 }
 \details{
-If op is C, the fields Id_Station (sta) and
+The field names are expressed in French for compatibility reason with Hydraccess.
+A translation is given in [].
+
+If op is C, the fields Id_Station (sta), Type_Station and
 Nom (name_st) are compulsory. The field Nom (name_st) can be modified afterwards.
 
 If op is C or M, the following fields can be completed :
-Ordre = as.character(NA), Type_Station = as.character(type_st),
-Id_Station = as.character(sta), Id_Secondaire = as.character(NA),
-Id_Tertiaire = as.character(NA), Type_Meteo = as.character(NA),
-Nom = as.character(name_st), Pays = as.character(NA),
-Zone = as.character(NA), SousZone = as.character(NA),
-GrandBassin = as.character(NA), Bassin = as.character(NA),
-PetitBassin = as.character(NA), Riviere = as.character(NA),
-Gestionnaire = as.character(NA), Latitude = as.numeric(NA),
-Longitude = as.numeric(NA), Altitude = as.numeric(NA),
-Superficie_bv = as.numeric(NA), Mois_Debut_Hydro = as.numeric(NA),
-Debut_Activite = as.numeric(NA), Activite = as.logical(NA),
-Critere_OuiNon = as.logical(NA), Critere_OuiNon2 = as.logical(NA),
-Critere_Numerique = as.numeric(NA), Critere_Texte = as.character(NA),
-Nom_Observateur = as.character(NA), Adresse = as.character(NA),
-Teletransmission = as.logical(NA), Enregistreur = as.logical(NA),
-Fictive = as.logical(NA),
-Commentaire = as.character(NA), Flag = as.logical(NA),
-District = as.character(NA), Localite = as.character(NA)
+\itemize{
+\item [Order] Ordre = as.character(NA),
+\item [Station type] Type_Station = as.character(type_st),
+\item [Station id] Id_Station = as.character(sta),
+\item [Second station Id] Id_Secondaire = as.character(NA),
+\item [Third station id] Id_Tertiaire = as.character(NA),
+\item [Meteo type] Type_Meteo = as.character(NA),
+\item [Name] Nom = as.character(name_st),
+\item [Country] Pays = as.character(NA),
+\item [Zone] Zone = as.character(NA),
+\item [Sub-zone] SousZone = as.character(NA),
+\item [Large basin] GrandBassin = as.character(NA),
+\item [Basin] Bassin = as.character(NA),
+\item [Small basin] PetitBassin = as.character(NA),
+\item [River] Riviere = as.character(NA),
+\item [Manager] Gestionnaire = as.character(NA),
+\item [Latitude] Latitude = as.numeric(NA),
+\item [Longitude] Longitude = as.numeric(NA),
+\item [Altitude] Altitude = as.integer(NA),
+\item [Basin area] Superficie_bv = as.numeric(NA),
+\item [Starting month of hydro year] Mois_Debut_Hydro = as.numeric(NA),
+\item [Starting activity date] Debut_Activite = as.numeric(NA),
+\item [Activity] Activite = as.logical(NA),
+\item [Yes/No criterion] Critere_OuiNon = as.logical(NA),
+\item [Yes/No second criterion] Critere_OuiNon2 = as.logical(NA),
+\item [Numeric criterion] Critere_Numerique = as.numeric(NA),
+\item [Text criterion] Critere_Texte = as.character(NA),
+\item [Observer name] Nom_Observateur = as.character(NA),
+\item [Address] Adresse = as.character(NA),
+\item [Teletransmission] Teletransmission = as.logical(NA),
+\item [Recorder] Enregistreur = as.logical(NA),
+\item [Fictive] Fictive = as.logical(NA),
+\item [Comment] Commentaire = as.character(NA),
+\item [Flag] Flag = as.logical(NA),
+\item [District] District = as.character(NA),
+\item [Place] Localite = as.character(NA)
+}
 
 If op is M, station type and station id cannot be modified. The sensor
 data corresponding to the station are conserved.
@@ -66,14 +92,14 @@ If op is R, all data and sensors of the station are removed.
 }
 \seealso{
 \itemize{
- \item \code{\link{d_inventory}} or \code{\link{d_invent}} for exploring the
+ \item \code{\link{d_inventory}} or \code{\link{ds_inventory}} for exploring the
  data base content;
- \item \code{\link{d_exphts}} for extracting a time-series;
+ \item \code{\link{ds_exp_hts}} for extracting a time-series;
  \item \code{\link{d_table}} for creating a data base and/or creating/removing
  a table ;
  \item \code{\link{d_sensor}} for creating, modifying or removing a sensor.
 }
 }
 \author{
-P. Chevallier - Jan 2018-Jan 2019
+P. Chevallier - Jan 2018-Nov 2020
 }
