@@ -6,7 +6,7 @@
 #' this function cannot be applied on other platforms (Mas OS or Linux). Additionally,
 #' the R session must be configured in 32b (see the htsr-package vignette).
 #'
-#' @param db.sqlite Full name of the sqlite data base
+#' @param fsq Full name of the sqlite data base
 #' @param db.hydraccess Full name of the hydraccess data base
 #'
 #' @seealso \code{\link{d_inventory}} or \code{\link{ds_inventory}} for displaying
@@ -33,7 +33,7 @@
 #'
 #'
 
-d_convert_hydraccess <- function(db.sqlite,db.hydraccess){
+d_convert_hydraccess <- function(fsq,db.hydraccess){
 
   # fonction u_newnomtable
   u_newnomtable <- function (nomtable) {
@@ -80,7 +80,7 @@ d_convert_hydraccess <- function(db.sqlite,db.hydraccess){
 
 
 
-  # Initialisation et ouverture db.sqlite
+  # Initialisation et ouverture fsq
   TABLE_TYPE <- Table <- NULL
   if(Sys.info()[['sysname']] != "Windows") {
     warning ("STOP!")
@@ -97,16 +97,16 @@ d_convert_hydraccess <- function(db.sqlite,db.hydraccess){
   ex <- strsplit(basename(db.hydraccess), split="\\.")[[1]][-1]
 
   # creation du fichier sqlite
-  f <- db.sqlite
+  f <- fsq
   if(file.exists(f)== TRUE) {
     d_backup(f)
     file.remove(f)
   }
-  conn <- RSQLite::dbConnect(RSQLite::SQLite(), db.sqlite)
+  conn <- RSQLite::dbConnect(RSQLite::SQLite(), fsq)
   RSQLite::dbDisconnect(conn)
 
-  nfse <- tools::file_path_sans_ext(db.sqlite)
-  conn <- RSQLite::dbConnect(RSQLite::SQLite(), db.sqlite)
+  nfse <- tools::file_path_sans_ext(fsq)
+  conn <- RSQLite::dbConnect(RSQLite::SQLite(), fsq)
 
   # ouverture fichier Hydraccess
   fh <- db.hydraccess
@@ -161,6 +161,6 @@ d_convert_hydraccess <- function(db.sqlite,db.hydraccess){
   texte <- round(texte[1],1)
   message("\nExecution time: ", texte, " seconds\n")
   RSQLite::dbDisconnect(conn)
-  message("\nBase ",db.sqlite, " converted.\n")
+  message("\nBase ",fsq, " converted.\n")
 }
 

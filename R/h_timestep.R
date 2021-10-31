@@ -12,7 +12,7 @@
 #' The op parameter give precise the chosen computation method within the interval: sum ("S"), la
 #' mean ("M"), minimum ("Mn") or maximum ("Mx").
 #'
-#' @return A hts time-series file with a fixed timestep. The duuration of the time-step
+#' @return A hts time-series file with a fixed timestep. The duration of the time-step
 #' in minutes is added to the file name.
 #'
 #' @examples \dontrun{

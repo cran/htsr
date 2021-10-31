@@ -4,12 +4,12 @@
 \alias{d_imp_hts}
 \title{Import a hts file into a data base}
 \usage{
-d_imp_hts(db.sqlite, file_hts, table, bku = TRUE)
+d_imp_hts(fsq, file, table, bku = TRUE)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
-\item{file_hts}{Full name of hts file to import}
+\item{file}{Full name of hts file to import}
 
 \item{table}{Table}
 

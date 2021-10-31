@@ -4,10 +4,10 @@
 \alias{d_rem_hts}
 \title{Remove hts records from a data base}
 \usage{
-d_rem_hts(db.sqlite, table, sta, sen, start = NA, end = NA)
+d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{table}{Table}
 

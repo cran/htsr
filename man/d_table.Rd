@@ -4,10 +4,10 @@
 \alias{d_table}
 \title{Create or remove a table of a htsr sqlite base}
 \usage{
-d_table(db.sqlite, table, op = "C", bku = TRUE)
+d_table(fsq, table, op = "C", bku = TRUE)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{table}{Table name}
 

@@ -4,18 +4,19 @@
 #'
 #' @description Back a htsr sqlite data base
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 
 #' @return
 #' A saved data base with extension .bak
 #'
 #'
-#'# fonction backup
-d_backup <- function(db.sqlite) {
-  nfe  <- tools::file_ext(db.sqlite)
-  nfse <- nfse <- tools::file_path_sans_ext(db.sqlite)
+#'
+# function backup
+d_backup <- function(fsq) {
+  nfe  <- tools::file_ext(fsq)
+  nfse <- nfse <- tools::file_path_sans_ext(fsq)
   bk <- paste0(nfse,".",nfe,".bak")
-  conn <- dbConnect(RSQLite::SQLite(), db.sqlite)
+  conn <- dbConnect(RSQLite::SQLite(), fsq)
   sqliteCopyDatabase(conn,to = bk)
   dbDisconnect(conn)
   message("\nData base backuped.")

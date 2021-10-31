@@ -9,7 +9,7 @@ f_properties(file, gaps = FALSE)
 \arguments{
 \item{file}{: file to be analyzed}
 
-\item{gaps}{: produce a file with a table of the gaps: TRUE / FALSE (par defaut)}
+\item{gaps}{: produce a file with a table of the gaps: TRUE / FALSE (default)}
 }
 \value{
 Basic infos on a hts time-series

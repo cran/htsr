@@ -5,7 +5,7 @@
 \title{Convert an hts file in another format (xls, xlsx, csv or hdsm)}
 \usage{
 f_convert(
-  f,
+  file,
   form_start = "hts",
   form_end = "xlsx",
   sta = NA,
@@ -15,7 +15,7 @@ f_convert(
 )
 }
 \arguments{
-\item{f}{Hts file}
+\item{file}{Hts file}
 
 \item{form_start}{Initial format ("hts" (default) or "xls" or
 "xlsx" or "hdsm")}
@@ -58,16 +58,16 @@ If output = "liquid", the available variables are:
 If output = "solid", the available variables are:
 "Psoil_km3", "Psoil_mm", "Pliq_km3", "Psol_km3",
 "Melts_km3", "Subli_km3", "Melti_km3", "Q_km3", "Q_m3/s", "Slandicekm2",
-"Sca_km2", "Sca_<charactere pourcent>", "Swe_km3", "Swe_mm", "dSwe_km3",
+"Sca_km2", "Sca_<character percent>", "Swe_km3", "Swe_mm", "dSwe_km3",
 "SoilIce_km3", "SoilIce_mm", "dSoilIce_km3"
 }
 \examples{
 \dontrun{
-f <- f_convert(f, "xlsx", "hts")
+f_convert(file,  "xlsx", "hts")
 }
 
 
 }
 \author{
-P. Chevallier - octobre 2017 - novembre 20120
+P. Chevallier - October 2017 - November 20120
 }

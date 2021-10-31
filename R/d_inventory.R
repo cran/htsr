@@ -5,7 +5,7 @@
 #' @description The function produces an inventory of the stations and of sensors of an htsr data base.
 #' If only a display is needed, the function \code{\link{ds_inventory}} is more convenient.
 #'
-#' @param db.sqlite Data base file
+#' @param fsq Data base file
 #' @param sta_sen Station_id, with its list of sensors
 #' @param form.out Display option: NA (console, default) or excel (xlsx) or text (csv; ou csv,)
 #'
@@ -28,13 +28,13 @@
 #' of the same excel file.
 
 
-d_inventory <- function(db.sqlite, sta_sen=NA, form.out=NA){
+d_inventory <- function(fsq, sta_sen=NA, form.out=NA){
 
   #Warning
-  if (!file.exists(db.sqlite))
+  if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
   if(!(form.out %in% c(NA, "xlsx", "csv,", "csv;"))) form.out <- NA
-  conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
+  conn <- RSQLite::dbConnect(RSQLite::SQLite(),fsq)
   ltab <- RSQLite::dbListTables(conn)
   if(!("ST" %in% ltab)){
     RSQLite::dbDisconnect(conn)
@@ -166,7 +166,7 @@ d_inventory <- function(db.sqlite, sta_sen=NA, form.out=NA){
     a <- list(x1, x2)
     return(a)
   } else {
-    nfse <- tools::file_path_sans_ext(db.sqlite)
+    nfse <- tools::file_path_sans_ext(fsq)
     fileo1 <- paste0(nfse, "_inv-sta")
     fileo2 <- paste0(nfse, "_inv-sen")
     if(form.out== "csv,") {

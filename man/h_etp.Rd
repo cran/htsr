@@ -5,7 +5,7 @@
 \title{Compute the potential evapotranspiration with several methods}
 \source{
 Hingray, B., Picouet, C., Musy A.,
-Hydrologie, une science pour l'ingénieur, Presses Plolytechniques et Universitaires
+Hydrologie, une science pour l'ingénieur, Presses Polytechniques et Universitaires
 Romandes, 2008,
 
 Allen, R.G., L.S. Pereira, D. Raes, and M. Smith. 1998.
@@ -89,9 +89,9 @@ f_temp and f_relh are mandatory in all cases.
 For the Turc method, f_radg is needed.
 
 For the Penman-Monteith method, f_atmp, f_wvel, h and z are needed. If
-f_radn is not avalaible, lat, f_tmin and ftmax are also needed.
+f_radn is not available, lat, f_tmin and ftmax are also needed.
 
-The Turc method only works with a monthly frequence.
+The Turc method only works with a monthly frequency.
 }
 \author{
 P. Chevallier - April 2020

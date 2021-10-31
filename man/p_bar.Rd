@@ -30,11 +30,11 @@ p_bar(
 
 \item{title}{Title of the plot - default : "Title"}
 
-\item{type}{Title of the y axis - defaut : "Y axis"}
+\item{type}{Title of the y axis - default : "Y axis"}
 
 \item{rnorm}{Normalized values - TRUE/FALSE(default)}
 
-\item{rtime}{Reduce the plotting interval - TRUE/FALSE(defaut)}
+\item{rtime}{Reduce the plotting interval - TRUE/FALSE(default)}
 
 \item{start}{Start date - "YYYY-MM-DD" or NA (default)}
 
@@ -55,13 +55,13 @@ a ggplot2 object
 }
 \description{
 Bar plot based on htsr time-series. The parameters can be
-setted by \code{\link{p_bar_app}}. For a step by step operation the function
+set by \code{\link{p_bar_app}}. For a step by step operation the function
 \code{\link{ps_plothts}} is more convenient.
 }
 \details{
 For a full description of the settings, see \code{\link{p_bar_app}}
 
-If the number of files exixting in the setting file is higher than the number of
+If the number of files existing in the setting file is higher than the number of
 processed series nbst, only the nbst first files are processed.
 }
 \examples{

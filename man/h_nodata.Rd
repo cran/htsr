@@ -21,11 +21,10 @@ h_nodata(file, threshold = NA, test = "=", start = NA, end = NA)
 Replace values with NA conditionally or in a time interval
 }
 \details{
-The function replace values with NA contionnally or introduce a gap for a given interval.
+The function replace values with NA conditionally or introduce a gap for a given interval.
 
 For the conditional option, the start parameter must be NA. A conditional test is applied on
 the values (= ; > ; >= ; < ; <=) with a fixed threshold returning NA if the test is verified.
-La fonction fait alors un test conditionnel sur les valeurs d'une ts
 
 For the gap option, the threshold parameter must be NA. All the values of the records within the
 interval start end are replaces by NA.

@@ -1,6 +1,6 @@
 #' @title Convert an hts file in another format (xls, xlsx, csv or hdsm)
 #'
-#' @author P. Chevallier - octobre 2017 - novembre 20120
+#' @author P. Chevallier - October 2017 - November 20120
 #'
 #' @description
 #' Converter in formats hts, xls, xlsx, ods, text and hdsm. The processed file
@@ -25,11 +25,11 @@
 #' If output = "solid", the available variables are:
 #' "Psoil_km3", "Psoil_mm", "Pliq_km3", "Psol_km3",
 #' "Melts_km3", "Subli_km3", "Melti_km3", "Q_km3", "Q_m3/s", "Slandicekm2",
-#' "Sca_km2", "Sca_<charactere pourcent>", "Swe_km3", "Swe_mm", "dSwe_km3",
+#' "Sca_km2", "Sca_<character percent>", "Swe_km3", "Swe_mm", "dSwe_km3",
 #' "SoilIce_km3", "SoilIce_mm", "dSoilIce_km3"
 #'
 #'
-#' @param f Hts file
+#' @param file Hts file
 #' @param form_start Initial format ("hts" (default) or "xls" or
 #' "xlsx" or "hdsm")
 #' @param form_end Final format ("hts" or "xls" or
@@ -46,14 +46,14 @@
 #'
 #'
 #' @examples \dontrun{
-#' f <- f_convert(f, "xlsx", "hts")
+#' f_convert(file,  "xlsx", "hts")
 #' }
 #'
 #'
 
 # fonction ts_convert
 
-f_convert <- function(f, form_start="hts", form_end="xlsx", sta = NA, sen = NA, output = NA, variable = NA){
+f_convert <- function(file,  form_start="hts", form_end="xlsx", sta = NA, sen = NA, output = NA, variable = NA){
   # suppressWarnings()
 
 # initialisation
@@ -61,8 +61,8 @@ f_convert <- function(f, form_start="hts", form_end="xlsx", sta = NA, sen = NA, 
   load(file=system.file("extdata/settings.RData",package="htsr"))
   Sys.setenv(TZ='UTC')
   ptm <- proc.time()
-  nfse <- tools::file_path_sans_ext(f)
-  nfe <- tools::file_ext(f)
+  nfse <- tools::file_path_sans_ext(file)
+  nfe <- tools::file_ext(file)
   cas <- c("hts","xls","xlsx","csv","csv2", "hdsm")
   if(!(form_start %in% c(cas[1:3], cas[6])))
     return(warning("\nInitial format not accepted.\n"))
@@ -73,7 +73,7 @@ f_convert <- function(f, form_start="hts", form_end="xlsx", sta = NA, sen = NA, 
   if((form_start %in% cas[1:2])){
     if(!(nfe %in% cas[1:2]))
       return(warning("\nThe extension of the initial format isn't hts.\n"))
-    load(f)
+    load(file)
     tstab <- as_tibble(tstab)
     if (form_end =="hts"){
       fileo <- paste0(nfse,".ts")
@@ -104,7 +104,7 @@ f_convert <- function(f, form_start="hts", form_end="xlsx", sta = NA, sen = NA, 
   if (form_start == "xls" | form_start == "xlsx") {
     if(nfe != "xls" & nfe != "xlsx")
       return(warning("\nThe initial file isn't an Excel file.\n"))
-    tstab <- readxl::read_excel(f)
+    tstab <- readxl::read_excel(file)
  #   tstab$Date <- as.POSIXct((tstab$Date - 25569) * 86400, origin = "1970-01-01", tz = "UTC")
     if (form_end =="hts"){
       fileo <- paste0(nfse,".hts")
@@ -156,9 +156,9 @@ f_convert <- function(f, form_start="hts", form_end="xlsx", sta = NA, sen = NA, 
       }
       else return(warning("\nVariable", variable, "not allowed!\n"))
     }
-    if(output == "liquid") x <- read_table(f, skip = 6, n_max = length(read_lines(f))-16,
+    if(output == "liquid") x <- read_table(file,  skip = 6, n_max = length(read_lines(file))-16,
       col_names = c("Date_1", "Date_2", ll))
-    if(output == "solid") x <- read_table(f, skip = 6, n_max = length(read_lines(f))-16,
+    if(output == "solid") x <- read_table(file,  skip = 6, n_max = length(read_lines(file))-16,
       col_names = c("Date_1", "Date_2", ll))
     x$Date_1 <- as.POSIXct(x$Date_1, origin = "1970-01-01", format = "%d/%m/%Y", tz = "UTC") + 43200
     tstab <- select(x, Date = Date_1, Value = ll[k])

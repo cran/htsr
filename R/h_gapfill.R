@@ -2,7 +2,7 @@
 #'
 #' @author P. Chevallier - Nov 2017 - Feb 2019
 #'
-#' @details Repalce the missing values with the mean of the last and next values
+#' @details Replace the missing values with the mean of the last and next values
 #' when the time interval is less than a number of fixed time steps.
 #'
 #' @param file File name to proceed

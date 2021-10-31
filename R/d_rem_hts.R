@@ -9,7 +9,7 @@
 #' following abbreviation: WL (water level), DI (discharge), WE (weather), PR (precipitation)
 #' or QU (quality)
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 #' @param table Table
 #' @param sta Station id
 #' @param sen Sensor id
@@ -20,14 +20,14 @@
 #'
 
 
-d_rem_hts <- function(db.sqlite, table, sta, sen, start=NA, end=NA) {
+d_rem_hts <- function(fsq, table, sta, sen, start=NA, end=NA) {
 
   Date <- NULL
 
   # Warnings
-  if (!file.exists(db.sqlite))
+  if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   ltable <- dbListTables(conn)
   dbDisconnect(conn)
   if(!("ST") %in% ltable || !("SS") %in% ltable)
@@ -36,7 +36,7 @@ d_rem_hts <- function(db.sqlite, table, sta, sen, start=NA, end=NA) {
     return(warning("\nTable name not authorized.\n"))
   if(!(table %in% ltable))
     return(warning("\nNo table", table, "in the data base.\n"))
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   selec <- paste ("SELECT * FROM ST")
   xst <- dbGetQuery(conn, selec)
   sta1 <- paste0("'",sta,"'")
@@ -56,7 +56,7 @@ d_rem_hts <- function(db.sqlite, table, sta, sen, start=NA, end=NA) {
   }
 
   # Find records in the considered interval
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   sen1 <- paste0("'",sen,"'")
   selec <- paste ("SELECT * FROM", table, "WHERE Id_Station = ", sta1,
     "AND Capteur = ", sen1)
@@ -87,10 +87,10 @@ d_rem_hts <- function(db.sqlite, table, sta, sen, start=NA, end=NA) {
   }
 
   # Backup
-  d_backup(db.sqlite)
+  d_backup(fsq)
 
   # Remove the records from the sensor
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   selec <- paste ("DELETE FROM", table, "WHERE Id_Station = ", sta1,
                   "AND Capteur = ", sen1)
   rs <-dbSendQuery(conn, selec)

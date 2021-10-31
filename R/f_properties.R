@@ -11,7 +11,7 @@
 #' function \code{\link{p_gaps}}.
 #'
 #' @param file : file to be analyzed
-#' @param gaps : produce a file with a table of the gaps: TRUE / FALSE (par defaut)
+#' @param gaps : produce a file with a table of the gaps: TRUE / FALSE (default)
 #'
 #' @seealso \code{\link{p_gaps}}.
 
@@ -27,8 +27,10 @@ f_properties <- function(file, gaps = FALSE){
   nfe <- tools::file_ext(file)
   load(file)
   z <- tstab
-  sta <- levels(tstab$Station)[1]
-  capt <- levels(tstab$Sensor)[1]
+  # sta <- levels(tstab$Station)[1]
+  # capt <- levels(tstab$Sensor)[1]
+  sta <- tstab$Station[1]
+  capt <- tstab$Sensor[1]
   stacapt <- paste0(sta,"_",capt)
   dplyr::arrange(z, Date)
   date_start <- as.character(z$Date[1])

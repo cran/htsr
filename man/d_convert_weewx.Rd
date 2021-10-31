@@ -4,10 +4,10 @@
 \alias{d_convert_weewx}
 \title{Convert a weewx data base into a htsr sqlite base}
 \usage{
-d_convert_weewx(db.sqlite, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)
+d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)
 }
 \arguments{
-\item{db.sqlite}{Full name of the htsr data base}
+\item{fsq}{Full name of the htsr data base}
 
 \item{db.weewx}{Full name of the weewx data base}
 

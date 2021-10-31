@@ -7,11 +7,11 @@
 #' @details f_temp and f_relh are mandatory in all cases.
 #' @details For the Turc method, f_radg is needed.
 #' @details For the Penman-Monteith method, f_atmp, f_wvel, h and z are needed. If
-#' f_radn is not avalaible, lat, f_tmin and ftmax are also needed.
-#' @details The Turc method only works with a monthly frequence.
+#' f_radn is not available, lat, f_tmin and ftmax are also needed.
+#' @details The Turc method only works with a monthly frequency.
 #'
 #' @source  Hingray, B., Picouet, C., Musy A.,
-#' Hydrologie, une science pour l'ingénieur, Presses Plolytechniques et Universitaires
+#' Hydrologie, une science pour l'ingénieur, Presses Polytechniques et Universitaires
 #' Romandes, 2008,
 #' @source  Allen, R.G., L.S. Pereira, D. Raes, and M. Smith. 1998.
 #' Crop Evapotranspiration. Guidelines for Computing Crop Water Requirements.
@@ -57,7 +57,7 @@ h_etp <- function (
   temp <- tmax <- tmin <- wvel <- NULL
   if(freq == "day" && method %in% c("Turc")) {
     warning("The", method, "method is not convenient for a daily computation.\n")
-    warning("The frequence is changed as monthly!")
+    warning("The frequency is changed as monthly!")
     freq = "month"
   }
   if(!file.exists(f_temp) || is.na(f_temp)) stop("\nThe file f_temp is mandatory.\n")

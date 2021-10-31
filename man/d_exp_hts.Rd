@@ -4,10 +4,10 @@
 \alias{d_exp_hts}
 \title{Extraction of a time-series from htsr data base}
 \usage{
-d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)
+d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{sta}{Station id.}
 

@@ -2,11 +2,10 @@
 #'
 #' @author P. Chevallier - Oct 2017-Jan 2019
 #'
-#' @details The function replace values with NA contionnally or introduce a gap for a given interval.
+#' @details The function replace values with NA conditionally or introduce a gap for a given interval.
 #'
 #' For the conditional option, the start parameter must be NA. A conditional test is applied on
 #' the values (= ; > ; >= ; < ; <=) with a fixed threshold returning NA if the test is verified.
-#' La fonction fait alors un test conditionnel sur les valeurs d'une ts
 #'
 #'For the gap option, the threshold parameter must be NA. All the values of the records within the
 #' interval start end are replaces by NA.

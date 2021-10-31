@@ -5,7 +5,7 @@
 #' @description Create, Modify or Remove a sensor. A shiny version of this function
 #' is available: \code{link{ds_sensor}}
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 #' @param op Create (default), modify or remove C/M/R
 #' @param sta Station id
 #' @param sen Sensor id
@@ -42,12 +42,12 @@
 #' \item [Principal] Principal = as.logical(NA),
 #' \item [Fictive] Fictif = as.logical(NA),
 #' \item [Daily update] Maj_Journaliers = as.logical(NA),
-#' \item [Daily tanslation] Maj_Traduction = as.logical(NA),
+#' \item [Translation update] Maj_Traduction = as.logical(NA),
 #' \item [Automatic acquisition] Acquisition_Auto = as.logical(NA),
 #' \item [Operationnal] Operationnel = as.logical(NA),
 #' \item [Instantaneous list] Liste_Inst = as.character(NA),
 #' \item [Daily list] Liste_Jour = as.character(NA),
-#' \item [Montply list] Liste_Mois = as.character(NA),
+#' \item [Monthly list] Liste_Mois = as.character(NA),
 #' \item [Aggregation] Agregation = as.character(NA),
 #' \item [Time shift] Decalage_Temps = as.numeric(NA),
 #' \item [Min] Mini = as.numeric(NA),
@@ -67,13 +67,13 @@
 #'
 #'
 
-d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
+d_sensor <- function(fsq, op = "C", sta, sen, table = NA,
   name_fld=NA, value_fld=NA, bku = TRUE) {
 
   Id_Station <- NULL
 
   # Warnings and return
-  if (!file.exists(db.sqlite))
+  if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
 
   if (!(op %in% c("C", "M", "R", "c", "m", "r")))
@@ -91,14 +91,14 @@ d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
     if (!(table %in% c("WL", "DI", "QU", "PR", "WE")))
     return(warning("\nTable not authorized. \n"))
   }
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
     ltable <- dbListTables(conn)
   dbDisconnect(conn)
   if(!("ST" %in% ltable))
     return(warning("\nNo table ST in the data base..\n"))
   if (op %in% c("C", "c") && (!("SS") %in% ltable))
     return(warning("\nNo table SS in the data base.\n"))
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
     selection <- paste ("SELECT * FROM ST")
     xxt <-dbGetQuery(conn, selection)
   dbDisconnect(conn)
@@ -139,7 +139,7 @@ d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
   }
 
   # Sensor list
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   sta1 <- paste0("'",sta,"'")
   selection <- paste ("SELECT * FROM SS WHERE Id_Station =", sta1)
   listcapt <-dbGetQuery(conn, selection)
@@ -159,11 +159,11 @@ d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
     return(warning("\nNo sensor ", sen, " for station ", sta, " and table ", table,"\n"))
 
   # Backup
-  if(bku == TRUE) d_backup(db.sqlite)
+  if(bku == TRUE) d_backup(fsq)
 
   # Create
   if (op %in% c("C","c")) {
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     capteur <- list(Type_Station = ty_st, Id_Station = as.character(sta),
                     Capteur= as.character(sen), Tabl= as.character(table),
                     Nature= as.character(NA), Description = as.character(NA),
@@ -194,7 +194,7 @@ d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
 
   # Modify
   if (op %in% c("M","m")){
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     sta1 <- paste0("'",sta,"'")
     sen1 <- paste0("'",sen,"'")
     selection <- paste("SELECT * FROM SS WHERE Id_station = ", sta1, "AND Capteur =", sen1 )
@@ -224,7 +224,7 @@ d_sensor <- function(db.sqlite, op = "C", sta, sen, table = NA,
 
   # Remove
   if (op %in% c("R","r")){
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     sta1 = paste0("'",sta,"'")
     sen1 <- paste0("'",sen,"'")
     table1 <- paste0("'",table,"'")

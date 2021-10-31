@@ -4,16 +4,13 @@
 \alias{d_backup}
 \title{Backup a data base}
 \usage{
-d_backup(db.sqlite)
+d_backup(fsq)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 }
 \value{
 A saved data base with extension .bak
-
-
-# fonction backup
 }
 \description{
 Back a htsr sqlite data base

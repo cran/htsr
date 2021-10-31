@@ -6,7 +6,7 @@
 #' Create, Modify or Remove a station in a tshm data base. A shiny version of this function is
 #' available: \code{\link{ds_station}}.
 #'
-#' @param db.sqlite  Full name of the data base
+#' @param fsq  Full name of the data base
 #' @param op Create (default), Modify or Remove C/M/R
 #' @param sta Station id
 #' @param ty_st Station type: "H" hydro or "M" meteo
@@ -82,11 +82,11 @@
 #' @return
 #' Station created, modified ou removed from the data base
 
-d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
+d_station <- function(fsq, op = "C", sta=NA, ty_st = NA, name_st=NA,
   name_fld=NA, value_fld=NA, bku = TRUE) {
 
   # Warnings
-  if (!file.exists(db.sqlite))
+  if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
   if (!(op %in% c("C", "M", "R", "c", "m", "r")))
     return(warning("\nOperation missing or not authorized\n"))
@@ -97,7 +97,7 @@ d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
   if((op %in% c("M", "R", "m", "r")) && (is.na(sta)))
     return(warning("\nStation id must be completed!\n"))
 
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
     ltable <- dbListTables(conn)
   dbDisconnect(conn)
   if(!("ST" %in% ltable))
@@ -137,7 +137,7 @@ d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
   }
 
   # Station list
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
     selection <- paste ("SELECT * FROM ST")
     xxt <-dbGetQuery(conn, selection)
   dbDisconnect(conn)
@@ -149,11 +149,11 @@ d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
     return(warning("\nThe station ", sta, " doesn't exist in the station table.\n"))
 
   # Backup
-  if (bku == TRUE) d_backup(db.sqlite)
+  if (bku == TRUE) d_backup(fsq)
 
   # Create
   if (op %in% c("C","c")) {
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     station <- list(
       Ordre = as.character(NA), Type_Station = as.character(ty_st),
       Id_Station = as.character(sta), Id_Secondaire = as.character(NA),
@@ -191,7 +191,7 @@ d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
 
   # Modify
   if (op %in% c("M","m")) {
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     sta1 <- paste0("'",sta,"'")
      selection <- paste("SELECT * FROM ST WHERE Id_Station = ", sta1)
     station <- dbGetQuery(conn, selection)
@@ -220,7 +220,7 @@ d_station <- function(db.sqlite, op = "C", sta=NA, ty_st = NA, name_st=NA,
 
   # Effacer
   if (op %in% c("R","r")){
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     lstab <- c("SS", "WL", "DI", "WE", "PR", "QU","ST")
     sta1 = paste0("'",as.character(sta),"'")
     for(i in 1:length(lstab)) {

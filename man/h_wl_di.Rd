@@ -36,8 +36,8 @@ asked to confirm the operation. In any case the data base is previously backed u
 }
 \seealso{
 The functions \code{\link{d_exp_hts}} and \code{\link{d_imp_hts}}are used for export the water levels,
-respectively import the discharges within the data base. The function \code{\link{d_exp_discalib}} is used for
-loading the calibration curves.
+respectively import the discharges within the data base. The function u_exp_discalib
+included in \code{\link{p_discalib}} is used for loading the calibration curves.
 }
 \author{
 P. Chevallier - Dec 2020

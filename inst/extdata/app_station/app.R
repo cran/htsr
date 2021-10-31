@@ -1,7 +1,7 @@
 #
 library(shiny)
 library(RSQLite)
-library(htsr)
+# library(htsr)
 
 load(file=system.file("extdata/fichier_fsq.RData",package="htsr"))
 
@@ -74,9 +74,9 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   # fonction exsta
-  exsta <- function (db.sqlite, stationID){
+  exsta <- function (fsq, stationID){
     library(RSQLite)
-    conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
+    conn <- RSQLite::dbConnect(RSQLite::SQLite(),fsq)
     sel <- paste0 ("SELECT * FROM ST  WHERE Id_Station = '", stationID,"'")
     lsta <- RSQLite::dbGetQuery(conn, sel)
     nom_sta <- lsta$Nom
@@ -104,7 +104,7 @@ server <- function(input, output) {
   # confirm station
   observeEvent(input$confirm1, ({
     stationID = input$Id_Station
-    x <- exsta(db.sqlite=fsq, stationID)
+    x <- exsta(fsq=fsq, stationID)
     if(is.na(x[1])) output$Message <- renderText({
       "The station not exists in the data base, but it can be created.
       in that case a name is requested!"})
@@ -131,7 +131,7 @@ server <- function(input, output) {
                  "GrandBassin", "Bassin", "PetitBassin", "Riviere",
                  "Longitude", "Latitude", "Altitude", "Superficie_bv",
                  "Gestionnaire")
-    x <- exsta(db.sqlite=fsq, stationID = sta)
+    x <- exsta(fsq=fsq, stationID = sta)
     if(is.na(x[1])) {
       output$Message <- renderText({
         "The station not exists in the data base, but it can be created.
@@ -186,7 +186,7 @@ server <- function(input, output) {
     }
 
     # Operation
-    result <- htsr::d_station(db.sqlite=fsq, op = ope, sta = sta,
+    result <- htsr::d_station(fsq=fsq, op = ope, sta = sta,
       ty_st = ty_st, name_st = name_st, name_fld = name_fld,
       value_fld = value_fld, bku = TRUE)
     output$Resultat <- renderText({result})

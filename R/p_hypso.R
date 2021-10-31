@@ -4,9 +4,9 @@
 #'
 #' @description Plot the hypsometry curve of one or more basins
 #'
-#' @param file_mnt Raster file list of elevation model of basin(s)
+#' @param file Raster file list of elevation model of basin(s)
 #' @param abbrev List of abbreviated basin name(s)
-#' @param prop TRUE / FALSE (defaut) plot a proportion curve of altitude ranges
+#' @param prop TRUE / FALSE (default) plot a proportion curve of altitude ranges
 #' @param range Width of altitude range (default = 50m)
 #' @param fact Exagerating factor of the areas (default=5)
 #' @param title Title of the plot (default = Title)
@@ -24,17 +24,17 @@
 #'
 # DEBUT
 
-p_hypso <- function(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,
+p_hypso <- function(file, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,
                        height= 6, fileo="plot.png" ){
 
   altitude <- valeur <- type <- NULL
 
 # initialisation et controle
-  nbas <- length(file_mnt)
+  nbas <- length(file)
   if(length(abbrev)!=nbas)
-    return(warning("\nParameters abbrev and file_mnt must have the same length."))
+    return(warning("\nParameters abbrev and file must have the same length."))
   for (k in 1:nbas){
-    fmnt <- file_mnt[k]
+    fmnt <- file[k]
     message("Basin processing: ",abbrev[k],"\n")
 # lecture du raster
     mnt <- raster::raster(fmnt)
@@ -45,24 +45,23 @@ p_hypso <- function(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title="Tit
     maxa <- max(a,na.rm=TRUE)
     maxat <- maxa + range - maxa %% range
     minat <- mina - mina %% range
-    maxat <- maxa + range - maxa %% range
     it <- maxat/50-minat/50-1
-    alt <- as.vector(NA) ; length(alt)=it+1 ; alt[1] <- minat
+    alt <- vector(mode = "numeric", length=it+1) ; alt[1] <- minat
 
 # effectifs par range
     for (j in 1:it+1) alt[j] <- minat + range *(j-1)
-    range <- NA ; length(range)=it
-    cumul <- NA ; length(cumul)=it
+    crange <- vector(mode = "numeric", length=it)
+    cumul <- vector(mode = "numeric", length=it)
     for (j in 1:it){
-      range[j] <- 0 ;
+      crange[j] <- 0 ;
       for (i in 1:la){
-        if(a[i]>=alt[j] & a[i]<alt[j+1]) range[j] <- range[j]+1
+        if(a[i]>=alt[j] & a[i]<alt[j+1]) crange[j] <- crange[j]+1
       }
     }
-    cumul[1] <- range[1]
-    for (j in 2:it) cumul[j] <- cumul[j-1]+range[j]
+    cumul[1] <- crange[1]
+    for (j in 2:it) cumul[j] <- cumul[j-1]+crange[j]
     cumul <- cumul/la
-    range <- (range/la)
+    crange <- (crange/la)
 
 # tableau
     alt <- alt[2:length(alt)]
@@ -70,7 +69,7 @@ p_hypso <- function(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title="Tit
     colnames(d1) <- c("altitude","valeur","type")
     if(k==1) d <- d1 else d <- rbind(d,d1)
     if(prop==TRUE){
-      d2 <- data.frame (alt,range*fact,paste0(abbrev[k],"_pr"))
+      d2 <- data.frame (alt,crange*fact,paste0(abbrev[k],"_pr"))
       colnames(d2) <- c("altitude","valeur","type")
       d <- rbind(d,d2)
     }

@@ -4,14 +4,14 @@
 \alias{d_create}
 \title{Create a data base}
 \usage{
-d_create(db.sqlite, cr_table = TRUE, bku = TRUE)
+d_create(fsq, cr_table = TRUE, bku = TRUE)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{cr_table}{Create the basis tables : TRUE (default), FALSE}
 
-\item{bku}{Operate a backup if db.sqlite exists : TRUE (default) / FALSE}
+\item{bku}{Operate a backup if fsq exists : TRUE (default) / FALSE}
 }
 \value{
 a new data base

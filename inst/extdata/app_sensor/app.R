@@ -144,7 +144,7 @@ server <- function(input, output) {
 
     # Operation
     RSQLite::dbDisconnect(conn)
-    htsr::d_sensor(db.sqlite=fsq, op=ope, sta=sta, sen=sen, table = tab, name_fld=name_fld,
+    htsr::d_sensor(fsq=fsq, op=ope, sta=sta, sen=sen, table = tab, name_fld=name_fld,
       value_fld=value_fld, bku = TRUE)
   }))
 

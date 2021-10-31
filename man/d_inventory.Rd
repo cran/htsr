@@ -4,10 +4,10 @@
 \alias{d_inventory}
 \title{Inventory of an htsr data base}
 \usage{
-d_inventory(db.sqlite, sta_sen = NA, form.out = NA)
+d_inventory(fsq, sta_sen = NA, form.out = NA)
 }
 \arguments{
-\item{db.sqlite}{Data base file}
+\item{fsq}{Data base file}
 
 \item{sta_sen}{Station_id, with its list of sensors}
 

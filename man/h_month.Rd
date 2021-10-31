@@ -44,10 +44,10 @@ A list of timeSeries class objects including:
 [3] gapfilled monthly data, if the option gapfill is TRUE.
 
 Three hts time series files: a monthly data file with the suffix _M, a climatology data
-file with the suffix _C and, optionnally, a gapfilled monthly data file with
+file with the suffix _C and, optionally, a gapfilled monthly data file with
 the suffix _G.
 
-Optionnaly, two Excel files with calendar presented values:, one with
+Optionally, two Excel files with calendar presented values:, one with
 daily data and one with monthly data, the fist one with a ad_ prefix and the
 second one with the am_ prefix.
 }
@@ -64,17 +64,17 @@ in rows, months in columns, years in sheets): option caledit_j ; with the
 monthly means (or sums): option caledit_m. In addition, the missing values can
 be replaced by the mean of the existing values for other years : option gapfill.
 
-Climatology files are by convention attibuted to year 2000.
+Climatology files are by convention awarded to year 2000.
 
 Generally, the values of the monthly climatologies are mean values (op="M"),
-except if they are vomumes (e.g.: precipitation, evaporation,
+except if they are volumes (e.g.: precipitation, evaporation,
 etc.). In these cases, the parameter op="S" must be precised.
 
 If rmna = TRUE , the NA values are not taken into consideration for computing
 the sum or the mean.
 
 In the case of discharge values, it is possible to compute monthly volumes
-expressed in mm. Thatfore, the basin area ba must be given in km2.
+expressed in mm. For that purpose, the basin area ba must be given in km2.
 
 By default, the reference name of the time-series is <sensor.id>_<station.id>.
 It is possible to change it giving a value to the parameter ref.

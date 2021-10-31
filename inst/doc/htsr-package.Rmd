@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France*   
 
-**v1.1.0 - December 6, 2020**
+**v1.1.2 - October 31, 2021**
   
 # Content
 * Origin
@@ -51,7 +51,7 @@ knitr::opts_chunk$set(
 # Origin
 ## Brief history
 IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made
-codes (Hydrom and Pluviom), which were in the late 90ties adapted with commercial applications like Microsoft Access or Oracle and more recently for web interface (Sierem (<http://www.hydrosciences.org/spip.php?article1236>)).
+codes (Hydrom and Pluviom), which were in the late 90ties adapted with commercial applications like Microsoft Access or Oracle and more recently for web interface.
 
 With the development of open access platforms and applications, in the one hand, and the need of 
 more flexibility, in the other hand, it appears useful to build a set of functions able to manage hydro-meteo time-series independently of the operating system and of proprietary 
@@ -60,8 +60,7 @@ tools.
 The `htsr` package was developed on the basis of the public domain data base management system Sqlite and 
 on the hydro-meteo time-series data base application Hydraccess. 
  
-It works on Linux, Windows or MacOS platforms, with the free programming language R (<https://www.r-project.org/>) and the interface RStudio (<https://rstudio.com/>) preliminary 
-installed.
+It works on Linux, Windows or MacOS platforms, with the free programming language R and the interface RStudio preliminary installed.
 
 ## Hydraccess
 Hydraccess was developed at IRD (<https://www.ird.fr>) by Philippe Vauchel. It is based on several tools provided by Microsoft Office (R) including Microsoft Access. It can be obtained from <https://hybam.obs-mip.fr/fr/hydraccess-2/>
@@ -122,7 +121,7 @@ The following packages and their own dependencies are needed to apply the htsr p
 
 Because Hydraccess is only configured for Microsoft Windows, the associated data bases work only on this platform. That means that the operation, which consists to convert a Hydraccess data base into a Sqlite data base must be done in this environment. The `RODBC` package is associated to the htsr package, but it can be only used in the Windows platform through the function `d_convert_hydraccess`. In particular, **this function does not work on Linux**.
  
-Because a Hydracces data base is proprietary depending, a preliminary configuration of the MS-Windows platform must be done:
+Because a Hydraccess data base is proprietary depending, a preliminary configuration of the MS-Windows platform must be done:
 
 * Install "Microsoft Database Engine" (freely available on Microsoft web site).
 
@@ -181,46 +180,46 @@ Infos on their uses are detailed in the on-line help or using in the console the
 ## Data base functions (prefix `d_` or `ds_`)
 
 ### Data base tools
-* `d_backup(db.sqlite)`, backups a htsr sqlite data base.
+* `d_backup(fsq)`, backups a htsr sqlite data base.
 
 * `d_compact(bd.sqlite)`, compacts a htsr sqlite data base
 
-* `d_create(db.sqlite, cr_table = TRUE, bku = TRUE)`, creates a htsr sqlite data base
+* `d_create(fsq, cr_table = TRUE, bku = TRUE)`, creates a htsr sqlite data base
 
-* `d_inventory(db.sqlite, stalist = NA, form.out = NA)` or `ds_inventory(fsq)`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
+* `d_inventory(fsq, stalist = NA, form.out = NA)` or `ds_inventory(fsq)`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
 
-* `d_sensor(db.sqlite, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a sensor. The second is a Shiny interface of 
+* `d_sensor(fsq, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a sensor. The second is a Shiny interface of 
 `d_sensor`
 
-* `d_station(db.sqlite, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a station. The second is a Shiny interface of 
+* `d_station(fsq, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a station. The second is a Shiny interface of 
 `d_station`
 
-* `d_table(db.sqlite, table, op = "C", bku = TRUE)` creates or removes a table
+* `d_table(fsq, table, op = "C", bku = TRUE)` creates or removes a table
 
 ### Data import/export
 
-* `d_exp_discalib(db.sqlite, sta, calib=TRUE, dism=TRUE)`, exports discharge measurements and calibrations from data base
+* `d_exp_discalib(fsq, sta, calib=TRUE, dism=TRUE)`, exports discharge measurements and calibrations from data base
 
-* `d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` or `ds_exp_hts(fsq)`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
+* `d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` or `ds_exp_hts(fsq)`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
 
-* `d_imp_hts(db.sqlite, file.hts, table, bku = TRUE)`, imports a hts file into a data base
+* `d_imp_hts(fsq, file, table, bku = TRUE)`, imports a hts file into a data base
 
-* `d_rem_hts(db.sqlite, table, sta, sen, start = NA, end = NA)`, removes a htsr record from a data base
+* `d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)`, removes a htsr record from a data base
 
-* `d_wind(db.sqlite, sta = NA, swd = NA, swv = NA)`, creates a wind table
+* `d_wind(fsq, sta = NA, swd = NA, swv = NA)`, creates a wind table
 
 ### Conversion
 
-* `d_convert_hydraccess(db.sqlite, db.hydraccess)`,  converts a full Hydraccess database into a new htsr sqlite database. **NB:** Only works in Windows environment with a 32b R session.
+* `d_convert_hydraccess(fsq, db.hydraccess)`,  converts a full Hydraccess database into a new htsr sqlite database. **NB:** Only works in Windows environment with a 32b R session.
 
-* `d_convert_weewx(db.sqlite, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)`, converts a weewx data base (<http://weewx.com/>) into a htsr sqlite base
+* `d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)`, converts a weewx data base (<http://weewx.com/>) into a htsr sqlite base
 
 
 ## File functions (prefix `f_`)
 
 * `f_change_id(file, sta, sen, overwrite)`, changes station id or sensor id in a hts file.. Generates a file with the prefix `nw_`.
 
-* `f_convert(f, form_start = "hts", form_end = "xlsx", ta = NA, sen = NA, output = NA, variable = NA)`, converts data-series file in another format: `hts`, `xls/xlsx`, `csv` or `hdsm`)`
+* `f_convert(file, form_start = "hts", form_end = "xlsx", ta = NA, sen = NA, output = NA, variable = NA)`, converts data-series file in another format: `hts`, `xls/xlsx`, `csv` or `hdsm`)`
 
 * `f_properties(file, gaps = FALSE)` displays the properties of a hts time-series.
 
@@ -256,7 +255,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 ### Time treatments
 
-* `hs_step(fhts)`, combines in a shiny environement both functions `h_timestep()` and `h_month()`  
+* `hs_step(file)`, combines in a shiny environment both functions `h_timestep()` and `h_month()`  
 
 * `h_timestep(file, tst, op = "M")`, computes infra-daily data with a fixed time step. Generates a file with the suffix `_xxxx`, where xxxx is the `tst` value.
 
@@ -281,7 +280,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 ### General plots
 
-* `ps_plothts()`, plots hts files. Shiny interface of `p_line` & `p_bar`
+* `ps_plothts(files)`, plots hts files. Shiny interface of `p_line` & `p_bar`
 
 * Bar plotting
 
@@ -305,16 +304,16 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `p_gaps(nbf, title = "Inventory", BW = FALSE, margin = 0.1)`, plots of data inventory
 
-* `p_hypso(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,height= 6, fileo="plot.png")`, plots the hypsometry curve of one or more basins
+* `p_hypso(file, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,height= 6, fileo="plot.png")`, plots the hypsometry curve of one or more basins
 
 
 * `p_scatter(files, intercept.zero = FALSE, remove.zero = FALSE, lg.axis = c(NA, NA),title = "Title")`, plots a scatter plot of 2 or more time-series
 
 * `p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = "default",  breaks = 5, offset = 5, paddle = FALSE)`, plots wind rose
 
-## Micellaneous functions (prefix `z_`)
+## Miscellaneous functions (prefix `z_`)
 
-* `z_coord(ncoord = NA, ccoord = NA, type)`, converts coordinate from numeric to cheracter and reverse.
+* `z_coord(ncoord = NA, ccoord = NA, type)`, converts coordinate from numeric to character and reverse.
 
 * `z_set (tz = FALSE, mapal = FALSE, confp = FALSE)`, edit settings for time zone and manual palette colors
 
@@ -337,7 +336,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 O'Reilly. 190p. ISBN 978-1-491-91059-7. Actualized version on <https://r-pkgs.org/>
 
 * Wickham H. & Grolemund G., 2017. R for Data Science - Import, tidy, transform, 
-vizualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
+visualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
 
 * <https://www.tidyverse.org/>
 

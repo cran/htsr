@@ -15,61 +15,7 @@
 
 <title>htsr-package</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
-<style type="text/css">
-a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
-a.anchor-section::before {content: '#';}
-.hasAnchor:hover a.anchor-section {visibility: visible;}
-</style>
-<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
-document.addEventListener('DOMContentLoaded', function() {
-  // Do nothing if AnchorJS is used
-  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
-    return;
-  }
-
-  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-  // Do nothing if sections are already anchored
-  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
-    return null;
-  }
-
-  // Use section id when pandoc runs with --section-divs
-  const section_id = function(x) {
-    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
-            ? x.id : '');
-  };
-
-  // Add anchors
-  h.forEach(function(x) {
-    const id = x.id || section_id(x.parentElement);
-    if (id === '') {
-      return null;
-    }
-    let anchor = document.createElement('a');
-    anchor.href = '#' + id;
-    anchor.classList = ['anchor-section'];
-    x.classList.add('hasAnchor');
-    x.appendChild(anchor);
-  });
-});
-</script>
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -84,187 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
 
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -282,7 +49,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France</em></p>
-<p><strong>v1.1.0 - December 6, 2020</strong></p>
+<p><strong>v1.1.2 - October 31, 2021</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -331,10 +98,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1>Origin</h1>
 <div id="brief-history" class="section level2">
 <h2>Brief history</h2>
-<p>IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made codes (Hydrom and Pluviom), which were in the late 90ties adapted with commercial applications like Microsoft Access or Oracle and more recently for web interface (Sierem (<a href="http://www.hydrosciences.org/spip.php?article1236" class="uri">http://www.hydrosciences.org/spip.php?article1236</a>)).</p>
+<p>IRD and previously ORSTOM have developed quite early (in the 70ties) data bases for storing hydrological and meteorological time-series. During the 80ties the managing tools use home-made codes (Hydrom and Pluviom), which were in the late 90ties adapted with commercial applications like Microsoft Access or Oracle and more recently for web interface.</p>
 <p>With the development of open access platforms and applications, in the one hand, and the need of more flexibility, in the other hand, it appears useful to build a set of functions able to manage hydro-meteo time-series independently of the operating system and of proprietary tools.</p>
 <p>The <code>htsr</code> package was developed on the basis of the public domain data base management system Sqlite and on the hydro-meteo time-series data base application Hydraccess.</p>
-<p>It works on Linux, Windows or MacOS platforms, with the free programming language R (<a href="https://www.r-project.org/" class="uri">https://www.r-project.org/</a>) and the interface RStudio (<a href="https://rstudio.com/" class="uri">https://rstudio.com/</a>) preliminary installed.</p>
+<p>It works on Linux, Windows or MacOS platforms, with the free programming language R and the interface RStudio preliminary installed.</p>
 </div>
 <div id="hydraccess" class="section level2">
 <h2>Hydraccess</h2>
@@ -386,7 +153,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="special-case-of-rodbc" class="section level2">
 <h2>Special case of RODBC</h2>
 <p>Because Hydraccess is only configured for Microsoft Windows, the associated data bases work only on this platform. That means that the operation, which consists to convert a Hydraccess data base into a Sqlite data base must be done in this environment. The <code>RODBC</code> package is associated to the htsr package, but it can be only used in the Windows platform through the function <code>d_convert_hydraccess</code>. In particular, <strong>this function does not work on Linux</strong>.</p>
-<p>Because a Hydracces data base is proprietary depending, a preliminary configuration of the MS-Windows platform must be done:</p>
+<p>Because a Hydraccess data base is proprietary depending, a preliminary configuration of the MS-Windows platform must be done:</p>
 <ul>
 <li><p>Install “Microsoft Database Engine” (freely available on Microsoft web site).</p></li>
 <li><p>In the administration tools, config the connection ODBC 32b with the Access data base to be used. An alternative consists to execute <code>\windows\sysWOW64\odbcad32.exe</code>.</p></li>
@@ -443,30 +210,30 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="data-base-tools" class="section level3">
 <h3>Data base tools</h3>
 <ul>
-<li><p><code>d_backup(db.sqlite)</code>, backups a htsr sqlite data base.</p></li>
+<li><p><code>d_backup(fsq)</code>, backups a htsr sqlite data base.</p></li>
 <li><p><code>d_compact(bd.sqlite)</code>, compacts a htsr sqlite data base</p></li>
-<li><p><code>d_create(db.sqlite, cr_table = TRUE, bku = TRUE)</code>, creates a htsr sqlite data base</p></li>
-<li><p><code>d_inventory(db.sqlite, stalist = NA, form.out = NA)</code> or <code>ds_inventory(fsq)</code>, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of <code>d_inventory</code></p></li>
-<li><p><code>d_sensor(db.sqlite, op = &quot;C&quot;, sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a sensor. The second is a Shiny interface of <code>d_sensor</code></p></li>
-<li><p><code>d_station(db.sqlite, op = &quot;C&quot;, sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a station. The second is a Shiny interface of <code>d_station</code></p></li>
-<li><p><code>d_table(db.sqlite, table, op = &quot;C&quot;, bku = TRUE)</code> creates or removes a table</p></li>
+<li><p><code>d_create(fsq, cr_table = TRUE, bku = TRUE)</code>, creates a htsr sqlite data base</p></li>
+<li><p><code>d_inventory(fsq, stalist = NA, form.out = NA)</code> or <code>ds_inventory(fsq)</code>, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of <code>d_inventory</code></p></li>
+<li><p><code>d_sensor(fsq, op = &quot;C&quot;, sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a sensor. The second is a Shiny interface of <code>d_sensor</code></p></li>
+<li><p><code>d_station(fsq, op = &quot;C&quot;, sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>, or <code>ds_station(fsq)</code>, creates, modifies or removes a station. The second is a Shiny interface of <code>d_station</code></p></li>
+<li><p><code>d_table(fsq, table, op = &quot;C&quot;, bku = TRUE)</code> creates or removes a table</p></li>
 </ul>
 </div>
 <div id="data-importexport" class="section level3">
 <h3>Data import/export</h3>
 <ul>
-<li><p><code>d_exp_discalib(db.sqlite, sta, calib=TRUE, dism=TRUE)</code>, exports discharge measurements and calibrations from data base</p></li>
-<li><p><code>d_exp_hts(db.sqlite, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)</code> or <code>ds_exp_hts(fsq)</code>, extract hts files from a sqlite data base. The second is a shiny interface of <code>d_exp_hts</code></p></li>
-<li><p><code>d_imp_hts(db.sqlite, file.hts, table, bku = TRUE)</code>, imports a hts file into a data base</p></li>
-<li><p><code>d_rem_hts(db.sqlite, table, sta, sen, start = NA, end = NA)</code>, removes a htsr record from a data base</p></li>
-<li><p><code>d_wind(db.sqlite, sta = NA, swd = NA, swv = NA)</code>, creates a wind table</p></li>
+<li><p><code>d_exp_discalib(fsq, sta, calib=TRUE, dism=TRUE)</code>, exports discharge measurements and calibrations from data base</p></li>
+<li><p><code>d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)</code> or <code>ds_exp_hts(fsq)</code>, extract hts files from a sqlite data base. The second is a shiny interface of <code>d_exp_hts</code></p></li>
+<li><p><code>d_imp_hts(fsq, file, table, bku = TRUE)</code>, imports a hts file into a data base</p></li>
+<li><p><code>d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)</code>, removes a htsr record from a data base</p></li>
+<li><p><code>d_wind(fsq, sta = NA, swd = NA, swv = NA)</code>, creates a wind table</p></li>
 </ul>
 </div>
 <div id="conversion" class="section level3">
 <h3>Conversion</h3>
 <ul>
-<li><p><code>d_convert_hydraccess(db.sqlite, db.hydraccess)</code>, converts a full Hydraccess database into a new htsr sqlite database. <strong>NB:</strong> Only works in Windows environment with a 32b R session.</p></li>
-<li><p><code>d_convert_weewx(db.sqlite, db.weewx, sta, name_st, tzo = &quot;CET&quot;, bku = TRUE)</code>, converts a weewx data base (<a href="http://weewx.com/" class="uri">http://weewx.com/</a>) into a htsr sqlite base</p></li>
+<li><p><code>d_convert_hydraccess(fsq, db.hydraccess)</code>, converts a full Hydraccess database into a new htsr sqlite database. <strong>NB:</strong> Only works in Windows environment with a 32b R session.</p></li>
+<li><p><code>d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = &quot;CET&quot;, bku = TRUE)</code>, converts a weewx data base (<a href="http://weewx.com/" class="uri">http://weewx.com/</a>) into a htsr sqlite base</p></li>
 </ul>
 </div>
 </div>
@@ -474,7 +241,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>File functions (prefix <code>f_</code>)</h2>
 <ul>
 <li><p><code>f_change_id(file, sta, sen, overwrite)</code>, changes station id or sensor id in a hts file.. Generates a file with the prefix <code>nw_</code>.</p></li>
-<li><p><code>f_convert(f, form_start = &quot;hts&quot;, form_end = &quot;xlsx&quot;, ta = NA, sen = NA, output = NA, variable = NA)</code>, converts data-series file in another format: <code>hts</code>, <code>xls/xlsx</code>, <code>csv</code> or <code>hdsm</code>)`</p></li>
+<li><p><code>f_convert(file, form_start = &quot;hts&quot;, form_end = &quot;xlsx&quot;, ta = NA, sen = NA, output = NA, variable = NA)</code>, converts data-series file in another format: <code>hts</code>, <code>xls/xlsx</code>, <code>csv</code> or <code>hdsm</code>)`</p></li>
 <li><p><code>f_properties(file, gaps = FALSE)</code> displays the properties of a hts time-series.</p></li>
 </ul>
 </div>
@@ -505,7 +272,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="time-treatments" class="section level3">
 <h3>Time treatments</h3>
 <ul>
-<li><p><code>hs_step(fhts)</code>, combines in a shiny environement both functions <code>h_timestep()</code> and <code>h_month()</code></p></li>
+<li><p><code>hs_step(file)</code>, combines in a shiny environment both functions <code>h_timestep()</code> and <code>h_month()</code></p></li>
 <li><p><code>h_timestep(file, tst, op = &quot;M&quot;)</code>, computes infra-daily data with a fixed time step. Generates a file with the suffix <code>_xxxx</code>, where xxxx is the <code>tst</code> value.</p></li>
 <li><p><code>h_month(file, op=&quot;M&quot;, ba=NA, rmna=FALSE, climedit=FALSE, caledit_j=FALSE, caledit_m=FALSE, gapfill=FALSE)</code>, makes monthly operations, based on a daily time-series. Generates hts files with the suffixes <code>_C</code>, <code>_G</code> or <code>_M</code> and MS Excel files with the prefixes <code>ad_</code> and <code>cm_</code>.</p></li>
 <li><p><code>h_restrict(file, start=NA, end=NA)</code>, restricts a series between 2 dates. Generates hts files with the suffixes <code>re_</code>.</p></li>
@@ -527,7 +294,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="general-plots" class="section level3">
 <h3>General plots</h3>
 <ul>
-<li><p><code>ps_plothts()</code>, plots hts files. Shiny interface of <code>p_line</code> &amp; <code>p_bar</code></p></li>
+<li><p><code>ps_plothts(files)</code>, plots hts files. Shiny interface of <code>p_line</code> &amp; <code>p_bar</code></p></li>
 <li><p>Bar plotting</p>
 <ul>
 <li><p><code>p_bar(nbst = nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down = NA, y.up = NA, pal)</code></p></li>
@@ -547,16 +314,16 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><p><code>p_clim(p_clim &lt;- function (files, type=&quot;line&quot;, hydro.month=1, title=&quot;Title&quot;, yaxis=&quot;Value&quot;, y.down=NA, y.up=NA, rpal=FALSE, pal=mapalette, legend.l=NA))</code>, plots climatologies in hydrological year.</p></li>
 <li><p><code>p_discalib(fcalib, sen, plotcalib= TRUE, plotdism=TRUE, title=&quot;Title&quot;, savefig=FALSE, width= 8, height= 6, fout=&quot;plot.png&quot;, limx =FALSE, limy = FALSE, xinf=NA, xsup=NA, yinf=NA, ysup=NA)</code>, plots calibration curves water levels vs discharges.</p></li>
 <li><p><code>p_gaps(nbf, title = &quot;Inventory&quot;, BW = FALSE, margin = 0.1)</code>, plots of data inventory</p></li>
-<li><p><code>p_hypso(file_mnt, abbrev, prop = FALSE, range=50, fact=5, title=&quot;Title&quot;, savefig=FALSE, width= 8,height= 6, fileo=&quot;plot.png&quot;)</code>, plots the hypsometry curve of one or more basins</p></li>
+<li><p><code>p_hypso(file, abbrev, prop = FALSE, range=50, fact=5, title=&quot;Title&quot;, savefig=FALSE, width= 8,height= 6, fileo=&quot;plot.png&quot;)</code>, plots the hypsometry curve of one or more basins</p></li>
 <li><p><code>p_scatter(files, intercept.zero = FALSE, remove.zero = FALSE, lg.axis = c(NA, NA),title = &quot;Title&quot;)</code>, plots a scatter plot of 2 or more time-series</p></li>
 <li><p><code>p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = &quot;default&quot;,  breaks = 5, offset = 5, paddle = FALSE)</code>, plots wind rose</p></li>
 </ul>
 </div>
 </div>
-<div id="micellaneous-functions-prefix-z_" class="section level2">
-<h2>Micellaneous functions (prefix <code>z_</code>)</h2>
+<div id="miscellaneous-functions-prefix-z_" class="section level2">
+<h2>Miscellaneous functions (prefix <code>z_</code>)</h2>
 <ul>
-<li><p><code>z_coord(ncoord = NA, ccoord = NA, type)</code>, converts coordinate from numeric to cheracter and reverse.</p></li>
+<li><p><code>z_coord(ncoord = NA, ccoord = NA, type)</code>, converts coordinate from numeric to character and reverse.</p></li>
 <li><p><code>z_set (tz = FALSE, mapal = FALSE, confp = FALSE)</code>, edit settings for time zone and manual palette colors</p></li>
 </ul>
 </div>
@@ -576,7 +343,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <ul>
 <li><p>Chang W., 2013. R Graphics Cookbook. O’Reilly. 398p. ISBN 978-1-449-31695-2. Actualized on <a href="https://r-graphics.org/" class="uri">https://r-graphics.org/</a></p></li>
 <li><p>Wickham H., 2015. R Packages - Organize, test, document, and share your code. O’Reilly. 190p. ISBN 978-1-491-91059-7. Actualized version on <a href="https://r-pkgs.org/" class="uri">https://r-pkgs.org/</a></p></li>
-<li><p>Wickham H. &amp; Grolemund G., 2017. R for Data Science - Import, tidy, transform, vizualize, and model data. O’Reilly. 494p. ISBN 978-1-491-91039-9. <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a></p></li>
+<li><p>Wickham H. &amp; Grolemund G., 2017. R for Data Science - Import, tidy, transform, visualize, and model data. O’Reilly. 494p. ISBN 978-1-491-91039-9. <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a></p></li>
 <li><p><a href="https://www.tidyverse.org/" class="uri">https://www.tidyverse.org/</a></p></li>
 </ul>
 </div>

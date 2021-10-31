@@ -4,7 +4,7 @@
 #'
 #' @description Create a tibble with wind direction and speed
 #'
-#' @param db.sqlite Full name of the tshm data base
+#' @param fsq Full name of the tshm data base
 #' @param sta Station id
 #' @param swd Id of wind direction sensor
 #' @param swv Id of wind speed sensor
@@ -13,7 +13,7 @@
 #'
 #' @examples \dontrun{
 #'
-#' h_wind (db.sqlite, sta="VB", swd="WD", swv="WV")
+#' h_wind (fsq, sta="VB", swd="WD", swv="WV")
 #' }
 #'
 #' @return
@@ -21,18 +21,18 @@
 
 # function h_wind
 
-d_wind <- function(db.sqlite, sta=NA, swd=NA, swv=NA){
+d_wind <- function(fsq, sta=NA, swd=NA, swv=NA){
 
   sta <- as.character(sta)
   swd <- as.character(swd)
   swv <- as.character(swv)
 
   #extraction
-  tstab <- d_exp_hts (db.sqlite, sta = sta, sen = swd)
+  tstab <- d_exp_hts (fsq, sta = sta, sen = swd)
   fwd <- (paste0(swd,"_",sta,".hts"))
   save(file=fwd,tstab)
   rm(tstab)
-  tstab <- d_exp_hts (db.sqlite, sta = sta, sen = swv)
+  tstab <- d_exp_hts (fsq, sta = sta, sen = swv)
   fwv <- (paste0(swv,"_",sta,".hts"))
   save(file=fwv,tstab)
   rm(tstab)

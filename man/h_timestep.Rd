@@ -14,7 +14,7 @@ h_timestep(file, tst, op = "M")
 \item{op}{: "S", "M" (default), "Mn" ou "Mx"}
 }
 \value{
-A hts time-series file with a fixed timestep. The duuration of the time-step
+A hts time-series file with a fixed timestep. The duration of the time-step
 in minutes is added to the file name.
 }
 \description{

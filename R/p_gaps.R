@@ -12,7 +12,7 @@
 #' Colors are the default colors of ggplot2. For a black & white plot, precise BW = TRUE
 #'
 #' The margin value is a reserved space for writing the label at the end of each line.
-#' Default value is 0.1 of the difference between the minimum and the maximum date. It shall be ajusted
+#' Default value is 0.1 of the difference between the minimum and the maximum date. It shall be adjusted
 #' following the length of the labels.
 #'
 #' @param files List of series to plot

@@ -5,7 +5,7 @@
 #' @description The function allows to create or remove of a tshm sqlite base. If
 #' the base doesn't exist, it is created.
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 #' @param table Table name
 #' @param op Create (default) or Remove C/R
 #' @param bku Automatic Backup TRUE (default) / FALSE
@@ -25,16 +25,16 @@
 #' Table created or removed
 #'
 
-d_table <- function(db.sqlite, table, op = "C", bku = TRUE) {
+d_table <- function(fsq, table, op = "C", bku = TRUE) {
 
-  if (!file.exists(db.sqlite))
+  if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
   if (!(op %in% c("C", "R", "c", "r")))
     return(warning("\nOperation not authorized!\n"))
   if (!(table %in% c(NA, "WL", "DI", "WE", "PR", "QU", "SS", "ST")))
     return(warning("\nTable name not authorized!\n"))
 
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
     ltable <- dbListTables(conn)
   dbDisconnect(conn)
 
@@ -44,8 +44,8 @@ d_table <- function(db.sqlite, table, op = "C", bku = TRUE) {
   if(!(table %in% ltable) && op %in% c("R","r"))
     return(warning("\nTable ", table, " doesn't exist and cannot be removed."))
 
-  if (bku == TRUE) d_backup(db.sqlite)
-  conn <- dbConnect(SQLite(),db.sqlite)
+  if (bku == TRUE) d_backup(fsq)
+  conn <- dbConnect(SQLite(),fsq)
 
   # Create
   if (op %in% c("C","c")) {

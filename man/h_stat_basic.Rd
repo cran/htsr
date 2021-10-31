@@ -10,7 +10,7 @@ h_stat_basic(file)
 \item{file}{File to process}
 }
 \value{
-nb_val, mean, standard deviation, min, quantile .25, mediane, quantile .75, max
+nb_val, mean, standard deviation, min, quantile .25, median, quantile .75, max
 and display a boxplot with these values.
 }
 \description{

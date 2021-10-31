@@ -4,10 +4,10 @@
 \alias{d_compact}
 \title{Compact a data base}
 \usage{
-d_compact(db.sqlite)
+d_compact(fsq)
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 }
 \value{
 New data base or overwritten data base. Note that the created data base is empty.

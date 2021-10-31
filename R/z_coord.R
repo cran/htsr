@@ -8,7 +8,7 @@
 #' the other one remaining NA. The type of coordinate (Lat or Lon) is compulsory.
 #'
 #' @details The character coordinate must be organized in one string with 4 fields (degrees,
-#' minutes, seconds, direction) separed with blanks (space or tab). Within each field,
+#' minutes, seconds, direction) separated with blanks (space or tab). Within each field,
 #' no blanks are allowed to share the numeric value and the unit character. For
 #' the unit character,  the only following letters are allowed: letter d/m/s.
 #' For direction, the only the following letters are allowed: N/n/W/w/S/s/E/e.

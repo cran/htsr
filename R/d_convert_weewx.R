@@ -4,7 +4,7 @@
 #'
 #' @description Convert a weewx data base into a tshm sqlite base
 #'
-#' @param db.sqlite Full name of the htsr data base
+#' @param fsq Full name of the htsr data base
 #' @param db.weewx Full name of the weewx data base
 #' @param sta Station id
 #' @param name_st Station name
@@ -22,10 +22,10 @@
 #' }
 #'
 
-d_convert_weewx <- function(db.sqlite, db.weewx, sta, name_st, tzo ="CET",
+d_convert_weewx <- function(fsq, db.weewx, sta, name_st, tzo ="CET",
                         bku = TRUE){
 
-  if (bku == TRUE) d_backup(db.sqlite)
+  if (bku == TRUE) d_backup(fsq)
 
   # Warnings
   if (!file.exists(db.weewx))
@@ -33,8 +33,8 @@ d_convert_weewx <- function(db.sqlite, db.weewx, sta, name_st, tzo ="CET",
 
     # Init
   dn <- dirname(db.weewx)
-  if(is.na(db.sqlite)) db.sqlite <- paste0(dn,"/weewx.sqlite")
-  d_create(db.sqlite, cr_table = TRUE, bku = FALSE)
+  if(is.na(fsq)) fsq <- paste0(dn,"/weewx.sqlite")
+  d_create(fsq, cr_table = TRUE, bku = FALSE)
 
 
   # Recuperation base weewx
@@ -137,19 +137,19 @@ d_convert_weewx <- function(db.sqlite, db.weewx, sta, name_st, tzo ="CET",
   RSQLite::dbDisconnect(conn)
 
   # Creation station
-  d_station(db.sqlite, op = "C", sta = sta, name_st = name_st, bku = FALSE)
+  d_station(fsq, op = "C", sta = sta, name_st = name_st, bku = FALSE)
 
   # Creation des tables et des capteurs
   l <- as.vector(c("IPA", "ITAi", "ITAo", "IHRi", "IHRo", "IWV", "IWD", "IWG", "IWGD",
      "JTAn","JTAx","JTAi","JTAo","JWD","JWV","JWG"))
-  map(l, function(.x) d_sensor(db.sqlite, op = "C", sta = sta, sen=.x,
+  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
     table = "WE", bku = FALSE))
   l <- as.vector(c("IPR", "JPR"))
-  map(l, function(.x) d_sensor(db.sqlite, op = "C", sta = sta, sen=.x,
+  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
     table = "PR", bku = FALSE))
 
   # Chargement des donnees weewx dans la base sqlite
-  conn <- RSQLite::dbConnect(RSQLite::SQLite(),db.sqlite)
+  conn <- RSQLite::dbConnect(RSQLite::SQLite(),fsq)
 
   l <- c("JTAn","JTAx","JTAi","JTAo","JWD","JWV","JWG","JPR","IPR","IPA", "ITAi", "ITAo",
     "IHRi", "IHRo", "IWV", "IWD", "IWG", "IWGD")
@@ -177,7 +177,7 @@ d_convert_weewx <- function(db.sqlite, db.weewx, sta, name_st, tzo ="CET",
 
   #Deconnexion base sqlite
   RSQLite::dbDisconnect(conn)
-  message("\nBase ", db.sqlite, " created")
+  message("\nBase ", fsq, " created")
 
 }
 

@@ -3,21 +3,21 @@
 #' @author P. Chevallier - Apr 2015 - Mar 2020
 #'
 #' @description Bar plot based on htsr time-series. The parameters can be
-#' setted by \code{\link{p_bar_app}}. For a step by step operation the function
+#' set by \code{\link{p_bar_app}}. For a step by step operation the function
 #' \code{\link{ps_plothts}} is more convenient.
 #'
 #' @details For a full description of the settings, see \code{\link{p_bar_app}}
 #'
-#' @details If the number of files exixting in the setting file is higher than the number of
+#' @details If the number of files existing in the setting file is higher than the number of
 #' processed series nbst, only the nbst first files are processed.
 #'
 #' @param nbst Number of files to process
 #' @param filei List of the file names to process
 #' @param serlab List of the series labels to process
 #' @param title Title of the plot - default : "Title"
-#' @param type Title of the y axis - defaut : "Y axis"
+#' @param type Title of the y axis - default : "Y axis"
 #' @param rnorm Normalized values - TRUE/FALSE(default)
-#' @param rtime Reduce the plotting interval - TRUE/FALSE(defaut)
+#' @param rtime Reduce the plotting interval - TRUE/FALSE(default)
 #' @param start Start date - "YYYY-MM-DD" or NA (default)
 #' @param end End date  - "YYYY-MM-DD" or NA(default)
 #' @param rfixy Fix the y scale - TRUE/FALSE(default)
@@ -52,7 +52,6 @@ p_bar <- function(nbst,filei,serlab,title,type,
   Sys.setlocale(category = "LC_TIME" , locale = "en_US.UTF-8")
   load(file=system.file("extdata/settings.RData",package="htsr"))
   Sys.setenv(TZ=tzo)
-#  nbst <- length(filei)
   if (length(pal) < nbst) stop ("length palette must equal or higher than nbst!\n")
 
   # Loop for each track
@@ -87,7 +86,7 @@ p_bar <- function(nbst,filei,serlab,title,type,
   # Trace du graphe
   p <- ggplot (x, aes(x=date, y= valeur, fill=Legend)) +
       geom_bar(stat = "identity", position = "dodge", na.rm = TRUE)
-  if (fct == TRUE) p = p + facet_grid (Legend ~ .)
+  if (fct == TRUE) p = p + facet_grid (Legend ~ ., scales = "free_y")
   p <- p + scale_fill_manual(values=pal)
 
   # Ecriture des labels

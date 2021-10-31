@@ -4,7 +4,7 @@
 #'
 #' @description The reference time-series is the first of the list. The scatter plot
 #' regards only the common dates of the series. In addition to the plot, a linear function
-#' is ajusted forcing or not the interception by the origin.
+#' is adjusted forcing or not the interception by the origin.
 #'
 #' @param files List of file names to proceed
 #' @param intercept.zero TRUE/FALSE (default) force the interception by origin

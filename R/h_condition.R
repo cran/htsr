@@ -9,9 +9,9 @@
 #' file 1 is changed as NA.
 #'
 #' @details The condition has 3 options : x< ("inf"), x>= ("sup"), < x <=
-#' ("between"). In case of errror or by default, "inf" is considered.
+#' ("between"). In case of error or by default, "inf" is considered.
 #' In the cases "inf" and "sup", only one threshold is used (thrhd1) ;
-#' in the case "between", two theresholds are needed (thrhd1 < thrhd2).
+#' in the case "between", two thresholds are needed (thrhd1 < thrhd2).
 #'
 #' @details The output file is the name of the fist file with a cd_ prefix.
 #'

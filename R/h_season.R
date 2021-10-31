@@ -5,7 +5,7 @@
 #' @description The function provides seasonal time-series.
 #'
 #' @details
-#' 2 to 4 seasons can beselected. For each season, the prefix sx_ where x is the season
+#' 2 to 4 seasons can be selected. For each season, the prefix sx_ where x is the season
 #' is added to the file name.
 #'
 #' @param file Full file name to proceed
@@ -13,7 +13,7 @@
 #' month of each season.
 #'
 #' @return
-#' list of file names for each sesonal time-series.
+#' list of file names for each seasonal time-series.
 #'
 #' @examples \dontrun{
 #'

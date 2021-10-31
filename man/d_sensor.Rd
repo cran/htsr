@@ -5,7 +5,7 @@
 \title{Create, Modify or Remove a sensor}
 \usage{
 d_sensor(
-  db.sqlite,
+  fsq,
   op = "C",
   sta,
   sen,
@@ -16,7 +16,7 @@ d_sensor(
 )
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{op}{Create (default), modify or remove C/M/R}
 
@@ -57,12 +57,12 @@ If op is C or M, the following fields can be completed :
 \item [Principal] Principal = as.logical(NA),
 \item [Fictive] Fictif = as.logical(NA),
 \item [Daily update] Maj_Journaliers = as.logical(NA),
-\item [Daily tanslation] Maj_Traduction = as.logical(NA),
+\item [Translation update] Maj_Traduction = as.logical(NA),
 \item [Automatic acquisition] Acquisition_Auto = as.logical(NA),
 \item [Operationnal] Operationnel = as.logical(NA),
 \item [Instantaneous list] Liste_Inst = as.character(NA),
 \item [Daily list] Liste_Jour = as.character(NA),
-\item [Montply list] Liste_Mois = as.character(NA),
+\item [Monthly list] Liste_Mois = as.character(NA),
 \item [Aggregation] Agregation = as.character(NA),
 \item [Time shift] Decalage_Temps = as.numeric(NA),
 \item [Min] Mini = as.numeric(NA),

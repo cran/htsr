@@ -11,32 +11,32 @@
 #' ST (stations), SS (sensors), WL (water levels), DI (discharges), PR
 #' (Precipitations), WE (weather) and QU (quality)
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 #' @param cr_table Create the basis tables : TRUE (default), FALSE
-#' @param bku Operate a backup if db.sqlite exists : TRUE (default) / FALSE
+#' @param bku Operate a backup if fsq exists : TRUE (default) / FALSE
 
 #' @return a new data base
 #'
 #'
 
-d_create <- function(db.sqlite, cr_table = TRUE, bku = TRUE){
+d_create <- function(fsq, cr_table = TRUE, bku = TRUE){
 
-  f <- db.sqlite
+  f <- fsq
 
   if(file.exists(f)== TRUE) {
     if (bku==TRUE) d_backup(f)
     file.remove(f)
   }
-  conn <- dbConnect(SQLite(), db.sqlite)
+  conn <- dbConnect(SQLite(), fsq)
   dbDisconnect(conn)
   if (cr_table == TRUE) {
-    d_table(db.sqlite, "ST", op = "C", bku = FALSE)
-    d_table(db.sqlite, "SS", op = "C", bku = FALSE)
-    d_table(db.sqlite, "WL", op = "C", bku = FALSE)
-    d_table(db.sqlite, "DI", op = "C", bku = FALSE)
-    d_table(db.sqlite, "WE", op = "C", bku = FALSE)
-    d_table(db.sqlite, "PR", op = "C", bku = FALSE)
-    d_table(db.sqlite, "QU", op = "C", bku = FALSE)
+    d_table(fsq, "ST", op = "C", bku = FALSE)
+    d_table(fsq, "SS", op = "C", bku = FALSE)
+    d_table(fsq, "WL", op = "C", bku = FALSE)
+    d_table(fsq, "DI", op = "C", bku = FALSE)
+    d_table(fsq, "WE", op = "C", bku = FALSE)
+    d_table(fsq, "PR", op = "C", bku = FALSE)
+    d_table(fsq, "QU", op = "C", bku = FALSE)
   }
   return(message("\nBase created or overwritten: ", f))
 }

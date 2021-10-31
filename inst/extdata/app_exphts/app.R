@@ -1,4 +1,5 @@
 load(file=system.file("extdata/fichier_fsq.RData",package="htsr"))
+library(RSQLite)
 
 # Define UI ------
 ui <- fluidPage(
@@ -9,8 +10,8 @@ ui <- fluidPage(
       h4("Sqlite data base:"),
       textOutput("FSQ"),
       br(),
-      textInput("Station_id", "Station ID", value = "Station_id"),
-      textInput("Sensor_id", "Sensor ID",  value = "Sensor_id"),
+      textInput("Station_id", "Station ID"),
+      textInput("Sensor_id", "Sensor ID"),
       checkboxInput("Set_time", "Reduce time interval", value = FALSE),
       dateRangeInput("dates", "Time interval range"),
       actionButton("submit", "Submit"),
@@ -33,19 +34,52 @@ server <- function(input, output) {
 
   output$FSQ <- renderText({basename(fsq)})
 
-  observeEvent(input$submit, ({
-    htsr::d_exp_hts(db.sqlite = fsq,
-      sta= input$Station_id,
-      sen= input$Sensor_id,
-      rtime = input$Set_time,
-      dstart=as.character((input$dates[1])),
-      dend=as.character((input$dates[2])),
-      rplot = FALSE)
-  }))
-
   re <- eventReactive (input$submit, ({
-    paste0("File written: ", dirname(fsq),"/",input$Sensor_id,"_",
+    sta= input$Station_id
+    sen= input$Sensor_id
+    sta1 <- paste0("'",sta,"'")
+    compute <- TRUE
+    if (sta == ""){
+      compute <- FALSE
+      rep <- paste0("A station id is mandatory!")
+    }
+    if (compute && sen == ""){
+      compute <- FALSE
+      rep <- paste0("A sensor id is mandatory!")
+    }
+    if (compute) {
+      conn <- dbConnect(SQLite(),fsq)
+      x <- dbReadTable(conn, "ST")
+      nom <- x$Id_Station
+      if (!(sta %in% nom)){
+        compute <- FALSE
+        rep <- paste0("The station ", sta, " is not in the data base!")
+      }
+      dbDisconnect(conn)
+    }
+    if (compute) {
+      conn <- dbConnect(SQLite(),fsq)
+      selection <- paste ("SELECT * FROM SS WHERE Id_station =",sta1)
+      x <- dbGetQuery(conn, selection)
+      nom <- x$Capteur
+      if (!(sen %in% nom)){
+        compute <- FALSE
+        rep <- paste0("The sentor ", sen, " not exists for the station ", sta, "!")
+      }
+      dbDisconnect(conn)
+    }
+    if (compute) {
+      htsr::d_exp_hts(fsq = fsq,
+                      sta,
+                      sen,
+                      rtime = input$Set_time,
+                      dstart=as.character((input$dates[1])),
+                      dend=as.character((input$dates[2])),
+                      rplot = FALSE)
+      rep <- paste0("File written: ", dirname(fsq),"/",input$Sensor_id,"_",
                    input$Station_id,".hts")
+    }
+    rep
   }))
   output$extract_written <- renderText({re()})
 

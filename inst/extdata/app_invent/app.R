@@ -30,7 +30,7 @@ server <- function(input, output) {
     re <- eventReactive(input$station, ({
         st <- input$Station_id
         if (st == "") st <- NA
-        a <- htsr::d_inventory(db.sqlite = fsq, sta_sen = st, form.out = NA)
+        a <- htsr::d_inventory(fsq = fsq, sta_sen = st, form.out = NA)
         if(is.na(st)) rep <- a[[1]] else {
             rep <- a[[2]]
             if(ncol(rep) > 2) {

@@ -6,7 +6,7 @@
 #'
 #' @param file File to process
 
-#' @return nb_val, mean, standard deviation, min, quantile .25, mediane, quantile .75, max
+#' @return nb_val, mean, standard deviation, min, quantile .25, median, quantile .75, max
 #' and display a boxplot with these values.
 #'
 #' @examples \dontrun{

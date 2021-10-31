@@ -18,7 +18,7 @@ a time-series file with the prefix gf_
 Simple gapfilling in a time-series
 }
 \details{
-Repalce the missing values with the mean of the last and next values
+Replace the missing values with the mean of the last and next values
 when the time interval is less than a number of fixed time steps.
 }
 \author{

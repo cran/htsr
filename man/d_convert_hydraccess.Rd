@@ -4,10 +4,10 @@
 \alias{d_convert_hydraccess}
 \title{Convert a full Hydraccess database into a new htsr sqlite database (Windows only)}
 \usage{
-d_convert_hydraccess(db.sqlite, db.hydraccess)
+d_convert_hydraccess(fsq, db.hydraccess)
 }
 \arguments{
-\item{db.sqlite}{Full name of the sqlite data base}
+\item{fsq}{Full name of the sqlite data base}
 
 \item{db.hydraccess}{Full name of the hydraccess data base}
 }

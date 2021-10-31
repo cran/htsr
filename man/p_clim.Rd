@@ -32,7 +32,7 @@ p_clim(
 
 \item{y.up}{Up limit of y-axis (default = NA)}
 
-\item{rpal}{Choice of a color palette TRUE/FALSE(defaut)}
+\item{rpal}{Choice of a color palette TRUE/FALSE(default)}
 
 \item{pal}{Color choice or mapalette (default)}
 
@@ -50,13 +50,13 @@ The parameter tyoe allows to display a line graph or a bar graph.
 
 The parameter hydro.mont fixes the starting month of the hydrological year.
 
- The y-axis scale can befixed with y.down and y.up.
+ The y-axis scale can be fixed with y.down and y.up.
 
  By default, the color palette is the R one. It can be change with a color
  list in the pal parameter or choosing mapalette (default in pal)
 
  Par default station_sensor ids are displayed in the legend.l list. But it can be changed
- entering a list of texts in legend.l,, which must have the same lenth as the
+ entering a list of texts in legend.l,, which must have the same length as the
  file number.
 }
 \author{

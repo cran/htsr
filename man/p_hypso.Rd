@@ -5,7 +5,7 @@
 \title{Plot the hypsometry curve of one or more basins}
 \usage{
 p_hypso(
-  file_mnt,
+  file,
   abbrev,
   prop = FALSE,
   range = 50,
@@ -18,11 +18,11 @@ p_hypso(
 )
 }
 \arguments{
-\item{file_mnt}{Raster file list of elevation model of basin(s)}
+\item{file}{Raster file list of elevation model of basin(s)}
 
 \item{abbrev}{List of abbreviated basin name(s)}
 
-\item{prop}{TRUE / FALSE (defaut) plot a proportion curve of altitude ranges}
+\item{prop}{TRUE / FALSE (default) plot a proportion curve of altitude ranges}
 
 \item{range}{Width of altitude range (default = 50m)}
 

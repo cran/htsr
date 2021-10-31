@@ -6,7 +6,7 @@
 #' table with four columns : Date, Value, Station, Sensor. It is the default format of the package.
 #' The function \code{\link{f_convert}} converts it in Excel or csv format.
 #'
-#' @param db.sqlite Full name of the data base
+#' @param fsq Full name of the data base
 #' @param sta Station id.
 #' @param sen Sensor id.
 #' @param rtime Reduce time interval TRUE / FALSE (default)
@@ -41,14 +41,13 @@
 
 # fonction exp_hts
 
-d_exp_hts <- function(db.sqlite, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
+d_exp_hts <- function(fsq, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
 
   # fonction u_statnom
-  u_statnom <- function(db.sqlite,sta){
-    conn <- dbConnect(SQLite(),db.sqlite)
+  u_statnom <- function(fsq,sta){
+    conn <- dbConnect(SQLite(),fsq)
     sta <- paste("'",sta,"'",sep="")
     selection <- paste ("SELECT * FROM ST WHERE Id_station =",sta)
-    selection[1]
     xt <- dbGetQuery(conn, selection)
     nom <- xt$Nom[1]
     dbDisconnect(conn)
@@ -56,9 +55,9 @@ d_exp_hts <- function(db.sqlite, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
   }
 
   # fonction u_stacapt
-  u_stacapt <- function(db.sqlite,table,sta,sen){
+  u_stacapt <- function(fsq,table,sta,sen){
     Valeur <- NULL
-    conn <- dbConnect(SQLite(),db.sqlite)
+    conn <- dbConnect(SQLite(),fsq)
     table1 <- paste("'",table,"'",sep="")
     sta1 <- paste("'",sta,"'",sep="")
     sen1 <- paste("'",sen,"'",sep="")
@@ -78,7 +77,7 @@ d_exp_hts <- function(db.sqlite, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
 
 # initialisation
   Sys.setenv(TZ='UTC')
-  conn <- dbConnect(SQLite(),db.sqlite)
+  conn <- dbConnect(SQLite(),fsq)
   sta1 <- paste0("'",sta,"'")
   sen1 <- paste0("'",sen,"'")
   sel <- paste ("SELECT * FROM SS WHERE Id_Station =",sta1,
@@ -89,7 +88,7 @@ d_exp_hts <- function(db.sqlite, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
 #  if(table=="PR") op <-"S" else op <- "Mo"
 
 # appel u_stacapt
-  taa <- u_stacapt(db.sqlite, table, sta, sen)
+  taa <- u_stacapt(fsq, table, sta, sen)
 
 # preparation pour rafinage
   taa$Date <- as.POSIXct(taa$Date, tz = "UTC", origin="1970-01-01")
@@ -108,7 +107,7 @@ d_exp_hts <- function(db.sqlite, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
   tab <- data.frame (Date, Value)
   tab <- tab[order(as.Date (Date)),]
   colnames(tab) <-c("Date",paste(sen,"_",sta,sep=""))
-  nomfic <- paste (dirname(db.sqlite),"/",sen,"_",sta,".hts",sep="")
+  nomfic <- paste (dirname(fsq),"/",sen,"_",sta,".hts",sep="")
   tstab <- as_tibble(cbind(tab,sta,sen))
   colnames(tstab) <-c("Date","Value","Station","Sensor")
   save(tstab, file=nomfic)

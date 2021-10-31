@@ -5,7 +5,7 @@
 \title{Create, Modify or Remove a station}
 \usage{
 d_station(
-  db.sqlite,
+  fsq,
   op = "C",
   sta = NA,
   ty_st = NA,
@@ -16,7 +16,7 @@ d_station(
 )
 }
 \arguments{
-\item{db.sqlite}{Full name of the data base}
+\item{fsq}{Full name of the data base}
 
 \item{op}{Create (default), Modify or Remove C/M/R}
 

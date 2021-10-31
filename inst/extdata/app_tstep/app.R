@@ -1,4 +1,5 @@
 load(file=system.file("extdata/fichier_fhts.RData",package="htsr"))
+file <- fil
 
 # Define UI
 ui <- fluidPage(
@@ -8,31 +9,32 @@ ui <- fluidPage(
     h4("Original hts file:"),
     textOutput("FHTS"),
     br(),
-    splitLayout(
-        radioButtons("ts", "Time-step", c("hourly", "daily", "monthly", "other"),
-            selected = "daily"),
-        radioButtons("mode", "Mode", c("average", "sum", "max", "min"),
-            selected = "average"),
+    column(width = 2,
+       radioButtons("ts", "Time-step", c("hourly", "daily", "monthly", "other"),
+            selected = "daily")),
+    column(width = 2,
+        radioButtons("mode", "Mode", c("average", "max", "min", "sum"),
+            selected = "average")),
+    column(width = 4,
         radioButtons("ifot", "If other", c("5mn", "10mn", "30mn",
             "2h", "3h", "6h", "12h")),
-    br()),
-    div("For other durations in min, use the function h_timestep"),
-    br(),
-    div(tags$b("If monthly")),
-    checkboxInput("climedit", "climatogy file"),
-    checkboxInput("caledit_j", "xlsx daily calendar"),
-    checkboxInput("caledit_m", "xlsx monthly calendar"),
-    checkboxInput("rmna", "remove NA"),
-    checkboxInput("gapfill", "gapfilling"),
-    checkboxInput("hts_year", "extract year stat"),
-    br(),
-    actionButton("submit", "Submit"),
-    br(),
+        div("For more durations, use the function h_timestep")),
+    column(width = 4,
+       div(tags$b("If monthly")),
+       checkboxInput("climedit", "climatogy file"),
+       checkboxInput("caledit_j", "xlsx daily calendar"),
+       checkboxInput("caledit_m", "xlsx monthly calendar"),
+       checkboxInput("rmna", "remove NA"),
+       checkboxInput("gapfill", "gapfilling"),
+       checkboxInput("hts_year", "extract year stat")),
+    column(width = 12,
+        actionButton("submit", "Submit"),
+        br(),
     textOutput("mon"),
     textOutput("MESS"),
     textOutput("MESS1"),
     br(),
-    actionButton("close", "Done")
+    actionButton("close", "Done"))
 )
 
 
@@ -60,14 +62,14 @@ server <- function(input, output) {
 
         # Journalier et infra-journalier
         if (!(mn)) {
-            f <- h_timestep(file=fhts, tst=tst, op = op)
+            f <- h_timestep(file=file, tst=tst, op = op)
             output$MESS <- renderText({paste("File written:", f)})
         }
 
         # Mensuel
         else {
             tst <- 1440
-            f <- h_timestep(file=fhts, tst=1440, op = op)
+            f <- h_timestep(file=file, tst=1440, op = op)
             f1 <- h_month(file = f, op = op, ba = NA, rmna = input$rmna, climedit = input$climedit,
                 caledit_j = input$caledit_j, caledit_m = input$caledit_m, gapfill = input$gapfill,
                 hts_year = input$hts_year)
@@ -77,7 +79,7 @@ server <- function(input, output) {
         }
     }
 
-    output$FHTS <- renderText({basename(fhts)})
+    output$FHTS <- renderText({basename(file)})
     observeEvent(input$submit, ({re()}))
     observeEvent(input$close, stopApp())
 }

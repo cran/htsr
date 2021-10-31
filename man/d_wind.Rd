@@ -4,10 +4,10 @@
 \alias{d_wind}
 \title{Create a wind table}
 \usage{
-d_wind(db.sqlite, sta = NA, swd = NA, swv = NA)
+d_wind(fsq, sta = NA, swd = NA, swv = NA)
 }
 \arguments{
-\item{db.sqlite}{Full name of the tshm data base}
+\item{fsq}{Full name of the tshm data base}
 
 \item{sta}{Station id}
 
@@ -24,7 +24,7 @@ Create a tibble with wind direction and speed
 \examples{
 \dontrun{
 
-h_wind (db.sqlite, sta="VB", swd="WD", swv="WV")
+h_wind (fsq, sta="VB", swd="WD", swv="WV")
 }
 
 }

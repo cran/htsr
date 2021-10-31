@@ -45,9 +45,9 @@ h_weightedsum <- function (files, weights, constant = 0) {
 
   for (i in 1:n){
     load(files[i])
-    tstab <- dplyr::arrange(tstab,Date)
-    if (i == 1) z <- tstab
-    z$Value <- z$Value + tstab$Value * weights[i]
+    z <- dplyr::arrange(tstab,Date)
+    if(i==1) z$Value <- tstab$Value * weights[i]
+    else z$Value <- z$Value + tstab$Value * weights[i]
   }
   z$Value <- z$Value + constant
   z$Sensor <- as.factor("weighted")

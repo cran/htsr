@@ -13,13 +13,13 @@ h_season(file, monthstart)
 month of each season.}
 }
 \value{
-list of file names for each sesonal time-series.
+list of file names for each seasonal time-series.
 }
 \description{
 The function provides seasonal time-series.
 }
 \details{
-2 to 4 seasons can beselected. For each season, the prefix sx_ where x is the season
+2 to 4 seasons can be selected. For each season, the prefix sx_ where x is the season
 is added to the file name.
 }
 \examples{

@@ -4,10 +4,10 @@
 \alias{hs_tstep}
 \title{Shiny app: convert f file with fixed time-step}
 \usage{
-hs_tstep(fhts)
+hs_tstep(file)
 }
 \arguments{
-\item{fhts}{File name of the Sqlite data base}
+\item{file}{File name of the Sqlite data base}
 }
 \value{
 a shiny session
