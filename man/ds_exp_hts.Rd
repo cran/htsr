@@ -24,5 +24,5 @@ If the data do not exist, the app crashes and error messages
 are displayed in the console window.
 }
 \author{
-P. Chevallier - Apr-Nov 2020
+P. Chevallier - Apr 2020 - Oct 2021
 }

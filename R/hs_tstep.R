@@ -1,6 +1,6 @@
 #' @title Shiny app: convert f file with fixed time-step
 #'
-#' @author P. Chevallier - Dec 2020
+#' @author P. Chevallier - Dec 2020 - Oct 2021
 #'
 #' @description Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
 #'

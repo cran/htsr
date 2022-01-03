@@ -27,5 +27,5 @@ function \code{\link{p_gaps}}.
 \code{\link{p_gaps}}.
 }
 \author{
-P. Chevallier - January 2019
+P. Chevallier - Jan 2019 - Oct 2021
 }

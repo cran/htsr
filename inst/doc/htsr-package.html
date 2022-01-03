@@ -49,7 +49,7 @@
 
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France</em></p>
-<p><strong>v1.1.2 - October 31, 2021</strong></p>
+<p><strong>v1.1.3 - December 30, 2021</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -197,7 +197,7 @@
 </div>
 <div id="functions" class="section level1">
 <h1>Functions</h1>
-<p>5 categories of functions are provided by the htsr package, with, in addition, one short-cut function. They are distinguished with a prefix character and listed below.</p>
+<p>6 categories of functions are provided by the htsr package, with, in addition, one short-cut function. They are distinguished with a prefix character and listed below.</p>
 <p>Infos on their uses are detailed in the on-line help or using in the console the command <code>?&lt;FUNCTION_NAME&gt;</code> or <code>help(&lt;FUNCTION_NAME&gt;)</code>.</p>
 <div id="short-cut-function" class="section level2">
 <h2>Short-cut function</h2>
@@ -241,7 +241,9 @@
 <h2>File functions (prefix <code>f_</code>)</h2>
 <ul>
 <li><p><code>f_change_id(file, sta, sen, overwrite)</code>, changes station id or sensor id in a hts file.. Generates a file with the prefix <code>nw_</code>.</p></li>
-<li><p><code>f_convert(file, form_start = &quot;hts&quot;, form_end = &quot;xlsx&quot;, ta = NA, sen = NA, output = NA, variable = NA)</code>, converts data-series file in another format: <code>hts</code>, <code>xls/xlsx</code>, <code>csv</code> or <code>hdsm</code>)`</p></li>
+<li><p><code>f_convert(file, form_start = &quot;hts&quot;, form_end = &quot;xlsx&quot;, ta = NA, sen = NA, output = NA, variable = NA)</code>, converts data-series file in another format: <code>hts</code>, <code>xls/xlsx</code>, <code>csv</code>) and viceversa.</p></li>
+<li><p><code>f_convert_hts2hdsm (files, freqs, units, unit_factors, fileo = &quot;calibration_data&quot;)</code> Convert hts files in calibration input format to be used in HDSM.</p></li>
+<li><p><code>f_convert_hdsm2hts (filein, station = &quot;sta&quot;, var)</code> converts a HDSM output file in hts files for plotting</p></li>
 <li><p><code>f_properties(file, gaps = FALSE)</code> displays the properties of a hts time-series.</p></li>
 </ul>
 </div>
@@ -284,7 +286,6 @@
 <ul>
 <li><p><code>h_stat_basic(file)</code>, gives basic statistics of a time-series</p></li>
 <li><p><code>h_wl_di(fsq, sta, seni, seno, dstart = NA, dend = NA, dbo = TRUE)</code>, computes a discharge time-series from water levels data and calibration curves.</p></li>
-<li><p><code>h_etp(method = c(&quot;Turc&quot;, &quot;Penman-Monteith&quot;, &quot;Priestley-Taylor&quot;, &quot;Makkink&quot;, &quot;Heargraves-Samani&quot;), freq = c(&quot;day&quot;, &quot;month&quot;), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)</code>, computes the potential evapotranspiration with several methods. Generates a file with the prefix <code>xEtpyy_</code>, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).</p></li>
 <li><p><code>h_rainsnow(fpr, fta, ta0,ta1,sta=NA)</code>, shares the solid and liquid precipitations with a temperature criteria. Generates a file with the prefix <code>pr_</code>. Generates a file with the prefix <code>sn_</code>.</p></li>
 </ul>
 </div>
@@ -319,6 +320,14 @@
 <li><p><code>p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = &quot;default&quot;,  breaks = 5, offset = 5, paddle = FALSE)</code>, plots wind rose</p></li>
 </ul>
 </div>
+</div>
+<div id="weather-functions-prefix-w_" class="section level2">
+<h2>Weather functions (prefix <code>w_</code>)</h2>
+<ul>
+<li><p><code>w_atmp_alt (f_atmp, f_temp, alt0 = 0, alt)</code> computes atmospheric pressure, function of altitude.</p></li>
+<li><p><code>w_etp (method = c(&quot;Turc&quot;, &quot;Penman-Monteith&quot;, &quot;Priestley-Taylor&quot;, &quot;Makkink&quot;, &quot;Heargraves-Samani&quot;), freq = c(&quot;day&quot;, &quot;month&quot;), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)</code>, computes the potential evapotranspiration with several methods. Generates a file with the prefix <code>xEtpyy_</code>, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).</p></li>
+<li><p><code>w_temp_alt (file , alt0 = 0, alt, grad = -0.0065)</code> computes temperature, function of altitude</p></li>
+</ul>
 </div>
 <div id="miscellaneous-functions-prefix-z_" class="section level2">
 <h2>Miscellaneous functions (prefix <code>z_</code>)</h2>

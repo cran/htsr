@@ -1,9 +1,11 @@
 #' @title Simple gapfilling in a time-series
 #'
-#' @author P. Chevallier - Nov 2017 - Feb 2019
+#' @author P. Chevallier - Nov 2017 - Nov 2021
 #'
-#' @details Replace the missing values with the mean of the last and next values
-#' when the time interval is less than a number of fixed time steps.
+#' @details Replace the missing values with the linear interpolated value within the gap
+#' interval, when the time interval is less than a number of fixed time steps.
+#'
+#' CAUTION! this operation is only possible when the time-series has a fixed time-step.
 #'
 #' @param file File name to proceed
 #' @param npdt Number of time-steps
@@ -31,17 +33,16 @@ h_gapfill <- function (file, npdt){
   load(f1)
   z <- ze
 
-# traitement lacunes
   for (i in 2:nrow(z)-1){
     if(is.na(z$valeur[i])){
       t0 <- z$date[i-1]
       t1 <- z$date[i+1]
       nb <- ((as.numeric(t1)-as.numeric(t0)) / durpdt ) - 1
       if ((as.numeric(t1)-as.numeric(t0)) <= durpdt * npdt) {
-        ym <- (y$Value[y$Date==t0] + y$Value[y$Date==t1]) / 2
-        for (j in 1:nb){
-          y$Value[y$Date==(t0 + (j * durpdt))] <- ym
-        }
+        y0 <- y$Value[y$Date==t0]
+        y1 <- y$Value[y$Date==t1]
+        ym <- (y1 - y0) / (nb + 1)
+        for (j in 1:nb) y$Value[y$Date==(t0 + (j * durpdt))] <- y0 + j*ym
       }
     }
   }

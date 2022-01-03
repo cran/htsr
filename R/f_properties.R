@@ -1,6 +1,6 @@
 #' @title Properties of a hts series
 #'
-#' @author P. Chevallier - January 2019
+#' @author P. Chevallier - Jan 2019 - Oct 2021
 #'
 #' @description The function provides the properties of a time-series, its duration and
 #' the inventory of its gaps

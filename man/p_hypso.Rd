@@ -49,5 +49,5 @@ This function uses the "raster" library and the dependencies "sp" and "rgdal",
 which must be installed.
 }
 \author{
-P. Chevallier - Sep 2017- Jan 2019
+P. Chevallier - Sep 2017- Nov 2021
 }

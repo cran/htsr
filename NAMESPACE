@@ -13,6 +13,8 @@ import("ggplot2")
 import("RColorBrewer")
 import("lubridate")
 import("editData")
+import("stringr")
+import("readr")
 
 importFrom("stats","window", "lm", "sd", "quantile", "ts")
 importFrom("purrr", "map")

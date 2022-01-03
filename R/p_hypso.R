@@ -1,6 +1,6 @@
 #' @title Plot the hypsometry curve of one or more basins
 #'
-#' @author P. Chevallier - Sep 2017- Jan 2019
+#' @author P. Chevallier - Sep 2017- Nov 2021
 #'
 #' @description Plot the hypsometry curve of one or more basins
 #'

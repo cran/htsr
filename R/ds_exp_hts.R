@@ -1,6 +1,6 @@
 #' @title Shiny app: export hts files from a sqlite data base
 #'
-#' @author P. Chevallier - Apr-Nov 2020
+#' @author P. Chevallier - Apr 2020 - Oct 2021
 #'
 #' @description Shiny application of the \code{\link{d_exp_hts}} function
 #'

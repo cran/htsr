@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France*   
 
-**v1.1.2 - October 31, 2021**
+**v1.1.3 - December 30, 2021**
   
 # Content
 * Origin
@@ -168,7 +168,7 @@ Because a Hydraccess data base is proprietary depending, a preliminary configura
 
 # Functions
 
-5 categories of functions are provided by the htsr package, with, in addition, one short-cut
+6 categories of functions are provided by the htsr package, with, in addition, one short-cut
 function. They are distinguished with a prefix character and listed below.
 
 Infos on their uses are detailed in the on-line help or using in the console the command `?<FUNCTION_NAME>` or `help(<FUNCTION_NAME>)`.
@@ -219,7 +219,11 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `f_change_id(file, sta, sen, overwrite)`, changes station id or sensor id in a hts file.. Generates a file with the prefix `nw_`.
 
-* `f_convert(file, form_start = "hts", form_end = "xlsx", ta = NA, sen = NA, output = NA, variable = NA)`, converts data-series file in another format: `hts`, `xls/xlsx`, `csv` or `hdsm`)`
+* `f_convert(file, form_start = "hts", form_end = "xlsx", ta = NA, sen = NA, output = NA, variable = NA)`, converts data-series file in another format: `hts`, `xls/xlsx`, `csv`) and viceversa.
+
+* `f_convert_hts2hdsm (files, freqs, units, unit_factors, fileo = "calibration_data")` Convert hts files in calibration input format to be used in HDSM.
+
+* `f_convert_hdsm2hts (filein, station = "sta", var)` converts a HDSM output file in hts files for plotting
 
 * `f_properties(file, gaps = FALSE)` displays the properties of a hts time-series.
 
@@ -272,8 +276,6 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `h_wl_di(fsq, sta, seni, seno, dstart = NA, dend = NA, dbo = TRUE)`, computes a discharge time-series from water levels data and calibration curves.
 
-* `h_etp(method = c("Turc", "Penman-Monteith", "Priestley-Taylor", "Makkink", "Heargraves-Samani"), freq = c("day", "month"), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)`, computes the potential evapotranspiration with several methods. Generates a file with the prefix `xEtpyy_`, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).
-
 * `h_rainsnow(fpr, fta, ta0,ta1,sta=NA)`, shares the solid and liquid precipitations with a temperature criteria. Generates a file with the prefix `pr_`. Generates a file with the prefix `sn_`.
 
 ## Plot functions (prefix `p_` or `ps_`)
@@ -310,6 +312,14 @@ Infos on their uses are detailed in the on-line help or using in the console the
 * `p_scatter(files, intercept.zero = FALSE, remove.zero = FALSE, lg.axis = c(NA, NA),title = "Title")`, plots a scatter plot of 2 or more time-series
 
 * `p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = "default",  breaks = 5, offset = 5, paddle = FALSE)`, plots wind rose
+
+## Weather functions (prefix `w_`)
+
+* `w_atmp_alt (f_atmp, f_temp, alt0 = 0, alt)` computes atmospheric pressure, function of altitude.
+
+* `w_etp (method = c("Turc", "Penman-Monteith", "Priestley-Taylor", "Makkink", "Heargraves-Samani"), freq = c("day", "month"), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)`, computes the potential evapotranspiration with several methods. Generates a file with the prefix `xEtpyy_`, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).
+ 
+* `w_temp_alt (file , alt0 = 0, alt, grad = -0.0065)` computes temperature, function of altitude
 
 ## Miscellaneous functions (prefix `z_`)
 

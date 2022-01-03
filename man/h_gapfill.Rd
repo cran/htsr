@@ -18,9 +18,11 @@ a time-series file with the prefix gf_
 Simple gapfilling in a time-series
 }
 \details{
-Replace the missing values with the mean of the last and next values
-when the time interval is less than a number of fixed time steps.
+Replace the missing values with the linear interpolated value within the gap
+interval, when the time interval is less than a number of fixed time steps.
+
+CAUTION! this operation is only possible when the time-series has a fixed time-step.
 }
 \author{
-P. Chevallier - Nov 2017 - Feb 2019
+P. Chevallier - Nov 2017 - Nov 2021
 }

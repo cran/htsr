@@ -1,6 +1,6 @@
 #' @title Weighted sum of time-series
 #'
-#' @author P. Chevallier - Oct 2017-Nov 2020
+#' @author P. Chevallier - Oct 2017-Oct 2021
 #'
 #'
 #' @description The function only works on the common period of the files without NA values. It

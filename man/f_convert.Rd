@@ -2,72 +2,40 @@
 % Please edit documentation in R/f_convert.R
 \name{f_convert}
 \alias{f_convert}
-\title{Convert an hts file in another format (xls, xlsx, csv or hdsm)}
+\title{Convert an hts file in another format (xls, xlsx or csv) and vice-versa}
 \usage{
-f_convert(
-  file,
-  form_start = "hts",
-  form_end = "xlsx",
-  sta = NA,
-  sen = NA,
-  output = NA,
-  variable = NA
-)
+f_convert(file, form_start = "hts", form_end = "xlsx")
 }
 \arguments{
 \item{file}{Hts file}
 
 \item{form_start}{Initial format ("hts" (default) or "xls" or
-"xlsx" or "hdsm")}
+"xlsx")}
 
 \item{form_end}{Final format ("hts" or "xls" or
-"xlsx" (default) or "hdsm") or "csv" (separator , & decimal .)
+"xlsx" (default) or "csv" (separator , & decimal .)
 or "csv2" (separator ; and decimal ,)}
-
-\item{sta}{Station name [case hdsm]}
-
-\item{sen}{Sensor name [case hdsm]}
-
-\item{output}{Phase liquid (default) or solid [case hdsm]}
-
-\item{variable}{Variable [case hdsm]}
 }
 \value{
-A table in the requested format with 4 columns: Date, Value,
+A file in the requested format with 4 columns: Date, Value,
 Station, Sensor
 }
 \description{
-Converter in formats hts, xls, xlsx, ods, text and hdsm. The processed file
-(except hdsm) must have 4 columns : Date, Value,
-Station, Sensor.
+Converter in formats hts, xls, xlsx and text (csv et csv2)
 }
 \details{
 'form_start' = csv or csv2 is for instance not accepted. It could be converted previously
 in xls or xlsx format.
-
-'form_start' = hdsm is for instance experimental
-
-In the hdsm case, one must precise a station, a sensor, a phase
-(output: liquid or solid) and a variable to be extracted
-
-If output = "liquid", the available variables are:
-"Psoil_km3", "Psoil_mm", "ETP_km3", "ETP_mm", "Etr_km3",
-"Plake_km3", "Evap_km3", "Infil_km3", "Runoff_m3/s", "Drain_m3/s", "Q_m3/s",
-"Q_mm", "Slake_km2", "Slandice_km2", "SoilLiq_mm", "dSoilLiq_km3", "VLake_km3",
-"dVLake_mm", "Flux_mm"
-If output = "solid", the available variables are:
-"Psoil_km3", "Psoil_mm", "Pliq_km3", "Psol_km3",
-"Melts_km3", "Subli_km3", "Melti_km3", "Q_km3", "Q_m3/s", "Slandicekm2",
-"Sca_km2", "Sca_<character percent>", "Swe_km3", "Swe_mm", "dSwe_km3",
-"SoilIce_km3", "SoilIce_mm", "dSoilIce_km3"
 }
 \examples{
 \dontrun{
 f_convert(file,  "xlsx", "hts")
 }
 
-
+}
+\seealso{
+\code{\link{f_convert_hdsm2hts}} and \code{\link{f_convert_hts2hdsm}}
 }
 \author{
-P. Chevallier - October 2017 - November 20120
+P. Chevallier - October 2017 - December 2021
 }

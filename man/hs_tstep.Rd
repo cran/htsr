@@ -16,5 +16,5 @@ a shiny session
 Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
 }
 \author{
-P. Chevallier - Dec 2020
+P. Chevallier - Dec 2020 - Oct 2021
 }

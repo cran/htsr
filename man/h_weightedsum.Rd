@@ -39,5 +39,5 @@ f <- h_weightedsum(f1, 1.12, 3)
 
 }
 \author{
-P. Chevallier - Oct 2017-Nov 2020
+P. Chevallier - Oct 2017-Oct 2021
 }
