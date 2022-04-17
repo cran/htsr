@@ -1,36 +1,43 @@
 #' @title Infra-daily fixed timestep
 #'
-#' @author P. Chevallier - Oct 2017 - Dec 2018
+#' @author P. Chevallier - Oct 2017 - Jan 2022
 #' @description Computes a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
 #' - possible option: sum, mean, max or min
 #'
 #' @param file Instantaneous time-series
 #' @param tst Timestep in minutes - must be a divisor of 1440 between 10 and 1440
-#' @param op : "S", "M" (default), "Mn" ou "Mx"
+#' @param op  "S", "M" (default), "Mn" ou "Mx"
+#' @param shift time shift for computing daily data in hours (default = 0)
 #'
 #' @details
 #' The op parameter give precise the chosen computation method within the interval: sum ("S"), la
 #' mean ("M"), minimum ("Mn") or maximum ("Mx").
+#'
+#' In the case of a daily timestep (tst = 1440), the parameter shift allows to shift the time interval.
+#' For example if shift = 6, the date is computed from 6am until 6am the following day. The result is
+#' dated in the middle of the interval, i.e. if shift = 6; the datetime is 18.
 #'
 #' @return A hts time-series file with a fixed timestep. The duration of the time-step
 #' in minutes is added to the file name.
 #'
 #' @examples \dontrun{
 #'
-#' f <- t_timestep(f, tst, op="S")
+#' f <- t_timestep(f, tst, op="S", shift = 6)
 #' }
 #'
 #'
 
-h_timestep <- function(file,tst,op="M"){
-  # suppressWarnings()
+h_timestep <- function(file,tst,op="M", shift=0){
 
   #controle
   Sys.setenv(TZ='UTC')
   cas <- c("M","Mn","Mx","S")
   if(!(op %in% cas[1:4])) stop("Wrong value of op!")
-  if (1440%%tst!=0 | tst <10 | tst > 1440)
+  if (1440%%tst!=0 || tst <10 || tst > 1440)
     stop(warning(tst, "is not a divisor of 1440 mn or <10!"))
+  shift <- trunc(shift)
+  if (shift < 0 || shift > 23)
+    stop(warning("the shift value must be in the interval [0-23]"))
 
   #initialisation
   ptm <- proc.time()
@@ -42,17 +49,13 @@ h_timestep <- function(file,tst,op="M"){
   fileo <- paste0(nfse,"_",tst,".hts")
   y <- arrange(y, Date)
 
-  # # revision des lacunes
-  #   for (i in 1:nrow(tstab)){
-  #     if (i == 1) next
-  #     if (is.na(tstab$Valeur[i])) tstab$Date[i] <- tstab$Date[i-1]+1
-  #   }
-
   #infrajour
   date.deb <- as.numeric(y$Date[1])
   date.end <- as.numeric(y$Date[nrow(y)])
-  time.deb <- (date.deb %/% 86400) * 86400
-  time.end <- ((date.end %/% 86400) + 1) * 86400
+  if (tst == 1440) time.deb <- (date.deb %/% 86400) * 86400 + (shift * 3600)
+  else time.deb <- (date.deb %/% 86400) * 86400
+  if (tst == 1440) time.end <- ((date.end %/% 86400) + 1) * 86400 + (shift * 3600)
+  else time.end <- ((date.end %/% 86400) + 1) * 86400
   ni <- (time.end - time.deb) / (60 * tst)
   message("nb of iterations ",ni,"\n")
   time.calc <- time.deb

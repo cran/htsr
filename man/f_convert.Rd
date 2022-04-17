@@ -33,9 +33,6 @@ f_convert(file,  "xlsx", "hts")
 }
 
 }
-\seealso{
-\code{\link{f_convert_hdsm2hts}} and \code{\link{f_convert_hts2hdsm}}
-}
 \author{
 P. Chevallier - October 2017 - December 2021
 }

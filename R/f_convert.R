@@ -17,8 +17,6 @@
 #' "xlsx" (default) or "csv" (separator , & decimal .)
 #' or "csv2" (separator ; and decimal ,)
 #'
-#' @seealso \code{\link{f_convert_hdsm2hts}} and \code{\link{f_convert_hts2hdsm}}
-#'
 #' @return A file in the requested format with 4 columns: Date, Value,
 #' Station, Sensor
 #'

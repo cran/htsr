@@ -35,5 +35,5 @@ of the data base ;
  \code{\link{d_exp_hts}} to extract time-series.
 }
 \author{
-P. Chevallier - Feb 2018 - dec 2019
+P. Chevallier - Feb 2018 - Jan 2022
 }

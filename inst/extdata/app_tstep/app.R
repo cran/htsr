@@ -11,10 +11,12 @@ ui <- fluidPage(
     br(),
     column(width = 2,
        radioButtons("ts", "Time-step", c("hourly", "daily", "monthly", "other"),
-            selected = "daily")),
+            selected = "daily"),
+        numericInput("shift", "Shift (hours)",0,0,23,1)),
     column(width = 2,
         radioButtons("mode", "Mode", c("average", "max", "min", "sum"),
-            selected = "average")),
+            selected = "average"), br(),
+      div("Shift is only used for daily timestep")),
     column(width = 4,
         radioButtons("ifot", "If other", c("5mn", "10mn", "30mn",
             "2h", "3h", "6h", "12h")),
@@ -59,17 +61,18 @@ server <- function(input, output) {
         if(input$mode == "sum") op <- "S"
         if(input$mode == "min") op <- "Mn"
         if(input$mode == "max") op <- "Mx"
+        shift <- as.numeric(input$shift)
 
         # Journalier et infra-journalier
         if (!(mn)) {
-            f <- h_timestep(file=file, tst=tst, op = op)
+            f <- h_timestep(file=file, tst=tst, op = op, shift = shift)
             output$MESS <- renderText({paste("File written:", f)})
         }
 
         # Mensuel
         else {
             tst <- 1440
-            f <- h_timestep(file=file, tst=1440, op = op)
+            f <- h_timestep(file=file, tst=1440, op = op, shift = 0)
             f1 <- h_month(file = f, op = op, ba = NA, rmna = input$rmna, climedit = input$climedit,
                 caledit_j = input$caledit_j, caledit_m = input$caledit_m, gapfill = input$gapfill,
                 hts_year = input$hts_year)

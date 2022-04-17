@@ -1,6 +1,6 @@
 #' @title Convert a weewx data base into a htsr sqlite base
 #'
-#' @author P. Chevallier - Feb 2018 - dec 2019
+#' @author P. Chevallier - Feb 2018 - Jan 2022
 #'
 #' @description Convert a weewx data base into a tshm sqlite base
 #'
@@ -137,7 +137,7 @@ d_convert_weewx <- function(fsq, db.weewx, sta, name_st, tzo ="CET",
   RSQLite::dbDisconnect(conn)
 
   # Creation station
-  d_station(fsq, op = "C", sta = sta, name_st = name_st, bku = FALSE)
+  d_station(fsq, op = "C", sta = sta, name_st = name_st, ty_st="M", bku = FALSE)
 
   # Creation des tables et des capteurs
   l <- as.vector(c("IPA", "ITAi", "ITAo", "IHRi", "IHRo", "IWV", "IWD", "IWG", "IWGD",

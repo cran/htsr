@@ -4,25 +4,23 @@
 \alias{h_stat_basic}
 \title{Basic statistics of a time-series}
 \usage{
-h_stat_basic(file)
+h_stat_basic(files)
 }
 \arguments{
-\item{file}{File to process}
+\item{files}{vector of file names to process}
 }
 \value{
-nb_val, mean, standard deviation, min, quantile .25, median, quantile .75, max
-and display a boxplot with these values.
+a tibble with the basic stats of the files.
 }
 \description{
 Compute the main statistic parameters of a time-series
 }
 \examples{
 \dontrun{
-
-simplestat <- h_stat_basic("foo.hts")
+simplestat <- h_stat_basic(c("foo1.hts", "foo2.hts")
 }
 
 }
 \author{
-P. Chevallier - Oct 2017-Jan 2019
+P. Chevallier - Oct 2017 - Feb 2022
 }

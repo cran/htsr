@@ -5,7 +5,7 @@
 #' @description Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
 #'
 #'
-#' @param file File name of the Sqlite data base
+#' @param file File to process
 
 #' @return a shiny session
 #'

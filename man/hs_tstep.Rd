@@ -7,7 +7,7 @@
 hs_tstep(file)
 }
 \arguments{
-\item{file}{File name of the Sqlite data base}
+\item{file}{File to process}
 }
 \value{
 a shiny session

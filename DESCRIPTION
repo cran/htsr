@@ -1,8 +1,8 @@
 Package: htsr
 Type: Package
 Title: Hydro-Meteorology Time-Series
-Version: 1.1.3
-Date: 2021-12-30
+Version: 1.1.4
+Date: 2022-04-17
 Author: Pierre Chevallier [aut, cre]
 Maintainer: Pierre Chevallier <pierre.chevallier@ird.fr>
 Description: Functions for the management and treatment of hydrology and 
@@ -18,6 +18,6 @@ Encoding: UTF-8
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-01-03 15:28:14 UTC; pierre
+Packaged: 2022-04-17 07:29:16 UTC; pierre
 Repository: CRAN
-Date/Publication: 2022-01-03 16:00:02 UTC
+Date/Publication: 2022-04-17 07:52:28 UTC

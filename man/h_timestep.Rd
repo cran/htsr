@@ -4,14 +4,16 @@
 \alias{h_timestep}
 \title{Infra-daily fixed timestep}
 \usage{
-h_timestep(file, tst, op = "M")
+h_timestep(file, tst, op = "M", shift = 0)
 }
 \arguments{
 \item{file}{Instantaneous time-series}
 
 \item{tst}{Timestep in minutes - must be a divisor of 1440 between 10 and 1440}
 
-\item{op}{: "S", "M" (default), "Mn" ou "Mx"}
+\item{op}{"S", "M" (default), "Mn" ou "Mx"}
+
+\item{shift}{time shift for computing daily data in hours (default = 0)}
 }
 \value{
 A hts time-series file with a fixed timestep. The duration of the time-step
@@ -24,15 +26,19 @@ Computes a time-series with a fixed infra-daily timestep starting from an instan
 \details{
 The op parameter give precise the chosen computation method within the interval: sum ("S"), la
 mean ("M"), minimum ("Mn") or maximum ("Mx").
+
+In the case of a daily timestep (tst = 1440), the parameter shift allows to shift the time interval.
+For example if shift = 6, the date is computed from 6am until 6am the following day. The result is
+dated in the middle of the interval, i.e. if shift = 6; the datetime is 18.
 }
 \examples{
 \dontrun{
 
-f <- t_timestep(f, tst, op="S")
+f <- t_timestep(f, tst, op="S", shift = 6)
 }
 
 
 }
 \author{
-P. Chevallier - Oct 2017 - Dec 2018
+P. Chevallier - Oct 2017 - Jan 2022
 }
