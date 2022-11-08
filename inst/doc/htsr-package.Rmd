@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France*   
 
-**v1.1.4 - April 17, 2022**
+**v1.1.5 - date 22-11-06**
   
 # Content
 * Origin
@@ -228,6 +228,8 @@ Infos on their uses are detailed in the on-line help or using in the console the
 ## Hydro-meteo time-series (prefix `h_` or `hs_`)
 
 ### Data manipulations
+ 
+* `h_addna(file)`, adds records with NA in a time series at given dates. The output file is named with the prefix `nap_`.
 
 * `h_common(files)`, extracts 2 (or more) time-series on their common period. Generates a file with the prefix `co_`.
 

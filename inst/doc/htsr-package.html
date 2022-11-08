@@ -30,13 +30,13 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </script>
 
 <style type="text/css">
-  code{white-space: pre-wrap;}
-  span.smallcaps{font-variant: small-caps;}
-  span.underline{text-decoration: underline;}
-  div.column{display: inline-block; vertical-align: top; width: 50%;}
-  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-  ul.task-list{list-style: none;}
-    </style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
 
 
@@ -243,7 +243,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier),
 France</em></p>
-<p><strong>v1.1.4 - April 17, 2022</strong></p>
+<p><strong>v1.1.5 - date 22-11-06</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -554,6 +554,9 @@ properties of a hts time-series.</p></li>
 <div id="data-manipulations" class="section level3">
 <h3>Data manipulations</h3>
 <ul>
+<li><p><code>h_addna(file)</code>, adds records with NA in a time series
+at given dates. The output file is named with the prefix
+<code>nap_</code>.</p></li>
 <li><p><code>h_common(files)</code>, extracts 2 (or more) time-series on
 their common period. Generates a file with the prefix
 <code>co_</code>.</p></li>

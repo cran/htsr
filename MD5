@@ -1,4 +1,4 @@
-b4d3a061c039e287453890f8de534b39 *DESCRIPTION
+35104e5a29f8f62ebd21afc9225e45cf *DESCRIPTION
 25b7c0208bdfe0f4a82d96ab3b540e58 *NAMESPACE
 0c512dd58fcf5c99010051021a548802 *R/d_backup.R
 7bc4e193ca4d0316eeca0d5b8baa3d06 *R/d_compact.R
@@ -19,10 +19,11 @@ cd7d28818833c080fdbdae4ef7747a71 *R/ds_inventory.R
 71925b2636d0da89d449867b80841781 *R/ds_sensor.R
 678d8f7bc09a5d1147be5271866725a0 *R/ds_station.R
 def0de4eff7e513f53ea5da1a859645d *R/f_change_id.R
-e9e8d8f9b10c59c31691608c767cb92a *R/f_convert.R
+73cead052dfeeb430738bd25147b24e0 *R/f_convert.R
 343bd17d7b287d173ea6b8537f519e87 *R/f_csv_multivar.R
 2379740da17ddb1e238eaa283cd77be6 *R/f_properties.R
 cac7ddd858699372ae334e7916c7e14e *R/fc.R
+9bc7c3eb731bf735cfd0bfc49905789a *R/h_addna.R
 61d5b1f5c68ac273f85c1eebbc7bd6f4 *R/h_common.R
 2d7f890f608bf0b59f9dc628528f4727 *R/h_condition.R
 a775af1ca16df58a55c8ba786a81fff7 *R/h_cumul.R
@@ -62,10 +63,10 @@ b110df3e1463833cf94bbbd90226c828 *R/w_etp.R
 cc9e13a515f8834ee01721eef1a6c497 *R/w_temp_alt.R
 faf15abeb7bd2b82f0583e639f2130f8 *R/z_coord.R
 9c609870ff66f4883e80acb013a8b4d4 *R/z_set.R
-5cafb36f2ab3732258838abaffc0c1a4 *build/vignette.rds
+9f9829f73d0760263277bc04a2bac9d1 *build/vignette.rds
 3c9e2d06e8560272e30c98b0c827478b *inst/doc/htsr-package.R
-b2c0941a95775c4e903bcda778a3cffe *inst/doc/htsr-package.Rmd
-0d5cdb2954ff7d261ec17ce6493b8952 *inst/doc/htsr-package.html
+6d29fb899b8eb95f51ce9eb76af5257c *inst/doc/htsr-package.Rmd
+4a1a68d651f07d40fc457f9c4cb0efd6 *inst/doc/htsr-package.html
 12974bc455b6db6e6071037f11a5632a *inst/extdata/app_dismeas/app.R
 36f22db26886666e4ff52141fdf67f37 *inst/extdata/app_exphts/app.R
 88145271c34ddb697991fcba95fd319d *inst/extdata/app_invent/app.R
@@ -96,10 +97,11 @@ a4b2ad8227a1d8200712fa314d8476d7 *man/ds_inventory.Rd
 fcaadda3b218fde144c8722e3e4e4288 *man/ds_sensor.Rd
 57bcf23a7c45603c94ad3e88edbe34a5 *man/ds_station.Rd
 fff4d444ca2a7263d03b12a32a9de4cb *man/f_change_id.Rd
-1626f2246b836d6b45435146f50e52d6 *man/f_convert.Rd
+e0ab2843d7e5a6ecfb5285b6c65646d9 *man/f_convert.Rd
 7754c472971045d6d8115279d18be53d *man/f_csv_multivar.Rd
 f81413ccce5462ec0cd3817660608ba7 *man/f_properties.Rd
 fdb23b76f027b50a4766d7996edd8eb3 *man/fc.Rd
+b020331bf188d60d2d4fc0464c00ff05 *man/h_addna.Rd
 f654587ee9dc1a2dc922d212567cf2b3 *man/h_common.Rd
 e062cb1023542402629d0771a94ad2a2 *man/h_condition.Rd
 20c66067981d4b3beac4178068163641 *man/h_cumul.Rd
@@ -139,4 +141,4 @@ ba5b24a22ee606f9d8dc4e4e534768e0 *man/w_etp.Rd
 07bbaa497d7560bf1e2a9abdee5b5243 *man/w_temp_alt.Rd
 f6163568904145629db180a9ff9bc3b6 *man/z_coord.Rd
 9d7274348f022f0545adcf01d57efaf9 *man/z_set.Rd
-b2c0941a95775c4e903bcda778a3cffe *vignettes/htsr-package.Rmd
+6d29fb899b8eb95f51ce9eb76af5257c *vignettes/htsr-package.Rmd

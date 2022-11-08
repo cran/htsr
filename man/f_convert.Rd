@@ -34,5 +34,5 @@ f_convert(file,  "xlsx", "hts")
 
 }
 \author{
-P. Chevallier - October 2017 - December 2021
+P. Chevallier - October 2017 - May 2022
 }

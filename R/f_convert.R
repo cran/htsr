@@ -1,6 +1,6 @@
 #' @title Convert an hts file in another format (xls, xlsx or csv) and vice-versa
 #'
-#' @author P. Chevallier - October 2017 - December 2021
+#' @author P. Chevallier - October 2017 - May 2022
 #'
 #' @description
 #' Converter in formats hts, xls, xlsx and text (csv et csv2)
@@ -82,6 +82,7 @@ f_convert <- function(file,  form_start="hts", form_end="xlsx")
     if (form_end =="hts"){
       fileo <- paste0(nfse,".hts")
       tstab <- as_tibble(tstab)
+      colnames(tstab) <- c("Date", "Value", "Station", "Sensor")
       save(tstab, file = fileo)
     }
     if(form_end == "csv"){
