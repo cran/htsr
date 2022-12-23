@@ -243,7 +243,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier),
 France</em></p>
-<p><strong>v1.1.5 - date 22-11-06</strong></p>
+<p><strong>v 1.2.0 - 2022-12-23</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -544,6 +544,8 @@ converts data-series file in another format: <code>hts</code>,
 <code>xls/xlsx</code>, <code>csv</code>) and viceversa.</p></li>
 <li><p><code>f_csv_multivar(files, daily = TRUE, fileo = &quot;fileo&quot;)</code>,
 build a multivariable table file in csv format.</p></li>
+<li><p><code>f_month2day(file)</code>: interpolation of daily records
+from a monthly time series</p></li>
 <li><p><code>f_properties(file, gaps = FALSE)</code> displays the
 properties of a hts time-series.</p></li>
 </ul>
@@ -612,12 +614,17 @@ makes monthly operations, based on a daily time-series. Generates hts
 files with the suffixes <code>_C</code>, <code>_G</code> or
 <code>_M</code> and MS Excel files with the prefixes <code>ad_</code>
 and <code>cm_</code>.</p></li>
+<li><p><code>h_year(file, mhy = 1, op = &quot;M&quot;, dig = 1)</code> extracts an
+annual time series from a daily time series.</p></li>
 <li><p><code>h_restrict(file, start=NA, end=NA)</code>, restricts a
 series between 2 dates. Generates hts files with the suffixes
 <code>re_</code>.</p></li>
 <li><p><code>h_season(file, monthstart)</code>, produces a seasonal
 selection. Generates a file with the prefix <code>sx_</code>, where x is
 2, 3 or 4.</p></li>
+<li><p><code>h_avday</code> computes a one year time series filled with
+the mean values of each calendar day over an interval longer than 4
+years.</p></li>
 </ul>
 </div>
 <div id="hydro-meteo-processes" class="section level3">
@@ -685,7 +692,9 @@ Generates a file with the prefix <code>xEtpyy_</code>, where x is J
 (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT
 (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).</p></li>
 <li><p><code>w_temp_alt (file , alt0 = 0, alt, grad = -0.0065)</code>
-computes temperature, function of altitude</p></li>
+computes temperature, function of altitude.</p></li>
+<li><p><code>w_spc2rel_hum ((f_spechum, f_temp, f_atm)</code> converts
+specific humidity to relative humidity.</p></li>
 </ul>
 </div>
 <div id="miscellaneous-functions-prefix-z_" class="section level2">

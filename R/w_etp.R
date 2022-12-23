@@ -1,6 +1,6 @@
 #' @title Compute the potential evapotranspiration with several methods
 #'
-#' @author P. Chevallier - April 2020
+#' @author P. Chevallier - April 2020-Nov2022
 #'
 #' @description ETP calculation
 #'
@@ -107,7 +107,7 @@ w_etp <- function (
       ra <- 24 * 60 * 0.0820 / pi * dr * ((oms * sin(lat) * sin (pd)) + (cos(lat) * cos(pd) * sin (oms)))
       return (ra)
     }
-    x <- mutate (x, ra = u_ra(fracjour, lat))
+    x <- mutate (x, ra = u_ra(x$fracjour, lat))
   }
 
   #atmp,gamma, delta, es, ea

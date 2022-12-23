@@ -1,8 +1,8 @@
 #' @title Remove hts records from a data base
 #'
-#' @author P. Chevallier - jan 2019 - nov 2020
+#' @author P. Chevallier - jan 2019 - dec 2022
 #'
-#' @description Remove hst records from a Sqlite base
+#' @description Remove hts records from a Sqlite base
 #'
 #' @details
 #' The main table where the data have to be removed must be selected with one the
@@ -20,7 +20,7 @@
 #'
 
 
-d_rem_hts <- function(fsq, table, sta, sen, start=NA, end=NA) {
+d_rem_hts <- function(fsq, table, sta, sen, start, end) {
 
   Date <- NULL
 
@@ -58,7 +58,8 @@ d_rem_hts <- function(fsq, table, sta, sen, start=NA, end=NA) {
   # Find records in the considered interval
   conn <- dbConnect(SQLite(),fsq)
   sen1 <- paste0("'",sen,"'")
-  selec <- paste ("SELECT * FROM", table, "WHERE Id_Station = ", sta1,
+  table1 <- paste0("'",table,"'")
+  selec <- paste ("SELECT * FROM", table1, "WHERE Id_Station = ", sta1,
     "AND Capteur = ", sen1)
   xrec <- dbGetQuery(conn, selec)
   dbDisconnect(conn)
@@ -76,14 +77,16 @@ d_rem_hts <- function(fsq, table, sta, sen, start=NA, end=NA) {
   xrec1 <- dplyr::filter(xrec, Date >= start & Date <= end)
   nr <- nrow(xrec1)
   message("\n", nr, " records in the table for considered time interval.")
-  repeat {
-    message("\nConfim remove (Y/N)? ")
-    resp <- readline()
-    if(resp %in% c("Y","y","O","o","N","n")) break
-    else warning("\nResponse", resp, "not allowed.")
-  }
-  if(resp %in% c("N","n")) {
-    return(warning("\nNo change in the data base.\n"))
+  if(nr != 0){
+    repeat {
+      message("\nConfim remove (Y/N)? ")
+      resp <- readline()
+      if(resp %in% c("Y","y","O","o","N","n")) break
+      else warning("Response", resp, "not allowed.")
+    }
+    if(resp %in% c("N","n")) {
+      return(warning("No change in the data base.\n"))
+    }
   }
 
   # Backup
@@ -91,13 +94,17 @@ d_rem_hts <- function(fsq, table, sta, sen, start=NA, end=NA) {
 
   # Remove the records from the sensor
   conn <- dbConnect(SQLite(),fsq)
-  selec <- paste ("DELETE FROM", table, "WHERE Id_Station = ", sta1,
+  selec <- paste ("DELETE FROM", table1, "WHERE Id_Station = ", sta1,
                   "AND Capteur = ", sen1)
   rs <-dbSendQuery(conn, selec)
   dbClearResult(rs)
 
   # Rewrite the not selected records into the sensor
-  xrec1 <- as.data.frame(dplyr::filter(xrec, Date < start & Date > end))
+  # xrec1 <- as.data.frame(dplyr::filter(xrec, Date < start || Date > end))
+  xrec1 <- dplyr::filter(xrec, Date < start)
+  xrec2 <- dplyr::filter(xrec, Date > end)
+  xrec1 <- dplyr::bind_rows(xrec1,xrec2)
+  
   if(nrow(xrec1)>0){
     dbWriteTable(conn, name=table, xrec1, append = TRUE)
   }

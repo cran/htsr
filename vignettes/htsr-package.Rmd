@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France*   
 
-**v1.1.5 - date 22-11-06**
+**v 1.2.0 - 2022-12-23**
   
 # Content
 * Origin
@@ -223,6 +223,8 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `f_csv_multivar(files, daily = TRUE, fileo = "fileo")`, build a multivariable table file in csv format.
 
+* `f_month2day(file)`: interpolation of daily records from a monthly time series
+
 * `f_properties(file, gaps = FALSE)` displays the properties of a hts time-series.
 
 ## Hydro-meteo time-series (prefix `h_` or `hs_`)
@@ -265,9 +267,14 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `h_month(file, op="M", ba=NA, rmna=FALSE, climedit=FALSE, caledit_j=FALSE, caledit_m=FALSE, gapfill=FALSE)`, makes monthly operations, based on a daily time-series.  Generates hts files with the suffixes `_C`, `_G` or `_M` and MS Excel files with the prefixes `ad_` and `cm_`.
 
+* `h_year(file, mhy = 1, op = "M", dig = 1)` extracts an annual time series from a daily time series.
+
 * `h_restrict(file, start=NA, end=NA)`, restricts a series between 2 dates. Generates hts files with the suffixes `re_`.
 
 * `h_season(file, monthstart)`, produces a seasonal selection. Generates a file with the prefix `sx_`, where x is 2, 3 or 4.
+
+* `h_avday` computes a one year time series filled with the mean values of each calendar day over 
+an interval longer than 4 years.
 
 
 ### Hydro-meteo processes
@@ -319,7 +326,9 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `w_etp (method = c("Turc", "Penman-Monteith", "Priestley-Taylor", "Makkink", "Heargraves-Samani"), freq = c("day", "month"), f_temp, f_relh = NA, f_radg = NA, f_radn = NA, f_atmp = NA, f_wvel = NA, f_tmin = NA, f_tmax = NA, lat = NA, alt = NA, albedo = NA, z = NA)`, computes the potential evapotranspiration with several methods. Generates a file with the prefix `xEtpyy_`, where x is J (daily) or M (monthly), and yy is Tu (Turc), PM (Penman-Monteith), PT (Priestley-Taylor), Ma (Makkink) or HS (Heargraves-Samani).
  
-* `w_temp_alt (file , alt0 = 0, alt, grad = -0.0065)` computes temperature, function of altitude
+* `w_temp_alt (file , alt0 = 0, alt, grad = -0.0065)` computes temperature, function of altitude.
+
+* `w_spc2rel_hum ((f_spechum, f_temp, f_atm)` converts specific humidity to relative humidity.
 
 ## Miscellaneous functions (prefix `z_`)
 

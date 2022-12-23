@@ -1,6 +1,6 @@
 #' @title Create, Modify or Remove a station
 #'
-#' @author P. Chevallier - Jan 2018-Nov 2020
+#' @author P. Chevallier - Jan 2018-Dec 2022
 #'
 #' @description
 #' Create, Modify or Remove a station in a tshm data base. A shiny version of this function is
@@ -82,7 +82,7 @@
 #' @return
 #' Station created, modified ou removed from the data base
 
-d_station <- function(fsq, op = "C", sta=NA, ty_st = NA, name_st=NA,
+d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
   name_fld=NA, value_fld=NA, bku = TRUE) {
 
   # Warnings
@@ -228,6 +228,13 @@ d_station <- function(fsq, op = "C", sta=NA, ty_st = NA, name_st=NA,
       rs <- dbSendQuery(conn, selection)
       dbClearResult(rs)
     }
+    # selection <- paste ("DELETE FROM SS WHERE Id_station = ", sta1, "AND Capteur = ", sen1)
+    # rs <- dbSendQuery(conn, selection)
+    # dbClearResult(rs)
+    selection <- paste ("DELETE FROM ST WHERE Id_station = ", sta1)
+    rs <- dbSendQuery(conn, selection)
+    dbClearResult(rs)
+    
     message("\nStation ",name_st," with id ", sta, " is removed with all its data.")
     dbDisconnect(conn)
   }

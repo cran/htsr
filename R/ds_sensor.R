@@ -11,5 +11,5 @@
 ds_sensor <- function(fsq) {
   fsq <- fsq
   save(fsq, file=system.file("extdata/fichier_fsq.RData",package="htsr"))
-  runApp(system.file("extdata/app_sensor", package="htsr"))
+  runApp(system.file("extdata/app_sensor", package="htsr"),launch.browser=TRUE)
 }

@@ -4,31 +4,29 @@
 \alias{w_atmp_alt}
 \title{Compute atmospheric pressure, function of altitude}
 \usage{
-w_atmp_alt(f_atmp, f_temp, alt0 = 0, alt)
+w_atmp_alt(f_atmp, f_temp, alt)
 }
 \arguments{
 \item{f_atmp}{File name of the known atmospheric pressure ts (mb)}
 
 \item{f_temp}{File name of the air temperature at the known altitude (°C)}
 
-\item{alt0}{Altitude of the known atmospheric pressure ts - default = 0 (m)}
-
 \item{alt}{Altitude of the computed air- temperature ts (m)}
 }
 \value{
-An hts file with the prefix co_ and the suffix _<alt>
+An hts file with the suffixe _<alt>
 }
 \description{
 Compute atmospheric pressure, function of altitude
 }
 \details{
 The function computes an atmospheric pressure time-series at a given altitude,
-based on a known atmospheric pressure time-series at a known altitude. It also needs
-an air temperature ts at the known altitude.
+based on a known atmospheric pressure time-series at the sea level. It also needs
+the air temperature time-series at the sea level for the same times.
 
-The result is given for the common periods of the atmospheric pressure and the
-air temperature ts, based on the result of the h_common function.
+In order to verify that both time-series correspond, it is strongly recommended to 
+run previously the function \code{\link{h_common}}.
 }
 \author{
-P. Chevallier - Nov 2021
+P. Chevallier - Nov 2021 / Nov 2022
 }

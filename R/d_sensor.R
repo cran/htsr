@@ -1,6 +1,6 @@
 #' @title Create, Modify or Remove a sensor
 #'
-#' @author P. Chevallier - Feb 2018-Nov 2020
+#' @author P. Chevallier - Feb 2018-Dec 2022
 #'
 #' @description Create, Modify or Remove a sensor. A shiny version of this function
 #' is available: \code{link{ds_sensor}}
@@ -67,7 +67,7 @@
 #'
 #'
 
-d_sensor <- function(fsq, op = "C", sta, sen, table = NA,
+d_sensor <- function(fsq, op = "C", sta, sen, table,
   name_fld=NA, value_fld=NA, bku = TRUE) {
 
   Id_Station <- NULL
@@ -232,11 +232,11 @@ d_sensor <- function(fsq, op = "C", sta, sen, table = NA,
       "AND Capteur = ", sen1)
     rs <-dbSendQuery(conn, selection)
     dbClearResult(rs)
-    selection <- paste ("DELETE FROM SS WHERE Id_Station = ", sta1,
-      "AND Tabl = ", table1)
+    selection <- paste ("DELETE FROM SS WHERE Id_station = ", sta1, "AND Capteur = ", sen1)
     rs <- dbSendQuery(conn, selection)
     dbClearResult(rs)
+    
     message("\nSensor ", sen, " for station ", sta, " and table ", table, " is removed with all its data.")
-  dbDisconnect(conn)
+    dbDisconnect(conn)
   }
 }

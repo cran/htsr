@@ -32,5 +32,5 @@ ps_plothts <- function(files){
                           pointsize = 8)
   fil <- myfil
   save(nbst, fil, conf, mapalette, tzo, file = system.file("extdata/settings.RData",package="htsr"))
-  runApp(system.file("extdata/app_plothts", package="htsr"))
+  runApp(system.file("extdata/app_plothts", package="htsr"),launch.browser=TRUE)
 }

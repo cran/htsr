@@ -94,5 +94,5 @@ f_radn is not avalaible, lat, f_tmin and ftmax are also needed.
 The Turc method only works with a monthly frequence.
 }
 \author{
-P. Chevallier - April 2020
+P. Chevallier - April 2020-Nov2022
 }

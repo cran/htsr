@@ -37,14 +37,14 @@ f_properties <- function(file, gaps = FALSE){
   date_end <- as.character(z$Date[nrow(z)])
 
 # basique
-  message("Time-series properties\n")
-  message("----------------------\n")
-  message("File: ", file, "\n")
-  message("Station: ", sta, "\n")
-  message("Capteur: ", capt, "\n")
-  message("File init date: ", date_start, "\n")
-  message("File end  date: ", date_end, "\n")
-  message("Number of records: ", nrow(z), "\n")
+  # message("Time-series properties")
+  # message("----------------------")
+  message("File: ", file)
+  message("Station: ", sta)
+  message("Capteur: ", capt)
+  message("File init date: ", date_start)
+  message("File end  date: ", date_end)
+  message("Number of records: ", nrow(z))
 
 # recherche des periodes sans lacunes
   k <- 1
@@ -96,17 +96,17 @@ f_properties <- function(file, gaps = FALSE){
   zd <- dplyr::mutate(zd, duree = as.numeric(date_fin)-as.numeric(date_deb))
   duree_val <- sum(zd$duree)
   pcgap <- (1 - duree_val / duree_tot) *100
-  message("\nReal init Date: ", as.character(date_d), "\n")
-  message("Real end  Date: ", as.character(date_f), "\n")
-  message("Total Duration: ", duree_tot/86400, "days\n")
-  message("Duration without gaps: ", duree_val/86400, "days\n")
-  message("Number of gaps: ", k-1, "\n")
-  message("Percentage of gaps: ", round(pcgap,1), "%\n")
+  message("\nReal init Date: ", as.character(date_d))
+  message("Real end  Date: ", as.character(date_f))
+  message("Total Duration: ", duree_tot/86400, "days")
+  message("Duration without gaps: ", duree_val/86400, "days")
+  message("Number of gaps: ", k-1)
+  message("Percentage of gaps: ", round(pcgap,1), "%")
   if (pcgap == 0) indic <-0 else indic <- 1
 
 # gaps table
   if (indic==1)  {
-    message("\n Inventory of gaps (duration in days)\n")
+    message("\nInventory of gaps (duration in days)")
     init <- zd$date_fin[1:nrow(zd)-1]
     end <- zd$date_deb[2:nrow(zd)]
     duration <- as.numeric(end) - as.numeric(init)
@@ -150,6 +150,6 @@ f_properties <- function(file, gaps = FALSE){
     message("\nFile ", fileo," written")
     return(ze)
   }
-  message("\n")
+#  message("\n")
   return()
 }

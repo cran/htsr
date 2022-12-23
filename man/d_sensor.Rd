@@ -9,7 +9,7 @@ d_sensor(
   op = "C",
   sta,
   sen,
-  table = NA,
+  table,
   name_fld = NA,
   value_fld = NA,
   bku = TRUE
@@ -87,5 +87,5 @@ station are removed.
 }
 }
 \author{
-P. Chevallier - Feb 2018-Nov 2020
+P. Chevallier - Feb 2018-Dec 2022
 }

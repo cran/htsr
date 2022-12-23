@@ -7,7 +7,7 @@
 d_station(
   fsq,
   op = "C",
-  sta = NA,
+  sta,
   ty_st = NA,
   name_st = NA,
   name_fld = NA,
@@ -101,5 +101,5 @@ If op is R, all data and sensors of the station are removed.
 }
 }
 \author{
-P. Chevallier - Jan 2018-Nov 2020
+P. Chevallier - Jan 2018-Dec 2022
 }

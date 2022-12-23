@@ -4,7 +4,7 @@
 \alias{d_rem_hts}
 \title{Remove hts records from a data base}
 \usage{
-d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)
+d_rem_hts(fsq, table, sta, sen, start, end)
 }
 \arguments{
 \item{fsq}{Full name of the data base}
@@ -23,7 +23,7 @@ d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)
 Actualized data base
 }
 \description{
-Remove hst records from a Sqlite base
+Remove hts records from a Sqlite base
 }
 \details{
 The main table where the data have to be removed must be selected with one the
@@ -31,5 +31,5 @@ following abbreviation: WL (water level), DI (discharge), WE (weather), PR (prec
 or QU (quality)
 }
 \author{
-P. Chevallier - jan 2019 - nov 2020
+P. Chevallier - jan 2019 - dec 2022
 }
