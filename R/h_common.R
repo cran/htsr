@@ -1,6 +1,6 @@
 #' @title Extract 2 (or more) time-series on their common period
 #'
-#' @author P. Chevallier - Oct 2017-Dec 2019
+#' @author P. Chevallier - Oct 2017-June 2023
 #'
 #' @description The fonction extract the data of 2 (or more) hts time-series
 #' for the common date/time records (precision of the second).
@@ -11,17 +11,13 @@
 #' co_<original filename>
 #'
 #' @examples \dontrun{
-#'
 #' f <- h_common(files = c("foo1.hts","foo2.hts"))
 #' }
-#'
 
 h_common <- function (files) {
 
   # fonction u_merge
   u_merge <- function(files) {
-
-    #Initialisation
     nbser <- length(files)
     t <- NA
     for (i in 1:nbser) {
@@ -30,9 +26,10 @@ h_common <- function (files) {
       else t <- rbind (t,tstab)
     }
     return(t)
-  }
+  } # end u_merge
 
   #initialisation
+  start_time <- Sys.time()
   Sensor <- Station <- Value <- capsta <- NULL
   n <- length(files)
   dn <- dirname(files[1])
@@ -41,8 +38,7 @@ h_common <- function (files) {
     if (nfe!="hts")
       return(warning("\nThe file is not a hts time-series.\n"))
   }
-  cast = NA ; length(cast) <- n
-
+  cast <- vector (mode="character", length= n)
   for(i in 1:n){
     load(files[i])
     cast[i]=(paste0(tstab$Sensor[1],"_",tstab$Station[1]))
@@ -51,18 +47,14 @@ h_common <- function (files) {
   z <- dplyr::mutate(z,capsta=as.factor(paste0(Sensor,"_",Station)))
 
 # Suppression des lignes a valeurs manquantes
-  z <- dplyr::filter(z, !is.na(Value)) %>% dplyr::arrange(Date)
+  z <- dplyr::filter(z, !is.na(Value)) 
+  z <- dplyr::arrange(z, Date)
+  nz <- nrow(z)
+  x <- vector(mode = "integer", length = nz)
 
-# Elimination de lignes non apairees
-  z <- dplyr::mutate(z,index = FALSE)
-  d <- z$Date
-  pb <- txtProgressBar(1,nrow(z),style=3)
-  for (i in 1:nrow(z)){
-    setTxtProgressBar(pb,i)
-    zw <- dplyr::filter(z,Date==d[i])
-    if (nrow(zw)==n) z$index[i] <- TRUE
-  }
-  z <- dplyr::filter(z,index==TRUE)
+# appel fonction cpp u_index.cpp et renvoi d'un vecteur d'entiers
+  z <- dplyr:: mutate(z, index = u_index(nz, as.integer (z$Date)))
+  z <- dplyr::filter(z,index==n)
 
 # separation des fichiers
   fileo <- NA ; length (fileo) <- n
@@ -72,9 +64,10 @@ h_common <- function (files) {
     fileo[i] <- paste0(dn,"/co_", basename(files[i]))
     save(tstab, file = fileo[i])
   }
-
+  duration <- round(Sys.time() - start_time, 2)
+  
 # retour
-  message("\n",n, " files written with ", nrow(tstab), " lines each.\n")
+  message("\n",n, " files written with ", nrow(tstab), " lines each. in ", duration, " sec\n")
   return(fileo)
 }
 

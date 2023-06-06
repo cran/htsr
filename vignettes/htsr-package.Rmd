@@ -15,9 +15,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-*HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier), France*   
+*HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 1.2.0 - 2022-12-23**
+**v 2.0.0 - 2023-06-05**
   
 # Content
 * Origin
@@ -113,9 +113,9 @@ The following packages and their own dependencies are needed to apply the htsr p
 
 ## User library
 
-* included in `tidyverse`: `dplyr`, `tibble`, `ggplot2`, `readr`, `stringr`, `purrr`
+* included in `tidyverse`: `dplyr`, `tibble`, `ggplot2`, `readr`, `stringr`, `purrr`,`lubridate`
 
-* others: `DBI`, `directlabels`, `editData`,  `lubridate`, `openair`, `raster`, `RColorBrewer`, `readxl`, `RSQLite`, `RODBC`, `shiny`, `WriteXLS`, `zoo`
+* others: `DBI`, `directlabels`, `editData`,  , `openair`, `raster`, `RColorBrewer`, `readxl`, `RSQLite`, `RODBC`, `shiny`, `WriteXLS`, `zoo`, `Rcpp`
 
 ## Special case of RODBC
 

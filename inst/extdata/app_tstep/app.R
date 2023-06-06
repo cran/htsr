@@ -29,6 +29,7 @@ ui <- fluidPage(
        checkboxInput("rmna", "remove NA"),
        checkboxInput("gapfill", "gapfilling"),
        checkboxInput("hts_year", "extract year stat")),
+    textOutput("MESS2"),
     column(width = 12,
         actionButton("submit", "Submit"),
         br(),
@@ -83,6 +84,7 @@ server <- function(input, output) {
     }
 
     output$FHTS <- renderText({basename(file)})
+    output$MESS2 <- renderText({"After submission, wait for calculation end, which depends on the numer of records and on the timestep."})
     observeEvent(input$submit, ({re()}))
     observeEvent(input$close, stopApp())
 }

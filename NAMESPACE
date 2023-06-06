@@ -1,5 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 
+useDynLib(htsr, .registration = TRUE)
+
 #import
 import("RSQLite")
 import("DBI")
@@ -16,6 +18,7 @@ import("editData")
 import("stringr")
 import("readr")
 
+importFrom(Rcpp,sourceCpp)
 importFrom("stats","window", "lm", "sd", "quantile", "ts")
 importFrom("purrr", "map")
 importFrom("WriteXLS","WriteXLS")

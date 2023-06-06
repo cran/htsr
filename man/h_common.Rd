@@ -19,11 +19,9 @@ for the common date/time records (precision of the second).
 }
 \examples{
 \dontrun{
-
 f <- h_common(files = c("foo1.hts","foo2.hts"))
 }
-
 }
 \author{
-P. Chevallier - Oct 2017-Dec 2019
+P. Chevallier - Oct 2017-June 2023
 }

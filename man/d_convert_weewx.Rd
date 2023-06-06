@@ -4,12 +4,12 @@
 \alias{d_convert_weewx}
 \title{Convert a weewx data base into a htsr sqlite base}
 \usage{
-d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)
+d_convert_weewx(db.weewx, fsq, sta, name_st, tzo = "CET", bku = TRUE)
 }
 \arguments{
-\item{fsq}{Full name of the htsr data base}
-
 \item{db.weewx}{Full name of the weewx data base}
+
+\item{fsq}{Full name of the htsr data base}
 
 \item{sta}{Station id}
 
@@ -20,12 +20,12 @@ d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = "CET", bku = TRUE)
 \item{bku}{Backup the data base (default = TRUE)}
 }
 \description{
-Convert a weewx data base into a tshm sqlite base
+Convert a weewx data base into a htsr sqlite base
 }
 \examples{
 \dontrun{
 
-d_imp_weewx("foo.sqlite","weewx.sql")
+d_imp_weewx("weewx.sql", "foo.sqlite")
 }
 
 }
@@ -35,5 +35,5 @@ of the data base ;
  \code{\link{d_exp_hts}} to extract time-series.
 }
 \author{
-P. Chevallier - Feb 2018 - Jan 2022
+P. Chevallier - Feb 2018 - Dec 2022
 }

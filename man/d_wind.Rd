@@ -4,10 +4,10 @@
 \alias{d_wind}
 \title{Create a wind table}
 \usage{
-d_wind(fsq, sta = NA, swd = NA, swv = NA)
+d_wind(fsq, sta, swd, swv)
 }
 \arguments{
-\item{fsq}{Full name of the tshm data base}
+\item{fsq}{Full name of the htsr data base}
 
 \item{sta}{Station id}
 
@@ -16,7 +16,7 @@ d_wind(fsq, sta = NA, swd = NA, swv = NA)
 \item{swv}{Id of wind speed sensor}
 }
 \value{
-A tibble named "data_wind" with 5 columns date, month, year, wind_dir, wind_spd
+A RData file containing a tibble named "data_wind" with 5 columns date, month, year, wind_dir, wind_spd
 }
 \description{
 Create a tibble with wind direction and speed
@@ -29,8 +29,8 @@ h_wind (fsq, sta="VB", swd="WD", swv="WV")
 
 }
 \seealso{
-\code{\link{p_wind}} plot wind roses
+\code{\link{p_wind}} plots wind roses
 }
 \author{
-P. Chevallier - Dec 2019
+P. Chevallier - Dec 2019 - Jan 2023
 }

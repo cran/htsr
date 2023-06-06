@@ -34,11 +34,11 @@ dated in the middle of the interval, i.e. if shift = 6; the datetime is 18.
 \examples{
 \dontrun{
 
-f <- t_timestep(f, tst, op="S", shift = 6)
+f <- h_timestep(f, tst, op="S", shift = 6)
 }
 
 
 }
 \author{
-P. Chevallier - Oct 2017 - Jan 2022
+P. Chevallier - Oct 2017 - June 2023
 }

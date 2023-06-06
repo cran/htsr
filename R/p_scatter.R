@@ -1,6 +1,6 @@
 #' @title Scatter plot of 2 or more time-series
 #'
-#' @author P. Chevallier - Oct 2017-Jan 2019
+#' @author P. Chevallier - Oct 2017-Apr 2023
 #'
 #' @description The reference time-series is the first of the list. The scatter plot
 #' regards only the common dates of the series. In addition to the plot, a linear function
@@ -28,15 +28,15 @@
 p_scatter <- function (files, intercept.zero=FALSE,
                         remove.zero=FALSE, lg.axis=c(NA,NA), title="Title") {
 
-  y <- sensor <- NULL
+  x <- y <- sensor <- NULL
 
-  files <- h_common(files)
+  files1 <- h_common(files)
 
   #initialisation
   n <- length(files)
-  capsta <- as.character(NA) ; length(capsta) <- n
+  capsta <- vector(mode="character", length=n)
   for (i in 1:n){
-    load(files[i])
+    load(files1[i])
     tstab <- dplyr::arrange(tstab,Date)
     if(NA %in% tstab$Value)
       return(warning("\nNA value is not allowed for this function in any file."))
@@ -46,25 +46,34 @@ p_scatter <- function (files, intercept.zero=FALSE,
     z <- dplyr::mutate(z,sensor=tstab$Value)
     colnames(z)[i+4] <- capsta[i]
   }
+  z <- dplyr::select(z, capsta[1:n])
 
 # Suppression des lignes nulles
   if (remove.zero==TRUE){
     for (i in 1:n) z <- dplyr::filter(z, capsta[i]!=0)
   }
 
-# Constitution du fichier de trace
-  for (i in 6:ncol(z)){
-    x <- tibble::as_tibble(nth(z,5))
-    colnames(x) <- "x"
-    zz <- dplyr::mutate(x, y=nth(z,i), sensor=capsta[i-4])
-    if (i == 6) xy <- zz
-    else  xy <- dplyr::bind_rows(xy,zz)
+  cps <- vector(mode="character", length=n)
+  cps[1] <- colnames(z)[1]
+  colnames(z)[1] <- "x"
+  for (i in 2:n){
+    cps[i] <- colnames(z)[i]
+    colnames(z)[i] <- paste0("y",i-1)
   }
-
+  zz <- NULL
+  for(i in 1:n-1){
+    z1 <- dplyr::select(z, x, y = colnames(z)[i+1])
+    z1 <- dplyr::mutate(z1, sensor=as.factor(capsta[i+1]))
+    if (i==1) zz <- z1
+    else zz == dplyr::bind_rows(zz,z1)
+  }
+  
   #Trace
   if (is.na(lg.axis[1])) lg.axis <- c(capsta[1],"Y axis")
 
-  p <- ggplot(xy, aes(x=x,y=y, color=sensor)) + geom_point()
+  p <- ggplot(zz, aes(x=x,y=y, color=sensor)) + geom_point()
+  
+# ok jusqu'ici  
 
   p <- p + theme(panel.background=element_rect(fill="white", colour="grey30"),
                  panel.grid.major=element_line(colour="grey30"),
@@ -108,10 +117,10 @@ p_scatter <- function (files, intercept.zero=FALSE,
     intercept <- NA ; length(intercept) <- length(captlist)
 
     for (i in 1:length(captlist)){
-      xy1 <- dplyr::filter(xy, sensor == captlist[i])
-      if (intercept.zero == FALSE) linmod <- lm(y ~ x, data = xy1)
-      else  linmod <- lm(y ~ x + 0, data = xy1)
-      nval[i] <- nrow(xy1)
+      zz1 <- dplyr::filter(zz, sensor == captlist[i])
+      if (intercept.zero == FALSE) linmod <- lm(y ~ x, data = zz1)
+      else  linmod <- lm(y ~ x + 0, data = zz1)
+      nval[i] <- nrow(zz1)
       if (intercept.zero == FALSE) {
         intercept[i] <- linmod$coefficients[1]
         coeff[i] <- linmod$coefficients[2]

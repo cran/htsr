@@ -1,6 +1,6 @@
 #' @title Infra-daily fixed timestep
 #'
-#' @author P. Chevallier - Oct 2017 - Jan 2022
+#' @author P. Chevallier - Oct 2017 - June 2023
 #' @description Computes a time-series with a fixed infra-daily timestep starting from an instantaneous time-series
 #' - possible option: sum, mean, max or min
 #'
@@ -22,7 +22,7 @@
 #'
 #' @examples \dontrun{
 #'
-#' f <- t_timestep(f, tst, op="S", shift = 6)
+#' f <- h_timestep(f, tst, op="S", shift = 6)
 #' }
 #'
 #'
@@ -52,71 +52,45 @@ h_timestep <- function(file,tst,op="M", shift=0){
   #infrajour
   date.deb <- as.numeric(y$Date[1])
   date.end <- as.numeric(y$Date[nrow(y)])
-  if (tst == 1440) time.deb <- (date.deb %/% 86400) * 86400 + (shift * 3600)
-  else time.deb <- (date.deb %/% 86400) * 86400
-  if (tst == 1440) time.end <- ((date.end %/% 86400) + 1) * 86400 + (shift * 3600)
-  else time.end <- ((date.end %/% 86400) + 1) * 86400
-  ni <- (time.end - time.deb) / (60 * tst)
-  message("nb of iterations ",ni,"\n")
-  time.calc <- time.deb
-  pb <- txtProgressBar(1,ni,style=3)
-  i <-1
-  indiclac <- TRUE
-
-  # Boucle
-  repeat {
-    setTxtProgressBar(pb,i)
-    time.calc0 <- time.calc
-    time.calc <- time.calc0 + (60 * tst)
-    if(time.calc > time.end) break
-    z <- dplyr::filter(y, as.numeric(Date) > time.calc0 & as.numeric(Date) <= time.calc)
-    lz <- nrow(z)
-    if (lz == 0) {
-      if (indiclac==FALSE) {
-        if(op == "S") valeur <- 0 else valeur <- NA
-      } else {
-        valeur <-NA
-        indiclac <- TRUE
-      }
-    }
-    else {
-      indiclac <- FALSE
-      if (op=="S") valeur <- sum(z$Value)
-      if (op=="M") valeur <- mean(z$Value)
-      if (op=="Mn") valeur <- min(z$Value)
-      if (op=="Mx") valeur <- max(z$Value)
-      if (is.na(valeur)) indiclac <- TRUE
-    }
-    tc <- time.calc
-    if (tst == 1440) tc <- tc - 43200
-    if (i==1) {
-      x <- tibble(Date = tc , Value = valeur)
-    } else {
-      x0 <- tibble(Date = tc , Value = valeur)
-      x <- rbind(x, x0)
-    }
-    i <-i+1
-  }
-  message("\n")
-  x$Date <- as_datetime(x$Date)
-  tstab <- mutate(x, Station = as.factor(sta), Sensor = as.factor(capt))
-
+  if (tst == 1440) td <- (date.deb %/% 86400) * 86400 + 
+    (shift * 3600) else td <- (date.deb %/% 86400) * 86400
+  if (tst == 1440) te <- ((date.end %/% 86400) + 1) * 86400 + 
+    (shift * 3600) else te <- ((date.end %/% 86400) + 1) * 86400
+  te <- as.integer(te-td)
+  ni <- te / (60 * tst)
+  message("nb of iterations ",ni)
+  yd <- as.integer(y$Date)-td
+  yv <- as.numeric(y$Value)
+  if (op == "S") iop <- 1
+  if (op == "M") iop <- 0
+  if (op == "Mn") iop <- -2
+  if (op == "Mx") iop <- 2
+  
+  #Boucle cpp pour calcul valeur
+  xv <- u_timestep (te, yd, yv, tst, iop)
+  
+  #Calcul date
+  xd <- vector(mode="integer", length = ni)
+  for (i in 1:ni) xd[i] <- td + (i-1)* tst * 60
+  if (tst == 1440) xd = xd-43200
+  
   #Ecriture
+  x <- tibble(Date=as_datetime(xd), Value=xv)
+  tstab <- mutate(x, Station = as.factor(sta), Sensor = as.factor(capt))
   save(tstab,file=fileo)
-  message("Init ", as.character(as.POSIXct(time.deb,origin="1970-1-1")),
-      " End ", as.character(as.POSIXct(time.end,origin="1970-1-1")), "\n")
-  message("Timestep ", tst, "minutes\n")
-  if (op=="S") message("Sum values\n")
-  if (op=="M") message("Mean values\n")
-  if (op=="Mn") message("Min values\n")
-  if (op=="Mx") message("Max values\n")
+  message("Init ", as.character(as.POSIXct(td,origin="1970-1-1")),
+      " End ", as.character(as.POSIXct(te+td,origin="1970-1-1")))
+  message("Timestep ", tst, " minutes")
+  if (op=="S") message("Sum values")
+  if (op=="M") message("Mean values")
+  if (op=="Mn") message("Min values")
+  if (op=="Mx") message("Max values")
   texte <- proc.time()-ptm
   texte <- round(texte[1],1)
-  message("Execution time : ", texte, " seconds\n")
+  message("Execution time : ", texte, " seconds")
 
   # retour
   message("File written with ", nrow(tstab), "rows.
-Can be renamed for a future use.\n")
-  tstab
+  Can be renamed for a future use.\n")
   return(fileo)
 }

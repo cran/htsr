@@ -42,5 +42,5 @@ result <- p_scatter(files = c("foo1.RData","foo2.RData"),
 
 }
 \author{
-P. Chevallier - Oct 2017-Jan 2019
+P. Chevallier - Oct 2017-Apr 2023
 }

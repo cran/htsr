@@ -1,11 +1,11 @@
 #' @title Convert a weewx data base into a htsr sqlite base
 #'
-#' @author P. Chevallier - Feb 2018 - Jan 2022
+#' @author P. Chevallier - Feb 2018 - Dec 2022
 #'
-#' @description Convert a weewx data base into a tshm sqlite base
+#' @description Convert a weewx data base into a htsr sqlite base
 #'
-#' @param fsq Full name of the htsr data base
 #' @param db.weewx Full name of the weewx data base
+#' @param fsq Full name of the htsr data base
 #' @param sta Station id
 #' @param name_st Station name
 #' @param tzo Time zone of the weewx data (default = "CET")
@@ -18,14 +18,12 @@
 #'
 #' @examples \dontrun{
 #'
-#' d_imp_weewx("foo.sqlite","weewx.sql")
+#' d_imp_weewx("weewx.sql", "foo.sqlite")
 #' }
 #'
 
-d_convert_weewx <- function(fsq, db.weewx, sta, name_st, tzo ="CET",
+d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
                         bku = TRUE){
-
-  if (bku == TRUE) d_backup(fsq)
 
   # Warnings
   if (!file.exists(db.weewx))

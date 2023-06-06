@@ -1,15 +1,15 @@
 #' @title Create a wind table
 #'
-#' @author P. Chevallier - Dec 2019
+#' @author P. Chevallier - Dec 2019 - Jan 2023
 #'
 #' @description Create a tibble with wind direction and speed
 #'
-#' @param fsq Full name of the tshm data base
+#' @param fsq Full name of the htsr data base
 #' @param sta Station id
 #' @param swd Id of wind direction sensor
 #' @param swv Id of wind speed sensor
 #'
-#' @seealso \code{\link{p_wind}} plot wind roses
+#' @seealso \code{\link{p_wind}} plots wind roses
 #'
 #' @examples \dontrun{
 #'
@@ -17,15 +17,15 @@
 #' }
 #'
 #' @return
-#' A tibble named "data_wind" with 5 columns date, month, year, wind_dir, wind_spd
+#' A RData file containing a tibble named "data_wind" with 5 columns date, month, year, wind_dir, wind_spd
 
 # function h_wind
 
-d_wind <- function(fsq, sta=NA, swd=NA, swv=NA){
+d_wind <- function(fsq, sta, swd, swv){
 
-  sta <- as.character(sta)
-  swd <- as.character(swd)
-  swv <- as.character(swv)
+  # sta <- as.character(sta)
+  # swd <- as.character(swd)
+  # swv <- as.character(swv)
 
   #extraction
   tstab <- d_exp_hts (fsq, sta = sta, sen = swd)
@@ -52,7 +52,8 @@ d_wind <- function(fsq, sta=NA, swd=NA, swv=NA){
   file.remove(fwv)
   file.remove(paste0("co_",fwd))
   file.remove(paste0("co_",fwv))
+  
+  save (data_wind, file="data_wind.RData")
 
-
-  return (data_wind)
+  return (message("data_wind table created in the data_wind.RData file"))
 }
