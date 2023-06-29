@@ -243,7 +243,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines
 Ales), France</em></p>
-<p><strong>v 2.0.0 - 2023-06-05</strong></p>
+<p><strong>v 2.0.1 - 2023-06-29</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -383,26 +383,12 @@ level, or for more detailed information.</p>
 <h1>Dependencies</h1>
 <p>The following packages and their own dependencies are needed to apply
 the htsr package.</p>
-<div id="system-library" class="section level2">
-<h2>System library</h2>
 <ul>
-<li><code>base</code>, <code>grDevices</code>, <code>stats</code>,
-<code>utils</code></li>
+<li><code>tidyverse</code>, <code>directlabels</code>,
+<code>editData</code>, <code>openair</code>, <code>Rcpp</code>,
+<code>RSQLite</code>, <code>RODBC</code>, <code>shiny</code>,
+<code>terra</code>, <code>WriteXLS</code>, <code>zoo</code></li>
 </ul>
-</div>
-<div id="user-library" class="section level2">
-<h2>User library</h2>
-<ul>
-<li><p>included in <code>tidyverse</code>: <code>dplyr</code>,
-<code>tibble</code>, <code>ggplot2</code>, <code>readr</code>,
-<code>stringr</code>, <code>purrr</code>,<code>lubridate</code></p></li>
-<li><p>others: <code>DBI</code>, <code>directlabels</code>,
-<code>editData</code>, , <code>openair</code>, <code>raster</code>,
-<code>RColorBrewer</code>, <code>readxl</code>, <code>RSQLite</code>,
-<code>RODBC</code>, <code>shiny</code>, <code>WriteXLS</code>,
-<code>zoo</code>, <code>Rcpp</code></p></li>
-</ul>
-</div>
 <div id="special-case-of-rodbc" class="section level2">
 <h2>Special case of RODBC</h2>
 <p>Because Hydraccess is only configured for Microsoft Windows, the
@@ -559,6 +545,8 @@ properties of a hts time-series.</p></li>
 <li><p><code>h_addna(file)</code>, adds records with NA in a time series
 at given dates. The output file is named with the prefix
 <code>nap_</code>.</p></li>
+<li><p><code>h_changetz</code>, allows to change the timezone of a time
+series</p></li>
 <li><p><code>h_common(files)</code>, extracts 2 (or more) time-series on
 their common period. Generates a file with the prefix
 <code>co_</code>.</p></li>

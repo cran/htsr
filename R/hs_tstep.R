@@ -13,5 +13,6 @@
 hs_tstep <- function(file){
   fil <- file
   save(fil, file=system.file("extdata/fichier_fhts.RData",package="htsr"))
-  runApp(system.file("extdata/app_tstep", package="htsr"),launch.browser=TRUE)
+  #runApp(system.file("extdata/app_tstep", package="htsr"),launch.browser=TRUE)
+  runApp(system.file("extdata/app_tstep", package="htsr"))
 }

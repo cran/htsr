@@ -12,4 +12,5 @@ ds_station <- function(fsq) {
   fsq <- fsq
   save(fsq, file=system.file("extdata/fichier_fsq.RData",package="htsr"))
   runApp(system.file("extdata/app_station", package="htsr"),launch.browser=TRUE)
+  runApp(system.file("extdata/app_station", package="htsr"))
 }

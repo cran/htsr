@@ -1,6 +1,6 @@
 #' @title Convert a weewx data base into a htsr sqlite base
 #'
-#' @author P. Chevallier - Feb 2018 - Dec 2022
+#' @author P. Chevallier - Feb 2018 - Jun 2023
 #'
 #' @description Convert a weewx data base into a htsr sqlite base
 #'
@@ -8,8 +8,6 @@
 #' @param fsq Full name of the htsr data base
 #' @param sta Station id
 #' @param name_st Station name
-#' @param tzo Time zone of the weewx data (default = "CET")
-#' @param bku Backup the data base (default = TRUE)
 #'
 #' @seealso \code{\link{d_inventory}} or \code{\link{ds_inventory}} list the content
 #' of the data base ;
@@ -18,12 +16,11 @@
 #'
 #' @examples \dontrun{
 #'
-#' d_imp_weewx("weewx.sql", "foo.sqlite")
+#' d_convert_weewx("weewx.sql", "foo.sqlite")
 #' }
 #'
 
-d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
-                        bku = TRUE){
+d_convert_weewx <- function(db.weewx, fsq, sta, name_st){
 
   # Warnings
   if (!file.exists(db.weewx))
@@ -46,7 +43,7 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
     selection <- paste ("SELECT dateTime FROM archive")
     date <- RSQLite::dbGetQuery(conn, selection)
     date <- date$dateTime
-    date <- as.POSIXct(date, origin = "1970-01-01", tzo=tzo)
+    date <- as.POSIXct(date, origin = "1970-01-01")
     selection <- paste ("SELECT", l[i],  "FROM archive")
     value <- RSQLite::dbGetQuery(conn, selection)
     value <- value[,1]
@@ -71,7 +68,7 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
     selection <- paste ("SELECT dateTime FROM archive_day_outTemp")
     date <- RSQLite::dbGetQuery(conn, selection)
     date <- date$dateTime + 43200
-    date <- as.POSIXct(date, origin = "1970-01-01", tzo=tzo)
+    date <- as.POSIXct(date, origin = "1970-01-01")
     selection <- paste ("SELECT", l[i],  "FROM archive_day_outTemp")
     value <- RSQLite::dbGetQuery(conn, selection)
     value <- value[,1]
@@ -91,7 +88,7 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
       selection <- paste ("SELECT dateTime FROM", ka[j])
       date <- RSQLite::dbGetQuery(conn, selection)
       date <- date$dateTime + 43200
-      date <- as.POSIXct(date, origin = "1970-01-01", tzo=tzo)
+      date <- as.POSIXct(date, origin = "1970-01-01")
       selection <- paste ("SELECT", la[i],  "FROM", ka[j])
       value <- RSQLite::dbGetQuery(conn, selection)
       if (i==1) lb1 <- value[,1]
@@ -111,7 +108,7 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
   selection <- paste ("SELECT dateTime FROM archive_day_windGust")
   date <- RSQLite::dbGetQuery(conn, selection)
   date <- date$dateTime + 43200
-  date <- as.POSIXct(date, origin = "1970-01-01", tzo=tzo)
+  date <- as.POSIXct(date, origin = "1970-01-01")
   selection <- paste ("SELECT", "max",  "FROM archive_day_windGust")
   value <- RSQLite::dbGetQuery(conn, selection)
   value <- value[,1]
@@ -123,7 +120,7 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st, tzo ="CET",
   selection <- paste ("SELECT dateTime FROM archive_day_rain")
   date <- RSQLite::dbGetQuery(conn, selection)
   date <- date$dateTime + 43200
-  date <- as.POSIXct(date, origin = "1970-01-01", tzo=tzo)
+  date <- as.POSIXct(date, origin = "1970-01-01")
   selection <- paste ("SELECT", "sum",  "FROM archive_day_rain")
   value <- RSQLite::dbGetQuery(conn, selection)
   value <- value[,1]

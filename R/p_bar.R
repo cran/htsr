@@ -90,8 +90,8 @@ p_bar <- function(nbst,filei,serlab,title,type,
   p <- p + scale_fill_manual(values=pal)
 
   # Ecriture des labels
-  p <- p + theme(panel.background=element_rect(fill="white", colour="grey30"),
-                 panel.grid.major=element_line(colour="grey30"),
+  p <- p + theme(panel.background=element_rect(fill="white", colour="black"),
+                 panel.grid.major=element_line(colour="black"),
                  panel.grid.minor=element_line(colour=NA))
   p <- p +
     ylab(type) + xlab("") +

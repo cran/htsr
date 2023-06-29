@@ -21,5 +21,6 @@
 ds_inventory <- function(fsq){
   fsq <- fsq
   save(fsq, file=system.file("extdata/fichier_fsq.RData",package="htsr"))
-  runApp(system.file("extdata/app_invent", package="htsr"),launch.browser=TRUE)
+  #unApp(system.file("extdata/app_invent", package="htsr"),launch.browser=TRUE)
+  runApp(system.file("extdata/app_invent", package="htsr"))
 }

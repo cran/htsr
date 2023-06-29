@@ -44,10 +44,6 @@ An object of ggplot2 class
 \description{
 Plot the hypsometry curve of one or more basins
 }
-\details{
-This function uses the "raster" library and the dependencies "sp" and "rgdal",
-which must be installed.
-}
 \author{
-P. Chevallier - Sep 2017- Nov 2021
+P. Chevallier - Sep 2017- Jun 2023
 }

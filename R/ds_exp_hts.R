@@ -19,5 +19,6 @@
 ds_exp_hts <- function(fsq) {
   fsq <- fsq
   save(fsq, file=system.file("extdata/fichier_fsq.RData",package="htsr"))
-  runApp(system.file("extdata/app_exphts", package="htsr"),launch.browser=TRUE)
+  #runApp(system.file("extdata/app_exphts", package="htsr"),launch.browser=TRUE)
+  runApp(system.file("extdata/app_exphts", package="htsr"))
 }

@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 2.0.0 - 2023-06-05**
+**v 2.0.1 - 2023-06-29**
   
 # Content
 * Origin
@@ -106,16 +106,7 @@ The other associated tables can be used for intermediary calculations, like the 
 
 The following packages and their own dependencies are needed to apply the htsr package.
 
-## System library
-
-* `base`, `grDevices`, `stats`, `utils`
-
-
-## User library
-
-* included in `tidyverse`: `dplyr`, `tibble`, `ggplot2`, `readr`, `stringr`, `purrr`,`lubridate`
-
-* others: `DBI`, `directlabels`, `editData`,  , `openair`, `raster`, `RColorBrewer`, `readxl`, `RSQLite`, `RODBC`, `shiny`, `WriteXLS`, `zoo`, `Rcpp`
+* `tidyverse`, `directlabels`, `editData`, `openair`, `Rcpp`, `RSQLite`, `RODBC`, `shiny`, `terra`, `WriteXLS`, `zoo`
 
 ## Special case of RODBC
 
@@ -232,6 +223,8 @@ Infos on their uses are detailed in the on-line help or using in the console the
 ### Data manipulations
  
 * `h_addna(file)`, adds records with NA in a time series at given dates. The output file is named with the prefix `nap_`.
+
+* `h_changetz`, allows to change the timezone of a time series
 
 * `h_common(files)`, extracts 2 (or more) time-series on their common period. Generates a file with the prefix `co_`.
 

@@ -46,7 +46,7 @@ p_line_app <- function (nbst, rpal= 0, savefig=FALSE, width= 8, height= 6,
   Sys.setenv(TZ=tzo)
   if (rpal == "0") {
     if (nbst > 8) stop("Only 8 time-series are allowed!")
-    pal <- RColorBrewer::brewer.pal(8, "Dark2")
+    pal <- palette.colors(8, "ggplot2")
   }
   if (rpal != "0" && rpal != "1" && rpal != "2")  stop ("Palette choice must be 0, 1 or 2!")
   if (rpal == "2" || rpal == 1){

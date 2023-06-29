@@ -1,6 +1,6 @@
 #' @title Plot the hypsometry curve of one or more basins
 #'
-#' @author P. Chevallier - Sep 2017- Nov 2021
+#' @author P. Chevallier - Sep 2017- Jun 2023
 #'
 #' @description Plot the hypsometry curve of one or more basins
 #'
@@ -15,10 +15,6 @@
 #' @param height Plot height (x 100 pixels) (default = 6)
 #' @param fileo Name of plot file with extension (default = "plot.png")
 
-#' @details
-#' This function uses the "raster" library and the dependencies "sp" and "rgdal",
-#' which must be installed.
-#'
 #' @return An object of ggplot2 class
 #'
 #'
@@ -37,8 +33,8 @@ p_hypso <- function(file, abbrev, prop = FALSE, range=50, fact=5, title="Title",
     fmnt <- file[k]
     message("Basin processing: ",abbrev[k],"\n")
 # lecture du raster
-    mnt <- raster::raster(fmnt)
-    a <- raster::getValues(mnt)
+    mnt <- terra::rast(fmnt)
+    a <- terra::values(mnt)
     a <- a[is.na(a)==FALSE]
     la <- length(a)
     mina <- min(a,na.rm=TRUE)
