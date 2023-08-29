@@ -4,10 +4,7 @@
 \alias{ds_exp_hts}
 \title{Shiny app: export hts files from a sqlite data base}
 \usage{
-ds_exp_hts(fsq)
-}
-\arguments{
-\item{fsq}{File name of the Sqlite data base}
+ds_exp_hts()
 }
 \value{
 a shiny session
@@ -18,11 +15,14 @@ Shiny application of the \code{\link{d_exp_hts}} function
 \details{
 Complete the requested information in the left panel, then press the submit button in
 order to extract the file. If you want to display the plot of the extracted file,
-choose "line" or "bar" and press the plot button. When finished press "done".
+choose "line" or "bar" and press the plot button.
+
+The output files are written in the working directory, which must be specified. 
+Verify that it is correctly defined.
 
 If the data do not exist, the app crashes and error messages
 are displayed in the console window.
 }
 \author{
-P. Chevallier - Apr 2020 - Oct 2021
+P. Chevallier - Apr 2020 - Aug 2023
 }

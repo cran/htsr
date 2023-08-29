@@ -1,23 +1,22 @@
 #' @title Extraction of a time-series from htsr data base
 #'
-#' @author P. Chevallier - oct 2017 - dec 2019
+#' @author P. Chevallier - oct 2017 - aug 2023
 #'
 #' @description The function extracts a time-series in the "hts" format. It products a "tibble"
 #' table with four columns : Date, Value, Station, Sensor. It is the default format of the package.
 #' The function \code{\link{f_convert}} converts it in Excel or csv format.
 #'
-#' @param fsq Full name of the data base
-#' @param sta Station id.
-#' @param sen Sensor id.
-#' @param rtime Reduce time interval TRUE / FALSE (default)
-#' @param dstart Start date YYYY-MM-DD (default: start date of the ts)
-#' @param dend End date YYYY-MM-DD (default: end date of the ts)
-#' @param rplot Plot the extracted file TRUE / FALSE (default)
+#' @param fsq character, Full name of the data base
+#' @param sta character, Station id.
+#' @param sen character, Sensor id.
+#' @param rtime logical, Reduce time interval (default = FALSE)
+#' @param dstart character, Start date "YYYY-MM-DD" (default=NA)
+#' @param dend character, End date "YYYY-MM-DD" (default: NA)
+#' @param rplot logical Plot the extracted file (default = FALSE)
 #'
 #' @seealso
 #' \code{\link{ds_exp_hts}} manual settings of the parameters
 #'
-
 #'
 #' @details
 #' For a step by step operation the function \code{\link{ds_exp_hts}} is more convenient.
@@ -31,17 +30,17 @@
 #'
 #' @examples \dontrun{
 #'
-#' f <- d_exp_hts("foo.sqlite","M","station","sensor")
+#' f <- d_exp_hts("foo.sqlite","station","sensor")
 #'
 #'
 #' }
 #'
 
-
+# options(warn=-1)
 
 # fonction exp_hts
 
-d_exp_hts <- function(fsq, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
+d_exp_hts <- function(fsq, sta,sen,rtime=FALSE,dstart=NA,dend=NA, rplot=FALSE){
 
   # fonction u_statnom
   u_statnom <- function(fsq,sta){
@@ -64,7 +63,6 @@ d_exp_hts <- function(fsq, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
     selection <- paste ("SELECT * FROM", table1, " WHERE Id_Station =",sta1,
                         " AND Capteur =",sen1)
     x <- dbGetQuery(conn, selection)
-    #  x$Date <- as.POSIXct(x$Date, format= "%Y/%m/%d %H:%M:%S")
     xt <- tibble::as_tibble(x)
     dbDisconnect(conn)
     yt <- dplyr::select(xt,Date,Valeur)
@@ -88,40 +86,33 @@ d_exp_hts <- function(fsq, sta,sen,rtime=FALSE,dstart,dend, rplot=FALSE){
 #  if(table=="PR") op <-"S" else op <- "Mo"
 
 # appel u_stacapt
-  taa <- u_stacapt(fsq, table, sta, sen)
+  z <- u_stacapt(fsq, table, sta, sen)
+  colnames(z) <- c("Date", "Value")
+  z$Date <- as_datetime(z$Date)
 
 # preparation pour rafinage
-  taa$Date <- as.POSIXct(taa$Date, tz = "UTC", origin="1970-01-01")
-  z <- zoo (taa$Valeur, taa$Date)
-  date_start <- min(taa$Date)
-  date_end <- max(taa$Date)
-  if(rtime==TRUE) {
-    if(dstart=="") dstart <-date_start
-    if(dend=="") dend <- date_end
-    z <- window (z, start = dstart, end = dend)
+  dstart <- as_datetime(dstart)
+  dend <- as_datetime(dend)
+  date_start <- as_datetime(min(z$Date))
+  date_end <- as_datetime(max(z$Date))
+  
+  if(rtime) {
+    if(is.na(dstart)) dstart <-date_start
+    if(is.na(dend)) dend <- date_end
+    # z <- window (z, start = dstart, end = dend)
+    z <- filter(z, Date > dstart)
+    z <- filter(z, Date <= dend)
   }
 
-# rafinage
-  Date <- index(z)
-  Value <- coredata (z)
-  tab <- data.frame (Date, Value)
-  tab <- tab[order(as.Date (Date)),]
-  colnames(tab) <-c("Date",paste(sen,"_",sta,sep=""))
   nomfic <- paste (dirname(fsq),"/",sen,"_",sta,".hts",sep="")
-  tstab <- as_tibble(cbind(tab,sta,sen))
-  colnames(tstab) <-c("Date","Value","Station","Sensor")
+  tstab <- mutate(z, Station = as.factor(sta), Sensor = as.factor(sen))
   save(tstab, file=nomfic)
 
 # plot graphe
-  if(rplot==TRUE){
-    if (table=="Pluies") p_bar(nbst=1, filei=nomfic,
-      serlab=sta, start=dstart, end=dend,
-      title=sta, type="Value",rnorm = FALSE, rtime=FALSE, rfixy=FALSE,
-      pal = "black", fct = FALSE)
-  else p_line(nbst=1, filei=nomfic,serlab=sta,
-      title=sta, type="value",rnorm = FALSE, rtime=FALSE, rfixy=FALSE,
-      start=dstart, end=dend,
-      pal="black",linet = 1, rppt = FALSE, linew=0.1, smooth = FALSE, fct = FALSE)
+  if(rplot){
+  	htsr::z_set(file.names = nomfic, plot.label = sen, title = sta)
+    if (table=="PR") p <- htsr::p_bar() else p <- htsr::p_line()
+    show(p)
   }
 
 # sortie

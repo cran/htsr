@@ -4,22 +4,22 @@
 \alias{d_exp_hts}
 \title{Extraction of a time-series from htsr data base}
 \usage{
-d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)
+d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart = NA, dend = NA, rplot = FALSE)
 }
 \arguments{
-\item{fsq}{Full name of the data base}
+\item{fsq}{character, Full name of the data base}
 
-\item{sta}{Station id.}
+\item{sta}{character, Station id.}
 
-\item{sen}{Sensor id.}
+\item{sen}{character, Sensor id.}
 
-\item{rtime}{Reduce time interval TRUE / FALSE (default)}
+\item{rtime}{logical, Reduce time interval (default = FALSE)}
 
-\item{dstart}{Start date YYYY-MM-DD (default: start date of the ts)}
+\item{dstart}{character, Start date "YYYY-MM-DD" (default=NA)}
 
-\item{dend}{End date YYYY-MM-DD (default: end date of the ts)}
+\item{dend}{character, End date "YYYY-MM-DD" (default: NA)}
 
-\item{rplot}{Plot the extracted file TRUE / FALSE (default)}
+\item{rplot}{logical Plot the extracted file (default = FALSE)}
 }
 \value{
 The function returns:
@@ -39,7 +39,7 @@ For a step by step operation the function \code{\link{ds_exp_hts}} is more conve
 \examples{
 \dontrun{
 
-f <- d_exp_hts("foo.sqlite","M","station","sensor")
+f <- d_exp_hts("foo.sqlite","station","sensor")
 
 
 }
@@ -49,5 +49,5 @@ f <- d_exp_hts("foo.sqlite","M","station","sensor")
 \code{\link{ds_exp_hts}} manual settings of the parameters
 }
 \author{
-P. Chevallier - oct 2017 - dec 2019
+P. Chevallier - oct 2017 - aug 2023
 }

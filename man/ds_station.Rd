@@ -16,5 +16,5 @@ a shiny session
 Shiny application of the \code{\link{d_station}} function
 }
 \author{
-P. Chevallier - Apr-Nov 2020
+P. Chevallier - Apr 2020 - Aug 2023
 }

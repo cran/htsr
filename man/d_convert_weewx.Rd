@@ -25,11 +25,6 @@ d_convert_weewx("weewx.sql", "foo.sqlite")
 }
 
 }
-\seealso{
-\code{\link{d_inventory}} or \code{\link{ds_inventory}} list the content
-of the data base ;
- \code{\link{d_exp_hts}} to extract time-series.
-}
 \author{
 P. Chevallier - Feb 2018 - Jun 2023
 }

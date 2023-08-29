@@ -16,5 +16,5 @@ a shiny session
 Shiny application of the \code{\link{d_sensor}} function
 }
 \author{
-P. Chevallier - Nov 2020
+P. Chevallier - Nov 2020 - Aug 2023
 }

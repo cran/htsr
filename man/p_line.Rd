@@ -4,101 +4,23 @@
 \alias{p_line}
 \title{Line plot}
 \usage{
-p_line(
-  nbst,
-  filei,
-  serlab,
-  title,
-  type,
-  rnorm,
-  rtime,
-  start,
-  end,
-  rfixy,
-  y.down,
-  y.up,
-  pal,
-  linet,
-  linew,
-  rppt = FALSE,
-  pointt = NA,
-  points = NA,
-  smooth,
-  fct
-)
-}
-\arguments{
-\item{nbst}{Number of files to process}
-
-\item{filei}{List of the file names to process}
-
-\item{serlab}{List of the time-series labels to process}
-
-\item{title}{Title of the plot}
-
-\item{type}{Title of the y axis}
-
-\item{rnorm}{Normalized values  (TRUE / FALSE)}
-
-\item{rtime}{Reduce the plotting interval (TRUE / FALSE)}
-
-\item{start}{Start date - "YYYY-MM-DD"}
-
-\item{end}{End date  - "YYYY-MM-DD"}
-
-\item{rfixy}{Fix the y scale (TRUE / FALSE)}
-
-\item{y.down}{Min y - value}
-
-\item{y.up}{Max y - value}
-
-\item{pal}{List of colors}
-
-\item{linet}{List of line type}
-
-\item{linew}{Line size}
-
-\item{rppt}{Plot the points (TRUE / FALSE)}
-
-\item{pointt}{List of point type}
-
-\item{points}{Point size}
-
-\item{smooth}{Trend fitting (TRUE / FALSE)}
-
-\item{fct}{Plot facets (TRUE / FALSE)}
+p_line()
 }
 \value{
 a ggplot2 object
 }
 \description{
-Line plot based on htsr time-series. The parameters can be
-setted by \code{\link{p_line_app}}. For a step by step operation the function
-\code{\link{ps_plothts}} is more convenient.
+Line plot based on htsr time-series. Prior to the execution of the function,
+the parameters must be set by a function generating a "settings.RData" file in the working 
+directory: \code{\link{z_set}} or \code{\link{ps_plothts}}.
 }
 \details{
-For a full description of the settings, see \code{\link{p_line_app}}
-
-If the number of files existing in the setting file is higher than the number of
-processed time-series nbst, only the nbst first files are processed.
-
-If fct is TRUE, the plot is presented in facet shape, each facet corresponding
-to a file.
-}
-\examples{
-\dontrun{
-
-filei <- c("foo1.xlsx","foo2.xlsx")
-serlab <- c("station1", "station2")
-p_line(filei, serlab)
-}
-
-
+The function doesn't have parameter. For a full description of the settings, see \code{\link{z_set}}
 }
 \seealso{
 \code{\link{p_bar}} for plotting bars and
- \code{\link{p_line_app}} for setting the plot parameters
+ \code{\link{z_set}} for setting the plot parameters
 }
 \author{
-P. Chevallier - Apr 2015 - Mar 2020
+P. Chevallier - Apr 2015 - Aug 2023
 }

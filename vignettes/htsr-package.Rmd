@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 2.0.1 - 2023-06-29**
+**v 2.1.0 - 2023-08-29**
   
 # Content
 * Origin
@@ -106,7 +106,7 @@ The other associated tables can be used for intermediary calculations, like the 
 
 The following packages and their own dependencies are needed to apply the htsr package.
 
-* `tidyverse`, `directlabels`, `editData`, `openair`, `Rcpp`, `RSQLite`, `RODBC`, `shiny`, `terra`, `WriteXLS`, `zoo`
+* `tidyverse`, `directlabels`, `editData`, `openair`, `Rcpp`, `RSQLite`, `RODBC`, `shiny`, `shinyFiles`, `terra`, `WriteXLS`, `fs`
 
 ## Special case of RODBC
 
@@ -177,12 +177,12 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `d_create(fsq, cr_table = TRUE, bku = TRUE)`, creates a htsr sqlite data base
 
-* `d_inventory(fsq, stalist = NA, form.out = NA)` or `ds_inventory(fsq)`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
+* `d_inventory(fsq, stalist = NA, form.out = NA)` or `ds_inventory()`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
 
-* `d_sensor(fsq, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a sensor. The second is a Shiny interface of 
+* `d_sensor(fsq, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station()`, creates, modifies or removes a sensor. The second is a Shiny interface of 
 `d_sensor`
 
-* `d_station(fsq, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station(fsq)`, creates, modifies or removes a station. The second is a Shiny interface of 
+* `d_station(fsq, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station()`, creates, modifies or removes a station. The second is a Shiny interface of 
 `d_station`
 
 * `d_table(fsq, table, op = "C", bku = TRUE)` creates or removes a table
@@ -191,7 +191,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `d_exp_discalib(fsq, sta, calib=TRUE, dism=TRUE)`, exports discharge measurements and calibrations from data base
 
-* `d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` or `ds_exp_hts(fsq)`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
+* `d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` or `ds_exp_hts()`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
 
 * `d_imp_hts(fsq, file, table, bku = TRUE)`, imports a hts file into a data base
 
@@ -254,7 +254,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 ### Time treatments
 
-* `hs_step(file)`, combines in a shiny environment both functions `h_timestep()` and `h_month()`  
+* `hs_tstep()`, combines in a shiny environment both functions `h_timestep()` and `h_month()`  
 
 * `h_timestep(file, tst, op = "M")`, computes infra-daily data with a fixed time step. Generates a file with the suffix `_xxxx`, where xxxx is the `tst` value.
 
@@ -282,19 +282,13 @@ an interval longer than 4 years.
 
 ### General plots
 
-* `ps_plothts(files)`, plots hts files. Shiny interface of `p_line` & `p_bar`
+* `ps_plothts()`, plots hts files. Shiny interface of `p_line` & `p_bar`
 
-* Bar plotting
+* Line / Bar plotting (works in combination with `z_set`)
 
-  + `p_bar(nbst = nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down = NA, y.up = NA, pal)`
+  + `p_bar()`, plots bars
 
-  + `p_bar_app(filename = NA, pset = TRUE, pfil = TRUE, rpal = 0,savefig = FALSE, width = 8, height = 6, fileo = "plot.png"`
-
-* Line / point plotting
-
-  + `p_line(nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down, y.up, pal = pal, linet, rppt, pointt, linew, smooth)`
-
-  + ` p_line_app (filename = NA, pset = TRUE, pfil = TRUE, rpal = 0, smooth = FALSE, savefig = FALSE, width = 8, height = 6, fileo = "plot.png")`
+  + `p_line()`, plots lines and/or points
 
 ### Other plots
 
@@ -327,7 +321,7 @@ an interval longer than 4 years.
 
 * `z_coord(ncoord = NA, ccoord = NA, type)`, converts coordinate from numeric to character and reverse.
 
-* `z_set (tz = FALSE, mapal = FALSE, confp = FALSE)`, edit settings for time zone and manual palette colors
+* `z_set (file.names= file.names, plot.label="label", line.type = 1, line.width = 0.2, point.shape = 15, point.size = 8, title = "Title", yaxis = "y-Axis", normval = FALSE, fixtime = FALSE, begin = today(), end = today(), fixy = FALSE, ymin = as.numeric(NA), ymax = as.numeric(NA), trend = FALSE, facet=FALSE, point.plot = FALSE, tz = "UTC", palette="ggplot2")`, works in combination with `p_line` and `p_bar`.
 
 
 # Development main references
@@ -347,8 +341,9 @@ an interval longer than 4 years.
 * Wickham H., 2015. R Packages - Organize, test, document, and share your code. 
 O'Reilly. 190p. ISBN 978-1-491-91059-7. Actualized version on <https://r-pkgs.org/>
 
-* Wickham H. & Grolemund G., 2017. R for Data Science - Import, tidy, transform, 
-visualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
+* Wickham H., 2021. Mastering Shiny. 348p. ISBN 978-1-492-04738-4. <https://mastering-shiny.org/index.html>
+
+* Wickham H. & Grolemund G., 2017. R for Data Science - Import, tidy, transform, visualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
 
 * <https://www.tidyverse.org/>
 

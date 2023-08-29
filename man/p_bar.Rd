@@ -4,80 +4,23 @@
 \alias{p_bar}
 \title{Bar plot}
 \usage{
-p_bar(
-  nbst,
-  filei,
-  serlab,
-  title,
-  type,
-  rnorm,
-  rtime,
-  start,
-  end,
-  rfixy,
-  y.down = NA,
-  y.up = NA,
-  pal,
-  fct
-)
-}
-\arguments{
-\item{nbst}{Number of files to process}
-
-\item{filei}{List of the file names to process}
-
-\item{serlab}{List of the series labels to process}
-
-\item{title}{Title of the plot - default : "Title"}
-
-\item{type}{Title of the y axis - default : "Y axis"}
-
-\item{rnorm}{Normalized values - TRUE/FALSE(default)}
-
-\item{rtime}{Reduce the plotting interval - TRUE/FALSE(default)}
-
-\item{start}{Start date - "YYYY-MM-DD" or NA (default)}
-
-\item{end}{End date  - "YYYY-MM-DD" or NA(default)}
-
-\item{rfixy}{Fix the y scale - TRUE/FALSE(default)}
-
-\item{y.down}{Min y - value or NA(default)}
-
-\item{y.up}{Max y - value or NA(default)}
-
-\item{pal}{List of colors}
-
-\item{fct}{Plot facets (TRUE / FALSE)}
+p_bar()
 }
 \value{
 a ggplot2 object
 }
 \description{
-Bar plot based on htsr time-series. The parameters can be
-set by \code{\link{p_bar_app}}. For a step by step operation the function
-\code{\link{ps_plothts}} is more convenient.
+Bar plot based on htsr time-series. Prior to the execution of the function,
+the parameters must be set by a function generating a "settings.RData" file in the working 
+directory: \code{\link{z_set}} or \code{\link{ps_plothts}}.
 }
 \details{
-For a full description of the settings, see \code{\link{p_bar_app}}
-
-If the number of files existing in the setting file is higher than the number of
-processed series nbst, only the nbst first files are processed.
-}
-\examples{
-\dontrun{
-
-filei <- c("foo1.xlsx","foo2.xlsx")
-serlab <- c("station1", "station2")
-p_bar(filei, serlab)
-}
-
-
+The function deosn't have parameter. For a full description of the settings, see \code{\link{z_set}}
 }
 \seealso{
-\code{\link{p_line}} for plotting lines and/or points and
-\code{\link{p_line}} for setting the plot parameters
+\code{\link{p_line}} for plotting bars and
+ \code{\link{z_set}} for setting the plot parameters
 }
 \author{
-P. Chevallier - Apr 2015 - Mar 2020
+P. Chevallier - Apr 2015 - Aug 2023
 }

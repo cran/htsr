@@ -53,7 +53,8 @@ h_common <- function (files) {
   x <- vector(mode = "integer", length = nz)
 
 # appel fonction cpp u_index.cpp et renvoi d'un vecteur d'entiers
-  z <- dplyr:: mutate(z, index = u_index(nz, as.integer (z$Date)))
+  index = u_index(nz, as.integer (z$Date))
+  z <- dplyr:: mutate(z, index)
   z <- dplyr::filter(z,index==n)
 
 # separation des fichiers

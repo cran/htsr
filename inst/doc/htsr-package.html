@@ -243,7 +243,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines
 Ales), France</em></p>
-<p><strong>v 2.0.1 - 2023-06-29</strong></p>
+<p><strong>v 2.1.0 - 2023-08-29</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -387,7 +387,8 @@ the htsr package.</p>
 <li><code>tidyverse</code>, <code>directlabels</code>,
 <code>editData</code>, <code>openair</code>, <code>Rcpp</code>,
 <code>RSQLite</code>, <code>RODBC</code>, <code>shiny</code>,
-<code>terra</code>, <code>WriteXLS</code>, <code>zoo</code></li>
+<code>shinyFiles</code>, <code>terra</code>, <code>WriteXLS</code>,
+<code>fs</code></li>
 </ul>
 <div id="special-case-of-rodbc" class="section level2">
 <h2>Special case of RODBC</h2>
@@ -478,14 +479,14 @@ base</p></li>
 <li><p><code>d_create(fsq, cr_table = TRUE, bku = TRUE)</code>, creates
 a htsr sqlite data base</p></li>
 <li><p><code>d_inventory(fsq, stalist = NA, form.out = NA)</code> or
-<code>ds_inventory(fsq)</code>, makes the inventory of a htsr sqlite
-data base. The second is a Shiny interface of
+<code>ds_inventory()</code>, makes the inventory of a htsr sqlite data
+base. The second is a Shiny interface of
 <code>d_inventory</code></p></li>
 <li><p><code>d_sensor(fsq, op = &quot;C&quot;, sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>,
-or <code>ds_station(fsq)</code>, creates, modifies or removes a sensor.
-The second is a Shiny interface of <code>d_sensor</code></p></li>
+or <code>ds_station()</code>, creates, modifies or removes a sensor. The
+second is a Shiny interface of <code>d_sensor</code></p></li>
 <li><p><code>d_station(fsq, op = &quot;C&quot;, sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)</code>,
-or <code>ds_station(fsq)</code>, creates, modifies or removes a station.
+or <code>ds_station()</code>, creates, modifies or removes a station.
 The second is a Shiny interface of <code>d_station</code></p></li>
 <li><p><code>d_table(fsq, table, op = &quot;C&quot;, bku = TRUE)</code> creates or
 removes a table</p></li>
@@ -497,8 +498,8 @@ removes a table</p></li>
 <li><p><code>d_exp_discalib(fsq, sta, calib=TRUE, dism=TRUE)</code>,
 exports discharge measurements and calibrations from data base</p></li>
 <li><p><code>d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)</code>
-or <code>ds_exp_hts(fsq)</code>, extract hts files from a sqlite data
-base. The second is a shiny interface of <code>d_exp_hts</code></p></li>
+or <code>ds_exp_hts()</code>, extract hts files from a sqlite data base.
+The second is a shiny interface of <code>d_exp_hts</code></p></li>
 <li><p><code>d_imp_hts(fsq, file, table, bku = TRUE)</code>, imports a
 hts file into a data base</p></li>
 <li><p><code>d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)</code>,
@@ -591,7 +592,7 @@ prefix <code>gr_</code>.</p></li>
 <div id="time-treatments" class="section level3">
 <h3>Time treatments</h3>
 <ul>
-<li><p><code>hs_step(file)</code>, combines in a shiny environment both
+<li><p><code>hs_tstep()</code>, combines in a shiny environment both
 functions <code>h_timestep()</code> and <code>h_month()</code></p></li>
 <li><p><code>h_timestep(file, tst, op = &quot;M&quot;)</code>, computes
 infra-daily data with a fixed time step. Generates a file with the
@@ -635,17 +636,13 @@ file with the prefix <code>pr_</code>. Generates a file with the prefix
 <div id="general-plots" class="section level3">
 <h3>General plots</h3>
 <ul>
-<li><p><code>ps_plothts(files)</code>, plots hts files. Shiny interface
-of <code>p_line</code> &amp; <code>p_bar</code></p></li>
-<li><p>Bar plotting</p>
+<li><p><code>ps_plothts()</code>, plots hts files. Shiny interface of
+<code>p_line</code> &amp; <code>p_bar</code></p></li>
+<li><p>Line / Bar plotting (works in combination with
+<code>z_set</code>)</p>
 <ul>
-<li><p><code>p_bar(nbst = nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down = NA, y.up = NA, pal)</code></p></li>
-<li><p><code>p_bar_app(filename = NA, pset = TRUE, pfil = TRUE, rpal = 0,savefig = FALSE, width = 8, height = 6, fileo = &quot;plot.png&quot;</code></p></li>
-</ul></li>
-<li><p>Line / point plotting</p>
-<ul>
-<li><p><code>p_line(nbst, filei, serlab, title, type, rnorm, rtime, start, end, rfixy, y.down, y.up, pal = pal, linet, rppt, pointt, linew, smooth)</code></p></li>
-<li><p><code>p_line_app (filename = NA, pset = TRUE, pfil = TRUE, rpal = 0, smooth = FALSE, savefig = FALSE, width = 8, height = 6, fileo = &quot;plot.png&quot;)</code></p></li>
+<li><p><code>p_bar()</code>, plots bars</p></li>
+<li><p><code>p_line()</code>, plots lines and/or points</p></li>
 </ul></li>
 </ul>
 </div>
@@ -690,8 +687,9 @@ specific humidity to relative humidity.</p></li>
 <ul>
 <li><p><code>z_coord(ncoord = NA, ccoord = NA, type)</code>, converts
 coordinate from numeric to character and reverse.</p></li>
-<li><p><code>z_set (tz = FALSE, mapal = FALSE, confp = FALSE)</code>,
-edit settings for time zone and manual palette colors</p></li>
+<li><p><code>z_set (file.names= file.names, plot.label=&quot;label&quot;, line.type = 1, line.width = 0.2, point.shape = 15, point.size = 8, title = &quot;Title&quot;, yaxis = &quot;y-Axis&quot;, normval = FALSE, fixtime = FALSE, begin = today(), end = today(), fixy = FALSE, ymin = as.numeric(NA), ymax = as.numeric(NA), trend = FALSE, facet=FALSE, point.plot = FALSE, tz = &quot;UTC&quot;, palette=&quot;ggplot2&quot;)</code>,
+works in combination with <code>p_line</code> and
+<code>p_bar</code>.</p></li>
 </ul>
 </div>
 </div>
@@ -713,6 +711,8 @@ edit settings for time zone and manual palette colors</p></li>
 <li><p>Wickham H., 2015. R Packages - Organize, test, document, and
 share your code. O’Reilly. 190p. ISBN 978-1-491-91059-7. Actualized
 version on <a href="https://r-pkgs.org/" class="uri">https://r-pkgs.org/</a></p></li>
+<li><p>Wickham H., 2021. Mastering Shiny. 348p. ISBN 978-1-492-04738-4.
+<a href="https://mastering-shiny.org/index.html" class="uri">https://mastering-shiny.org/index.html</a></p></li>
 <li><p>Wickham H. &amp; Grolemund G., 2017. R for Data Science - Import,
 tidy, transform, visualize, and model data. O’Reilly. 494p. ISBN
 978-1-491-91039-9. <a href="https://r4ds.had.co.nz/" class="uri">https://r4ds.had.co.nz/</a></p></li>

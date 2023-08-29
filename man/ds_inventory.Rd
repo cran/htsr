@@ -4,10 +4,7 @@
 \alias{ds_inventory}
 \title{Shiny app: inventory of htsr sqlite data base}
 \usage{
-ds_inventory(fsq)
-}
-\arguments{
-\item{fsq}{File name of the Sqlite data base}
+ds_inventory()
 }
 \value{
 a shiny session
@@ -25,5 +22,5 @@ If the data do not exist, the app crashes and error messages
 are displayed in the console window.
 }
 \author{
-P. Chevallier - Sep-Nov 2020
+P. Chevallier - Sep 2020 - Aug 2023
 }

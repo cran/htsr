@@ -9,11 +9,6 @@
 #' @param sta Station id
 #' @param name_st Station name
 #'
-#' @seealso \code{\link{d_inventory}} or \code{\link{ds_inventory}} list the content
-#' of the data base ;
-#'  \code{\link{d_exp_hts}} to extract time-series.
-#'
-#'
 #' @examples \dontrun{
 #'
 #' d_convert_weewx("weewx.sql", "foo.sqlite")

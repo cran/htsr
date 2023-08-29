@@ -1,6 +1,6 @@
 #' @title Inventory of an htsr data base
 #'
-#' @author P. Chevallier - Jan 2019 - Nov 2020
+#' @author P. Chevallier - Jan 2019 - Aug 2023
 #'
 #' @description The function produces an inventory of the stations and of sensors of an htsr data base.
 #' If only a display is needed, the function \code{\link{ds_inventory}} is more convenient.

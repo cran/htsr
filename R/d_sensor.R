@@ -189,7 +189,6 @@ d_sensor <- function(fsq, op = "C", sta, sen, table,
     capteur <- as.data.frame(capteur, stringsAsFactors = FALSE)
     dbWriteTable(conn, "SS", capteur, append = TRUE)
     message("\nSensor ", sen, " for station ", sta, " and table ",table," created")
-    dbDisconnect(conn)
   }
 
   # Modify
@@ -219,7 +218,6 @@ d_sensor <- function(fsq, op = "C", sta, sen, table,
     dbClearResult(rs)
     dbWriteTable(conn, "SS", capteur, append = TRUE)
     message("\nSensor ", sen, " for station ", sta,  " modified.")
-    dbDisconnect(conn)
   }
 
   # Remove
@@ -237,6 +235,6 @@ d_sensor <- function(fsq, op = "C", sta, sen, table,
     dbClearResult(rs)
     
     message("\nSensor ", sen, " for station ", sta, " and table ", table, " is removed with all its data.")
-    dbDisconnect(conn)
   }
+  dbDisconnect(conn)
 }

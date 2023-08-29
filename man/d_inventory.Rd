@@ -35,5 +35,5 @@ text file with ',' as decimal separator and ';' as field separator
 \code{\link{ds_inventory}}
 }
 \author{
-P. Chevallier - Jan 2019 - Nov 2020
+P. Chevallier - Jan 2019 - Aug 2023
 }

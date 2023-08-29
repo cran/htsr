@@ -4,10 +4,7 @@
 \alias{hs_tstep}
 \title{Shiny app: convert f file with fixed time-step}
 \usage{
-hs_tstep(file)
-}
-\arguments{
-\item{file}{File to process}
+hs_tstep()
 }
 \value{
 a shiny session
@@ -15,6 +12,9 @@ a shiny session
 \description{
 Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
 }
+\details{
+The output files are written in the specified working directory.
+}
 \author{
-P. Chevallier - Dec 2020 - Oct 2021
+P. Chevallier - Dec 2020 - Aug 2023
 }

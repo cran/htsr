@@ -4,25 +4,15 @@
 \alias{ps_plothts}
 \title{Shiny app: plot hts files}
 \usage{
-ps_plothts(files)
-}
-\arguments{
-\item{files}{List of the time-series files to be plotted.}
+ps_plothts()
 }
 \description{
-Shiny application of the \code{\link{p_line_app}} and \code{\link{p_bar_app}}
-functions
+Shiny application of the \code{\link{p_line}} and \code{\link{p_bar}}
+functions, associated with \code{\link{z_set}}
 }
 \details{
-When launched, a shiny window is open.
- The setting tab must be first completed and saved. Then go to the plot tab, complete
- the plotting settings and press Plot.
- If you want to modify the initial settings, return to the setting tab.
- After setting changes
- press Save one more time, go to the plot tab and press Plot!
-
-When finished, press Done to exit from the shiny windows
+When launched, a shiny window is open. Follow the instructions and steps.
 }
 \author{
-P. Chevallier - May 2020
+P. Chevallier - May 2020 - Aug 2023
 }
