@@ -32,5 +32,5 @@ h_wind (fsq, sta="VB", swd="WD", swv="WV")
 \code{\link{p_wind}} plots wind roses
 }
 \author{
-P. Chevallier - Dec 2019 - Jan 2023
+P. Chevallier - Dec 2019 - Sep 2023
 }

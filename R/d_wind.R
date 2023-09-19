@@ -1,6 +1,6 @@
 #' @title Create a wind table
 #'
-#' @author P. Chevallier - Dec 2019 - Jan 2023
+#' @author P. Chevallier - Dec 2019 - Sep 2023
 #'
 #' @description Create a tibble with wind direction and speed
 #'
@@ -23,9 +23,7 @@
 
 d_wind <- function(fsq, sta, swd, swv){
 
-  # sta <- as.character(sta)
-  # swd <- as.character(swd)
-  # swv <- as.character(swv)
+	requireNamespace("openair", quietly = TRUE)
 
   #extraction
   tstab <- d_exp_hts (fsq, sta = sta, sen = swd)
@@ -41,8 +39,8 @@ d_wind <- function(fsq, sta, swd, swv){
   fcom <- h_common(c(fwd, fwv))
   load(fcom[1])
   data_wind <- select(tstab, date = Date)
-  data_wind <- cutData(data_wind, type = "month")
-  data_wind <- cutData(data_wind, type = "year")
+  data_wind <- openair::cutData(data_wind, type = "month")
+  data_wind <- openair::cutData(data_wind, type = "year")
   data_wind <- mutate(data_wind, wind_dir=tstab$Value)
   load(fcom[2])
   data_wind <- mutate(data_wind, wind_spd=tstab$Value)
@@ -52,7 +50,7 @@ d_wind <- function(fsq, sta, swd, swv){
   file.remove(fwv)
   file.remove(paste0("co_",fwd))
   file.remove(paste0("co_",fwv))
-  
+
   save (data_wind, file="data_wind.RData")
 
   return (message("data_wind table created in the data_wind.RData file"))

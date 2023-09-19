@@ -22,6 +22,7 @@
 
 p_hypso <- function(file, abbrev, prop = FALSE, range=50, fact=5, title="Title", savefig=FALSE, width= 8,
                        height= 6, fileo="plot.png" ){
+	requireNamespace("terra", quietly = TRUE)
 
   altitude <- valeur <- type <- NULL
 

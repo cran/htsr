@@ -7,14 +7,19 @@
 hs_tstep()
 }
 \value{
-a shiny session
+a shiny session and hts file at the requested timestep with a suffix giving the timestep in minutes, i.e.
+1440 for the daily timestep, or M for the monthly timestep.
 }
 \description{
 Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
 }
 \details{
-The output files are written in the specified working directory.
+The output files are written in same folder as the starting hts file.
+
+In the case of the monthly time step, the modes max-av an max-max mean that in the first case the daily max
+is computed and the monthly average of the daily max, in the second case, the monthly max of the daily max is
+given (idem for the min values)
 }
 \author{
-P. Chevallier - Dec 2020 - Aug 2023
+P. Chevallier - Dec 2020 - Sep 2023
 }

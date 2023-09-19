@@ -28,7 +28,7 @@
 #' @param point.plot logical, shows points on the plot (default = FALSE)
 #' @param tz character, time zone (default="UTC")
 #' @param palette character, palette (default="ggplot2")
-#' 
+#'
 #'
 #' @returns A file "settings.RData" in the working directory
 
@@ -36,22 +36,22 @@
 # library(tidyverse)
 
 
-z_set <- function( file.names= file.names, plot.label="label", 
+z_set <- function( file.names= file.names, plot.label="label",
 	line.type = 1, line.width = 0.2,
 	point.shape = 15, point.size = 8,
-	title = "Title", yaxis = "y-Axis", normval = FALSE, 
+	title = "Title", yaxis = "y-Axis", normval = FALSE,
 	fixtime = FALSE, begin = today(), end = today(),
 	fixy = FALSE, ymin = as.numeric(NA), ymax = as.numeric(NA),
-	trend = FALSE, facet=FALSE, point.plot = FALSE, 
-	 
+	trend = FALSE, facet=FALSE, point.plot = FALSE,
+
 	tz = "UTC", palette="ggplot2")
 	{
-	
+
 # fil
-	fil <- tibble(file.names = as.character(file.names), 
-		plot.label = as.character(plot.label), 
+	fil <- tibble(file.names = as.character(file.names),
+		plot.label = as.character(plot.label),
 		line.type = as.integer(line.type), line.width = as.numeric(line.width),
-		point.shape = as.integer(point.shape), 
+		point.shape = as.integer(point.shape),
 		point.size = as.numeric(point.size))
 
 	nf <- nrow(fil)
@@ -61,30 +61,28 @@ z_set <- function( file.names= file.names, plot.label="label",
 		# fil$plot.label[i] <- paste("label", i)
 		if(tools::file_ext(fil$file.names[i]) != "hts")
 			{warning(" Not allowed file type")}
-		if (fil$line.type[i] <0 || fil$line.type[i] > 6) 
+		if (fil$line.type[i] <0 || fil$line.type[i] > 6)
 			{warning(" line.type must be in the interval 0-6.")}
 	  if (fil$point.shape[i] <0 || fil$point.shape[i] > 24)
   		{warning(" point.shape must be in the interval 0-24.")}
   }
 
 #	conf
-	conf <- c(as.character(title),  as.character(yaxis), 
-		as.logical(normval), as.logical(fixtime), 
-		as_date(begin), as_date(end), 
+	conf <- c(as.character(title),  as.character(yaxis),
+		as.logical(normval), as.logical(fixtime),
+		as_date(begin), as_date(end),
 		as.logical(fixy), as.numeric(ymin), as.numeric(ymax),
 		as.logical(trend), as.logical(facet),
 		as.logical(point.plot))
-	
-	if (begin > end) {warning(" The beginning is later than the end.")} 
+
+	if (begin > end) {warning(" The beginning is later than the end.")}
 	if (fixy == TRUE && ymin > ymax) {warning(" The min is higher than the max.")}
 
 # tz & palette
   if(tz %in% OlsonNames() == FALSE) {warning(" Unknown timezone.")}
 	if(palette %in% palette.pals() == FALSE) {warning(" Unknown palette.")}
-	
-	
-	if (file.exists("settings.RData")) file.remove("settings.RData")
-	save (file = "settings.RData", tz, palette, conf, fil)
+
+	save (file=system.file("extdata/settings.RData",package="htsr"), tz, palette, conf, fil)
 
   return(cat ("Setting file written"))
 }

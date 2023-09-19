@@ -4,10 +4,7 @@
 \alias{ds_station}
 \title{Shiny app: create, modify or remove a station from a data base}
 \usage{
-ds_station(fsq)
-}
-\arguments{
-\item{fsq}{File name of the Sqlite data base}
+ds_station()
 }
 \value{
 a shiny session

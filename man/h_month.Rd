@@ -87,5 +87,5 @@ res <- h_month("foo.ts",op="S", ba=135, caledit_m = TRUE)
 
 }
 \author{
-P. Chevallier - Oct 2017- Apr 2020
+P. Chevallier - Oct 2017- Sep 2023
 }

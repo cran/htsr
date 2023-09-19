@@ -1,6 +1,6 @@
 #' @title Monthly operations, based on a daily time-series
 #'
-#' @author P. Chevallier - Oct 2017- Apr 2020
+#' @author P. Chevallier - Oct 2017- Sep 2023
 #'
 #' @details Based on a daily time-series, the function returns a monthly
 #' time-series, and computes a mean monthly climatology. It allows to consider or
@@ -70,8 +70,10 @@ h_month <- function (file, op="M", ba=NA, rmna = FALSE, climedit = FALSE,
   Oct <- Sensor <- Sep <- Station <- Value <- av <- jour <- mn <- mois <- NULL
   mx <- gf <- NULL
   Sys.setenv(TZ="UTC")
-  if(!(op %in% c("","M","m","S","s")))
+  if(!(op %in% c("","M","m","S","s","Mx","Mn")))
     return(warning("\nNot allowed for op.\n"))
+  if(op == "m") op <- "M"
+  if(op == "s") op <- "S"
   dn <- dirname(file)
   bn <- basename(file)
   nfse <- tools::file_path_sans_ext(file)
@@ -126,11 +128,12 @@ h_month <- function (file, op="M", ba=NA, rmna = FALSE, climedit = FALSE,
         if(nrow(xjk) == 0L) xj[[k]] <- NA
         else {
           xjk <- as.numeric(xjk$Value)
-          if (indic==TRUE) xjk <- xjk * 86.4 /ba
+          if (indic) xjk <- xjk * 86.4 /ba
           if(!is.na(xjk) || ! is.null(xjk)) xj[[k]] <- xjk #ERROR plus d'éléments fournis que d'éléments à remplacer
           else xj[[k]] <- NA
         }
       } # fin boucle sur les jours
+
 
       if(j == 1) {
         xa <- data.frame(xj)
@@ -139,17 +142,24 @@ h_month <- function (file, op="M", ba=NA, rmna = FALSE, climedit = FALSE,
         xa <- cbind(xa, xj)
         colnames(xa)[j] <- nommois[j]
       }
-      if(j %in% c(1, 3, 5, 7, 8, 10, 12)){
-        if(op=="S" || indic==TRUE) xm[j] <- sum(xj) else xm[j] <- mean(xj)
-      }
-      if(j %in% c(4, 6, 9, 11)){
-        if(op=="S" || indic==TRUE) xm[j] <- sum(xj[1:30]) else xm[j] <- mean(xj[1:30])
-      }
-      if(j == 2 && ni%%4 ==0){
-        if(op=="S" || indic==TRUE) xm[j] <- sum(xj[1:29]) else xm[j] <- mean(xj[1:29])
-      }
-      if(j == 2 && ni%%4 !=0){
-        if(op=="S" || indic==TRUE) xm[j] <- sum(xj[1:28]) else xm[j] <- mean(xj[1:28])
+
+      if(op %in% c("Mx", "Mn")) {
+      	if (op == "Mx") xm[j] <- max(xj) else xm[j] <- min(xj)
+
+      } else {
+
+	      if(j %in% c(1, 3, 5, 7, 8, 10, 12)){
+	        if(op=="S" || indic) xm[j] <- sum(xj) else xm[j] <- mean(xj)
+	      }
+	      if(j %in% c(4, 6, 9, 11)){
+	        if(op=="S" || indic) xm[j] <- sum(xj[1:30]) else xm[j] <- mean(xj[1:30])
+	      }
+	      if(j == 2 && ni%%4 ==0){
+	        if(op=="S" || indic) xm[j] <- sum(xj[1:29]) else xm[j] <- mean(xj[1:29])
+	      }
+	      if(j == 2 && ni%%4 !=0){
+	        if(op=="S" || indic) xm[j] <- sum(xj[1:28]) else xm[j] <- mean(xj[1:28])
+	      }
       }
     } # fin boucle sur les mois
 

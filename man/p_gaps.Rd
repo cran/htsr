@@ -37,5 +37,5 @@ following the length of the labels.
 \code{\link{f_properties}}.
 }
 \author{
-P. Chevallier - Nov 2017 - Jan 2019
+P. Chevallier - Nov 2017 - Sep 2023
 }

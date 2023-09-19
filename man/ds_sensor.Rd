@@ -4,10 +4,7 @@
 \alias{ds_sensor}
 \title{Shiny app: create, modify or remove a sensor from a data base}
 \usage{
-ds_sensor(fsq)
-}
-\arguments{
-\item{fsq}{File name of the Sqlite data base}
+ds_sensor()
 }
 \value{
 a shiny session
@@ -16,5 +13,5 @@ a shiny session
 Shiny application of the \code{\link{d_sensor}} function
 }
 \author{
-P. Chevallier - Nov 2020 - Aug 2023
+P. Chevallier - Nov 2020 - Sep 2023
 }

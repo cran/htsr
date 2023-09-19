@@ -56,5 +56,5 @@ p_wind (data_wind = data_wind)
 \code{\link{d_wind}}, \code{\link[openair]{windRose}}
 }
 \author{
-P. Chevallier - Dec 2019
+P. Chevallier - Dec 2019 - Sep 2023
 }

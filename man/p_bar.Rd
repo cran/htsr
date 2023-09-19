@@ -11,7 +11,7 @@ a ggplot2 object
 }
 \description{
 Bar plot based on htsr time-series. Prior to the execution of the function,
-the parameters must be set by a function generating a "settings.RData" file in the working 
+the parameters must be set by a function generating a "settings.RData" file in the working
 directory: \code{\link{z_set}} or \code{\link{ps_plothts}}.
 }
 \details{

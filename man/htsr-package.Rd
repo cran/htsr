@@ -8,4 +8,12 @@
 \description{
 Functions for the management and treatment of hydrology and meteorology time-series stored in a 'Sqlite' data base.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/p-chevallier/htsr}
+  \item Report bugs at \url{https://github.com/p-chevallier/htsr/issues}
+}
+
+}
 \keyword{internal}

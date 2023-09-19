@@ -35,6 +35,8 @@
 
 d_convert_hydraccess <- function(fsq,db.hydraccess){
 
+	requireNamespace("RODBC", quietly = TRUE)
+
   # fonction u_newnomtable
   u_newnomtable <- function (nomtable) {
     nt <- c("Bassins", "Bassins_Grands", "Bassins_Petits", "Capteurs",

@@ -1,6 +1,6 @@
 #' @title Plot of data inventory
 #'
-#' @author P. Chevallier - Nov 2017 - Jan 2019
+#' @author P. Chevallier - Nov 2017 - Sep 2023
 #'
 #' @description This function plot an inventory of the data from one or several station(s)-sensor(s).
 #' It is based on the .gap files provided by the function \code{\link{f_properties}}. It allows
@@ -26,6 +26,8 @@
 #'
 #'
 p_gaps <- function (files, title = "Inventory", BW = FALSE, margin = 0.1){
+
+	requireNamespace("directlabels", quietly = "TRUE")
 
   valeur <- stacapt <- NULL
 
@@ -72,7 +74,7 @@ p_gaps <- function (files, title = "Inventory", BW = FALSE, margin = 0.1){
   p <- p + theme(panel.background=element_rect(fill="white", colour="grey30"),
         panel.grid.major.x = element_line(colour="grey30"))
   p <- p + ylim(0,nbf+1)
-  p <- p + geom_dl(aes(label = stacapt), method = list(dl.combine("last.points"),
+  p <- p + directlabels::geom_dl(aes(label = stacapt), method = list(directlabels::dl.combine("last.points"),
         cex = 1.5))
 
   show(p)

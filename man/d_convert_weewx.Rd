@@ -4,19 +4,25 @@
 \alias{d_convert_weewx}
 \title{Convert a weewx data base into a htsr sqlite base}
 \usage{
-d_convert_weewx(db.weewx, fsq, sta, name_st)
+d_convert_weewx(db.weewx, fsq = NA, update = TRUE, sta = NA, name_st = NA)
 }
 \arguments{
 \item{db.weewx}{Full name of the weewx data base}
 
 \item{fsq}{Full name of the htsr data base}
 
-\item{sta}{Station id}
+\item{update}{(default = TRUE)}
 
-\item{name_st}{Station name}
+\item{sta}{Station id (default = NA)}
+
+\item{name_st}{Station name (default = NA)}
 }
 \description{
-Convert a weewx data base into a htsr sqlite base
+Convert (or update) a weewx data base into a htsr sqlite base
+}
+\details{
+If update is TRUE, sta and name_st are unnecessary. I update is FALSE and
+fsq is NA, fsq is named "weewx.sqlite".
 }
 \examples{
 \dontrun{
@@ -26,5 +32,5 @@ d_convert_weewx("weewx.sql", "foo.sqlite")
 
 }
 \author{
-P. Chevallier - Feb 2018 - Jun 2023
+P. Chevallier - Feb 2018 - Sep 2023
 }

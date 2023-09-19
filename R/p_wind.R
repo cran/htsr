@@ -1,6 +1,6 @@
 #' @title Plot wind roses
 #'
-#' @author P. Chevallier - Dec 2019
+#' @author P. Chevallier - Dec 2019 - Sep 2023
 #'
 #' @description Plot wind roses using the "data_wind" tibble created with the
 #' function \code{\link{d_wind}}.
@@ -34,6 +34,8 @@
 p_wind <- function(data_wind, ws.int=0.5, angle=45, grid.line=10,
   type="default", breaks=5, offset=5, paddle=FALSE,
   key.position = "right"){
+
+	requireNamespace("openair", quietly = TRUE)
 
   coln <- colnames(data_wind)
   ws <- coln[5]

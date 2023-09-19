@@ -17,10 +17,7 @@ Complete the requested information in the left panel, then press the submit butt
  If the station field is empty, the function will return the list of the stations
  in the data base. If the station field is filled, the function will return the
  list of the station sensors in the data base. When finished press "done".
-
-If the data do not exist, the app crashes and error messages
-are displayed in the console window.
 }
 \author{
-P. Chevallier - Sep 2020 - Aug 2023
+P. Chevallier - Sep 2020 - Sep 2023
 }

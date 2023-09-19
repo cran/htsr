@@ -1,13 +1,19 @@
 #' @title Convert a weewx data base into a htsr sqlite base
 #'
-#' @author P. Chevallier - Feb 2018 - Jun 2023
+#' @author P. Chevallier - Feb 2018 - Sep 2023
 #'
-#' @description Convert a weewx data base into a htsr sqlite base
+#' @description Convert (or update) a weewx data base into a htsr sqlite base
 #'
 #' @param db.weewx Full name of the weewx data base
 #' @param fsq Full name of the htsr data base
-#' @param sta Station id
-#' @param name_st Station name
+#' @param update (default = TRUE)
+#' @param sta Station id (default = NA)
+#' @param name_st Station name (default = NA)
+#'
+#' @details If update is TRUE, sta and name_st are unnecessary. I update is FALSE and
+#' fsq is NA, fsq is named "weewx.sqlite".
+#'
+#'
 #'
 #' @examples \dontrun{
 #'
@@ -15,16 +21,37 @@
 #' }
 #'
 
-d_convert_weewx <- function(db.weewx, fsq, sta, name_st){
+d_convert_weewx <- function(db.weewx, fsq = NA, update=TRUE, sta = NA, name_st = NA){
 
   # Warnings
-  if (!file.exists(db.weewx))
-    return(warning("\nThe weewx data base doesn't exist.\n"))
-
-    # Init
   dn <- dirname(db.weewx)
-  if(is.na(fsq)) fsq <- paste0(dn,"/weewx.sqlite")
-  d_create(fsq, cr_table = TRUE, bku = FALSE)
+  if(is.na(fsq) && !(update)) fsq <- paste0(dn,"/weewx.sqlite")
+  if(update) {
+  	if ((!file.exists(db.weewx) || !file.exists(fsq)))
+    return(warning("\nWeewx and/or htsr database(s) don't exist, when an update is requested."))
+	 } else {
+	 	if((is.na(sta) || is.na(name_st)))
+		return(warning("\nWhen update is false, station id and name are requested."))
+	 }
+
+  # Init ou recup fsq data base
+  if(update) {
+  	conn <- RSQLite::dbConnect(RSQLite::SQLite(), fsq)
+  	selection <- paste ("SELECT Id_Station FROM ST" )
+  	staa <- RSQLite::dbGetQuery(conn, selection)
+  	sta <- staa[[1]]
+  	selection <- paste ("SELECT Nom FROM ST" )
+  	name_sta <- RSQLite::dbGetQuery(conn, selection)
+  	name_st <- name_sta[[1]]
+  	selection <- paste ("SELECT Date FROM WE" )
+  	date <- RSQLite::dbGetQuery(conn, selection)
+  	dmxwe <- max(date)
+  	selection <- paste ("SELECT Date FROM PR" )
+  	date <- RSQLite::dbGetQuery(conn, selection)
+  	dmxpr <- max(date)
+  	dmx <- max(dmxwe, dmxpr)
+  	RSQLite::dbDisconnect(conn)
+  } else d_create(fsq, cr_table = TRUE, bku = FALSE)
 
 
   # Recuperation base weewx
@@ -126,17 +153,23 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st){
   # Deconnexion base weewx
   RSQLite::dbDisconnect(conn)
 
-  # Creation station
-  d_station(fsq, op = "C", sta = sta, name_st = name_st, ty_st="M", bku = FALSE)
+  nrx <- nrow (x)
+  if (update) {
+  	x <- filter(x, date > dmx)
+  	nrx <- nrow (x)
+  } else {
+	  # Creation station
+	  d_station(fsq, op = "C", sta = sta, name_st = name_st, ty_st="M", bku = FALSE)
 
-  # Creation des tables et des capteurs
-  l <- as.vector(c("IPA", "ITAi", "ITAo", "IHRi", "IHRo", "IWV", "IWD", "IWG", "IWGD",
-     "JTAn","JTAx","JTAi","JTAo","JWD","JWV","JWG"))
-  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
-    table = "WE", bku = FALSE))
-  l <- as.vector(c("IPR", "JPR"))
-  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
+	  # Creation des tables et des capteurs
+	  l <- as.vector(c("IPA", "ITAi", "ITAo", "IHRi", "IHRo", "IWV", "IWD", "IWG", "IWGD",
+	     "JTAn","JTAx","JTAi","JTAo","JWD","JWV","JWG"))
+	  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
+	    table = "WE", bku = FALSE))
+	  l <- as.vector(c("IPR", "JPR"))
+	  map(l, function(.x) d_sensor(fsq, op = "C", sta = sta, sen=.x,
     table = "PR", bku = FALSE))
+  }
 
   # Chargement des donnees weewx dans la base sqlite
   conn <- RSQLite::dbConnect(RSQLite::SQLite(),fsq)
@@ -167,7 +200,8 @@ d_convert_weewx <- function(db.weewx, fsq, sta, name_st){
 
   #Deconnexion base sqlite
   RSQLite::dbDisconnect(conn)
-  message("\nBase ", fsq, " created")
+  if (update) message("\nBase ", fsq, " completed with ", nrx, " added records.")
+  else message("\nBase ", fsq, " created with ", nrx, " records.")
 
 }
 
