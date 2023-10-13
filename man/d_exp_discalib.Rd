@@ -22,7 +22,7 @@ a list of 2 tibbles, one with the calibration table and one with the discharge m
 Export discharge measurements and calibrations from data base
 }
 \seealso{
-\code{\link{d_exp_hts}} for export time-series
+\code{\link{ds_exp_hts}} for export time-series
 }
 \author{
 P. Chevallier - Sep 2017 - Nov 2020

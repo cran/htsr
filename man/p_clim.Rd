@@ -43,7 +43,7 @@ A ggplot2 object.
 }
 \description{
 This function processes climatology hts files created with
-\code{\link{h_month}}.
+\code{\link{hs_tstep}}.
 }
 \details{
 The parameter tyoe allows to display a line graph or a bar graph.
@@ -60,5 +60,5 @@ The parameter hydro.mont fixes the starting month of the hydrological year.
  file number.
 }
 \author{
-P. Chevallier - Feb 2017-Feb 2019
+P. Chevallier - Feb 2017 - Sep 2023
 }

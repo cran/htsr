@@ -2,16 +2,30 @@
 % Please edit documentation in R/ds_sensor.R
 \name{ds_sensor}
 \alias{ds_sensor}
-\title{Shiny app: create, modify or remove a sensor from a data base}
+\title{Create, Modify or Remove a sensor}
 \usage{
 ds_sensor()
 }
 \value{
-a shiny session
+Sensor created, modified or removed from the data base
 }
 \description{
-Shiny application of the \code{\link{d_sensor}} function
+Create, Modify or Remove a sensor.
+}
+\details{
+If operation is Create, the fields Station, Table and Sensor are compulsory and cannot be modified afterwards.
+
+Allowed entries for table are: WL (water levels), DI (discharges),
+QU (Quality), PR (precipitations), WE (weather).
+
+If op is Create or Modify, the following text fields can be completed optionally: Nature,
+Description, Comment.
+
+If op is Remove, all data corresponding to the sensor of the selected
+station are removed.
+
+The data base is automatically backuped before any operation.
 }
 \author{
-P. Chevallier - Nov 2020 - Sep 2023
+P. Chevallier - Feb 2018-Sep 2023
 }

@@ -9,7 +9,7 @@
 #' @param fsq Full name of the sqlite data base
 #' @param db.hydraccess Full name of the hydraccess data base
 #'
-#' @seealso \code{\link{d_inventory}} or \code{\link{ds_inventory}} for displaying
+#' @seealso \code{\link{ds_inventory}} for displaying
 #' the content of the sqlite data base;
 #'  \code{\link{ds_exp_hts}} for extracting a time-series.
 #'

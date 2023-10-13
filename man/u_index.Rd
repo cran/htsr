@@ -19,5 +19,5 @@ the function compute an index, which the number of apparition of the same dateti
 in a time-series
 }
 \author{
-P. Chevallier - April 2023
+P. Chevallier - Apr - Oct 2023
 }

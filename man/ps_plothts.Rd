@@ -2,17 +2,36 @@
 % Please edit documentation in R/ps_plothts.R
 \name{ps_plothts}
 \alias{ps_plothts}
-\title{Shiny app: plot hts files}
+\title{Plot hts files}
 \usage{
 ps_plothts()
 }
 \description{
-Shiny application of the \code{\link{p_line}} and \code{\link{p_bar}}
-functions, associated with \code{\link{z_set}}
+This function allows to plot one or several time series files using a shiny web page
 }
 \details{
-When launched, a shiny window is open. Follow the instructions and steps.
+When launched, a shiny window is open. Follow the instructions, divided in 5 steps.
+\enumerate{
+\item Select hts files (8 max) pressing "File select". They must be located in the same folder.
+When done, press "Enter file settings"
+\item For each file, if needed, use the "Edit" tab to configure label, line.type, line.with,
+point.shape and point.size. (The values follows the ggplot2 package conventions).
+When done, press "Save file settings"
+\item Configure the general layout of the file, entering Title and y-Axis label and
+choosing a color palette. Several options are available: set y-Axis scale, set time interval,
+point plot(*), display normalized values, draw a trend line, or display the plot as horizontal facets.
+When done, press "Save plot settings"
+\item Pressing "Plot" displays the graph. You can chose a line or bar graph. When the graph is finalized,
+check the box "save plot". Three formats are allowed: .png, .jpeg or pdf. The resolution is 300 dpi.
+Then, press "Save plot settings". The plot is saved in the folder of the selected files.
+\item When finished, press "Done".
+}
+Items 2 and 3 can be performed and repeated in any order. Once they have been validated once,
+item 4 can be executed as often as desired.
+
+(*) When point plot is selected, the points overlay the line (point plot doesn't work with bar).
+If you want only the points on the plot, configure "line.type" and "line.width" = 0.
 }
 \author{
-P. Chevallier - May 2020 - Sep 2023
+P. Chevallier - Apr 2015 - Sep 2023
 }

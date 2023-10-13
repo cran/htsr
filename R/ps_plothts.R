@@ -1,11 +1,30 @@
-#' @title Shiny app: plot hts files
+#' @title Plot hts files
 #'
-#' @author P. Chevallier - May 2020 - Sep 2023
+#' @author P. Chevallier - Apr 2015 - Sep 2023
 #'
-#' @description Shiny application of the \code{\link{p_line}} and \code{\link{p_bar}}
-#' functions, associated with \code{\link{z_set}}
+#' @description This function allows to plot one or several time series files using a shiny web page
 #'
-#' @details When launched, a shiny window is open. Follow the instructions and steps.
+#' @details When launched, a shiny window is open. Follow the instructions, divided in 5 steps.
+#' \enumerate{
+#' \item Select hts files (8 max) pressing "File select". They must be located in the same folder.
+#' When done, press "Enter file settings"
+#' \item For each file, if needed, use the "Edit" tab to configure label, line.type, line.with,
+#' point.shape and point.size. (The values follows the ggplot2 package conventions).
+#' When done, press "Save file settings"
+#' \item Configure the general layout of the file, entering Title and y-Axis label and
+#' choosing a color palette. Several options are available: set y-Axis scale, set time interval,
+#' point plot(*), display normalized values, draw a trend line, or display the plot as horizontal facets.
+#' When done, press "Save plot settings"
+#' \item Pressing "Plot" displays the graph. You can chose a line or bar graph. When the graph is finalized,
+#' check the box "save plot". Three formats are allowed: .png, .jpeg or pdf. The resolution is 300 dpi.
+#' Then, press "Save plot settings". The plot is saved in the folder of the selected files.
+#' \item When finished, press "Done".
+#' }
+#' Items 2 and 3 can be performed and repeated in any order. Once they have been validated once,
+#' item 4 can be executed as often as desired.
+#'
+#' (*) When point plot is selected, the points overlay the line (point plot doesn't work with bar).
+#' If you want only the points on the plot, configure "line.type" and "line.width" = 0.
 #'
 #'
 #'
@@ -18,6 +37,166 @@ ps_plothts <- function(){
 	requireNamespace("lubridate", quietly = TRUE)
 	requireNamespace("editData", quietly = TRUE)
 	requireNamespace("ggplot2", quietly = TRUE)
+
+	# function p_line
+	p_line <- function(){
+
+		# settings
+		fil <- tstab <- Value <- conf <- Legend <- NULL
+
+		if (!file.exists (system.file("extdata/settings.RData",package="htsr")))
+			warning("A function creating settings.RData in the data dir must be run before p_line()")
+
+		options(warn=-1)
+
+		load(file=system.file("extdata/settings.RData",package="htsr"))
+
+		nf <- nrow(fil)
+		pal <- palette.colors(n=nf, palette = palette)
+
+
+		# Loop for each track
+		for (i in 1:nf) {
+			message("\nReading the file ", fil$file.names[i], "\n")
+			fff <- fil$file.names[i]
+			load(file=fff)
+			y <- select(tstab, Date, Value)
+
+			if (conf[4])  {
+				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+			}
+			if (nrow(y)==0)
+				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
+
+			# Normalized values
+			moy <- mean (y$Value, na.rm=TRUE)
+			sigma <- sd (y$Value, na.rm=TRUE)
+			if (conf[3]==TRUE) y$Value <- (y$Value -moy)/sigma
+
+			# Building data.frame
+			y <- mutate (y, Legend = as.factor(fil$plot.label[i]))
+			if (i==1) x <- y else x <- bind_rows (x, y)
+		}
+
+		# Plotting
+		p <- ggplot (x, aes(x=Date, y= Value, colour = Legend, linewidth = Legend,
+												linetype = Legend , size = Legend, shape = Legend)) + geom_line(na.rm = TRUE)
+		p <- p + scale_colour_manual(values=pal) + scale_linetype_manual(values = fil$line.type) +
+			scale_linewidth_manual(values = fil$line.width)
+
+		if (conf[10]) p = p + stat_smooth(method=lm, se=FALSE)
+
+		if (conf[11]) p = p + facet_grid (Legend ~ ., scales = "free_y") +
+			theme(strip.text = element_text(size=rel(2)),
+						strip.background = element_rect(colour="black", size =0.5))
+
+		if (conf[12]) p = p +  geom_point(na.rm=TRUE) +
+			scale_shape_manual(values = fil$point.shape) +
+			scale_size_manual(values = fil$point.size)
+
+		# Ecriture des labels
+		p <- p + theme(panel.background=element_rect(fill="white", colour="black", linewidth = 2),
+									 panel.grid.major=element_line(colour="black"),
+									 panel.grid.minor=element_line(colour=NA))
+
+		p <- p +
+			ylab(conf[2]) + xlab("") +
+			ggtitle(conf[1])  +
+			theme (axis.text.x = element_text(size=20),
+						 axis.text.y = element_text(size=20),
+						 axis.title.x = element_text(size=20),
+						 axis.title.y = element_text(size=20),
+						 plot.title=element_text(face="bold", size=20))
+
+		# Redimensionner l'ordonnee
+		if(conf[7]==TRUE) p <- p + ylim(as.numeric(conf[8]),as.numeric(conf[9]))
+
+		# Ecriture des legendes
+		if (conf[11]) p <- p+ theme(legend.position="none")
+		else p <- p+ theme(legend.position="bottom") + theme(legend.text=element_text(size =16))
+		p <- p+ theme(legend.title=element_text(size =16, face="bold"))
+
+		options(warn=0)
+
+		return(p)
+	}
+
+	# function p_bar
+	p_bar <- function(){
+
+		# settings
+		fil <- tstab <- Value <- conf <- Legend <- NULL
+
+		if (!file.exists (system.file("extdata/settings.RData",package="htsr")))
+			warning("A function creating settings.RData in the data dir must be run before p_bar()")
+
+		load(file=system.file("extdata/settings.RData",package="htsr"))
+		options(warn=-1)
+
+		nf <- nrow(fil)
+		pal <- palette.colors(n=nf, palette = palette)
+
+		# Loop for each track
+		for (i in 1:nf) {
+			message("\nReading the file ", fil$file.names[i], "\n")
+			fff <- fil$file.names[i]
+			load(file=fff)
+			y <- select(tstab, Date, Value)
+
+			if (conf[4])  {
+				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+			}
+			if (nrow(y)==0)
+				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
+
+			# Normalized values
+			moy <- mean (y$Value, na.rm=TRUE)
+			sigma <- sd (y$Value, na.rm=TRUE)
+			if (conf[3]==TRUE) y$Value <- (y$Value -moy)/sigma
+
+			# Building data.frame
+			y <- mutate (y, Legend = as.factor(fil$plot.label[i]))
+			if (i==1) x <- y else x <- bind_rows (x, y)
+		}
+
+		# Trace du graphe
+		p <- ggplot (x, aes(x=Date, y= Value, fill=Legend)) +
+			geom_bar(stat = "identity", position = "dodge", na.rm = TRUE)
+		p <- p + scale_fill_manual(values=pal)
+
+		if (conf[10]==TRUE)
+			p = p + stat_smooth(method=lm, se=FALSE)
+
+		if (conf[11]) p = p + facet_grid (Legend ~ ., scales = "free_y") +
+			theme(strip.text = element_text(size=rel(2)),
+						strip.background = element_rect(colour="black", size =0.5))
+
+		# Ecriture des labels
+		p <- p + theme(panel.background=element_rect(fill="white", colour="black"),
+									 panel.grid.major=element_line(colour="black"),
+									 panel.grid.minor=element_line(colour=NA))
+		p <- p +
+			ylab(conf[2]) + xlab("") +
+			ggtitle(conf[1])  +
+			theme (axis.text.x = element_text(size=20),
+						 axis.text.y = element_text(size=20),
+						 axis.title.x = element_text(size=20),
+						 axis.title.y = element_text(size=20),
+						 plot.title=element_text(face="bold", size=20))
+
+		# Redimensionner l'ordonnee
+		if(conf[7]==TRUE) p <- p + ylim(as.numeric(conf[8]),as.numeric(conf[9]))
+
+		# Ecriture des legendes
+		if (conf[11]) p <- p+ theme(legend.position="none")
+		else p <- p+ theme(legend.position="bottom") + theme(legend.text=element_text(size =16))
+		p <- p+ theme(legend.title=element_text(size =16, face="bold"))
+
+		options(warn=0)
+		return(p)
+	}
 
 	selectfilesUI <- function(id) {
 		tagList(

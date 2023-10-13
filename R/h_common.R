@@ -1,6 +1,6 @@
 #' @title Extract 2 (or more) time-series on their common period
 #'
-#' @author P. Chevallier - Oct 2017-June 2023
+#' @author P. Chevallier - Oct 2017 - Oct 2023
 #'
 #' @description The fonction extract the data of 2 (or more) hts time-series
 #' for the common date/time records (precision of the second).
@@ -47,7 +47,7 @@ h_common <- function (files) {
   z <- dplyr::mutate(z,capsta=as.factor(paste0(Sensor,"_",Station)))
 
 # Suppression des lignes a valeurs manquantes
-  z <- dplyr::filter(z, !is.na(Value)) 
+  z <- dplyr::filter(z, !is.na(Value))
   z <- dplyr::arrange(z, Date)
   nz <- nrow(z)
   x <- vector(mode = "integer", length = nz)
@@ -65,10 +65,10 @@ h_common <- function (files) {
     fileo[i] <- paste0(dn,"/co_", basename(files[i]))
     save(tstab, file = fileo[i])
   }
-  duration <- round(Sys.time() - start_time, 2)
-  
+#  duration <- round(Sys.time() - start_time, 2)
+
 # retour
-  message("\n",n, " files written with ", nrow(tstab), " lines each. in ", duration, " sec\n")
+  message(n, " files written with ", nrow(tstab), " lines each and common times.\n")
   return(fileo)
 }
 

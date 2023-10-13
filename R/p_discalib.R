@@ -40,23 +40,6 @@ p_discalib <- function (fsq, sta, sen = "IH", plotcalib= TRUE, plotdism=TRUE,
   title="Title", savefig=FALSE, width= 8, height= 6, fout="plot.png",
   limx =FALSE, limy = FALSE, xinf=NA, xsup=NA, yinf=NA, ysup=NA) {
 
-  #----------
-  # FUNCTION u_exp_discalib
-  # @title Export discharge measurements and calibrations from data base
-  #
-  # @author P. Chevallier - Sep 2017 - Nov 2020
-  #
-  # @description Export discharge measurements and calibrations from data base
-  #
-  # @param fsq Full name of the data base
-  # @param sta Station Id.
-  # @param calib Calibration extraction TRUE (default)/FALSE
-  # @param dism Discharge measurement extraction TRUE (default)/FALSE
-  #
-  # @seealso \code{\link{d_exp_hts}} for export time-series
-  #
-  # @return a list of 2 tibbles, one with the calibration table and one with the discharge measurements
-
   u_exp_discalib <- function(fsq, sta, calib=TRUE, dism=TRUE) {
 
     # initialisation

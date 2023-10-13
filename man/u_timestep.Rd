@@ -24,5 +24,5 @@ Compute values in a time-series with a fixed timestep
 iop = 1 for sum; 0 for mean; -2 for min and +2 for max
 }
 \author{
-P. Chevallier - June 2023
+P. Chevallier - June / Oct 2023
 }

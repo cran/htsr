@@ -2,21 +2,26 @@
 % Please edit documentation in R/ds_exp_hts.R
 \name{ds_exp_hts}
 \alias{ds_exp_hts}
-\title{Shiny app: export hts files from a sqlite data base}
+\title{Extraction of a time-series from htsr data base}
 \usage{
 ds_exp_hts()
 }
 \value{
-a shiny session
+The function returns a file (nomfic) with the following name: <sensor.id>_<station.id>.hts
 }
 \description{
-Shiny application of the \code{\link{d_exp_hts}} function
+The function display a web page allowing to extract a time-series in the "hts" format.
 }
 \details{
 Complete the requested information in the left panel, then press the submit button in
 order to extract the file. If you want to display the plot of the extracted file,
 choose "line" or "bar" and press the plot button.
+
+ When the subfunction "d_exp_hts(fsq, sta,sen,rtime=FALSE,dstart=NA,dend=NA, rplot=FALSE)"
+ is used solely it returns a tibble tstab with 4 columns Date, Value, Station, Sensor.
+ In this last subfunction fsq is the sqlite data base; sta, the station id, sen, the sensor id; rtime, dstart and
+ dend define a time interval; rplot, the resulted plot.
 }
 \author{
-P. Chevallier - Apr 2020 - Sep 2023
+P. Chevallier - Oct 2017 - Sep 2023
 }

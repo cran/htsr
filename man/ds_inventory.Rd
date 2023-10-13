@@ -2,22 +2,27 @@
 % Please edit documentation in R/ds_inventory.R
 \name{ds_inventory}
 \alias{ds_inventory}
-\title{Shiny app: inventory of htsr sqlite data base}
+\title{Inventory of an htsr data base}
 \usage{
 ds_inventory()
 }
 \value{
-a shiny session
+Two tables with the inventory of stations and sensors of a data base.
 }
 \description{
-Shiny application of the \code{\link{d_inventory}} function
+The function display a web page in order to produce an inventory of the
+stations and of sensors included in an htsr data base.
 }
 \details{
 Complete the requested information in the left panel, then press the submit button.
  If the station field is empty, the function will return the list of the stations
  in the data base. If the station field is filled, the function will return the
  list of the station sensors in the data base. When finished press "done".
+
+ If "Output format" is "none", the results are displayed on the screen, If it is "xlsx", an Excel
+ file with two sheets is produced. If it is "csv" (, as separator) or "csv2" (; as separator),
+ two csv files are produced with station and sensor lists.
 }
 \author{
-P. Chevallier - Sep 2020 - Sep 2023
+P. Chevallier - Jan 2019 - Sep 2023
 }

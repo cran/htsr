@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 2.1.1 - 2023-09-19**
+**v 2.1.2 - 2023-10-13**
   
 # Content
 * Origin
@@ -177,13 +177,11 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `d_create(fsq, cr_table = TRUE, bku = TRUE)`, creates a htsr sqlite data base
 
-* `d_inventory(fsq, stalist = NA, form.out = NA)` or `ds_inventory()`, makes the inventory of a htsr sqlite data base. The second is a Shiny interface of `d_inventory`
+* `ds_inventory()`, makes the inventory of a htsr sqlite data base.
 
-* `d_sensor(fsq, op = "C", sta, sen, table = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station()`, creates, modifies or removes a sensor. The second is a Shiny interface of 
-`d_sensor`
+* `ds_sensor()`, creates, modifies or removes a sensor.
 
-* `d_station(fsq, op = "C", sta = NA, name_st = NA, name_fld = NA, value_fld = NA, bku = TRUE)`, or `ds_station()`, creates, modifies or removes a station. The second is a Shiny interface of 
-`d_station`
+* `ds_station()`, creates, modifies or removes a station. 
 
 * `d_table(fsq, table, op = "C", bku = TRUE)` creates or removes a table
 
@@ -191,13 +189,11 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `d_exp_discalib(fsq, sta, calib=TRUE, dism=TRUE)`, exports discharge measurements and calibrations from data base
 
-* `d_exp_hts(fsq, sta, sen, rtime = FALSE, dstart, dend, rplot = FALSE)` or `ds_exp_hts()`, extract hts files from a sqlite data base. The second is a shiny interface of `d_exp_hts`
+* `ds_exp_hts()`, extract hts files from a sqlite data base
 
 * `d_imp_hts(fsq, file, table, bku = TRUE)`, imports a hts file into a data base
 
 * `d_rem_hts(fsq, table, sta, sen, start = NA, end = NA)`, removes a htsr record from a data base
-
-* `d_wind(fsq, sta = NA, swd = NA, swv = NA)`, creates a wind table
 
 ### Conversion
 
@@ -254,11 +250,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 ### Time treatments
 
-* `hs_tstep()`, combines in a shiny environment both functions `h_timestep()` and `h_month()`  
-
-* `h_timestep(file, tst, op = "M")`, computes infra-daily data with a fixed time step. Generates a file with the suffix `_xxxx`, where xxxx is the `tst` value.
-
-* `h_month(file, op="M", ba=NA, rmna=FALSE, climedit=FALSE, caledit_j=FALSE, caledit_m=FALSE, gapfill=FALSE)`, makes monthly operations, based on a daily time-series.  Generates hts files with the suffixes `_C`, `_G` or `_M` and MS Excel files with the prefixes `ad_` and `cm_`.
+* `hs_tstep()`, computes infra-daily data with a fixed time step. Generates a file with the suffix `_xxxx`, where xxxx is the `tst` value. It also makes monthly operations, based on a daily time-series.  Generates hts files with the suffixes `_C`, `_G` or `_M` and MS Excel files with the prefixes `ad_` and `cm_`.
 
 * `h_year(file, mhy = 1, op = "M", dig = 1)` extracts an annual time series from a daily time series.
 
@@ -282,13 +274,7 @@ an interval longer than 4 years.
 
 ### General plots
 
-* `ps_plothts()`, plots hts files. Shiny interface of `p_line` & `p_bar`
-
-* Line / Bar plotting (works in combination with `z_set`)
-
-  + `p_bar()`, plots bars
-
-  + `p_line()`, plots lines and/or points
+* `ps_plothts()`, plots hts files.
 
 ### Other plots
 
@@ -305,7 +291,7 @@ an interval longer than 4 years.
 
 * `p_scatter(files, intercept.zero = FALSE, remove.zero = FALSE, lg.axis = c(NA, NA),title = "Title")`, plots a scatter plot of 2 or more time-series
 
-* `p_wind(data_wind, ws.int = 0.5, angle = 45, grid.line = 10, type = "default",  breaks = 5, offset = 5, paddle = FALSE)`, plots wind rose
+* `p_wind(fsq, sta, swd, swv, ws.int = 0.5, angle = 45, grid.line = 10, type = "default",  breaks = 5, offset = 5, paddle = FALSE)`, plots wind rose
 
 ## Weather functions (prefix `w_`)
 
@@ -320,9 +306,6 @@ an interval longer than 4 years.
 ## Miscellaneous functions (prefix `z_`)
 
 * `z_coord(ncoord = NA, ccoord = NA, type)`, converts coordinate from numeric to character and reverse.
-
-* `z_set (file.names= file.names, plot.label="label", line.type = 1, line.width = 0.2, point.shape = 15, point.size = 8, title = "Title", yaxis = "y-Axis", normval = FALSE, fixtime = FALSE, begin = today(), end = today(), fixy = FALSE, ymin = as.numeric(NA), ymax = as.numeric(NA), trend = FALSE, facet=FALSE, point.plot = FALSE, tz = "UTC", palette="ggplot2")`, works in combination with `p_line` and `p_bar`.
-
 
 # Development main references
 

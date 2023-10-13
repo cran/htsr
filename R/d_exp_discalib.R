@@ -9,7 +9,7 @@
 #' @param calib Calibration extraction TRUE (default)/FALSE
 #' @param dism Discharge measurement extraction TRUE (default)/FALSE
 #'
-#' @seealso \code{\link{d_exp_hts}} for export time-series
+#' @seealso \code{\link{ds_exp_hts}} for export time-series
 #'
 #' @return a list of 2 tibbles, one with the calibration table and one with the discharge measurements
 #'

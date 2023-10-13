@@ -1,9 +1,9 @@
 #' @title Plot climatologies in hydrological year
 #'
-#' @author P. Chevallier - Feb 2017-Feb 2019
+#' @author P. Chevallier - Feb 2017 - Sep 2023
 #'
 #' @description This function processes climatology hts files created with
-#' \code{\link{h_month}}.
+#' \code{\link{hs_tstep}}.
 #'
 #' @param files List of climatology file names
 #' @param type Type: "line" (default) or bar"

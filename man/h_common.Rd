@@ -23,5 +23,5 @@ f <- h_common(files = c("foo1.hts","foo2.hts"))
 }
 }
 \author{
-P. Chevallier - Oct 2017-June 2023
+P. Chevallier - Oct 2017 - Oct 2023
 }

@@ -2,24 +2,54 @@
 % Please edit documentation in R/hs_tstep.R
 \name{hs_tstep}
 \alias{hs_tstep}
-\title{Shiny app: convert f file with fixed time-step}
+\title{hts time series with fixed timestep}
 \usage{
 hs_tstep()
 }
 \value{
-a shiny session and hts file at the requested timestep with a suffix giving the timestep in minutes, i.e.
-1440 for the daily timestep, or M for the monthly timestep.
+hts files at the requested timestep with a suffix giving the timestep in minutes, i.e.
+1440 for the daily timestep. In the case or monthly timestep, the suffixes are: M for the
+current case, C for the climatology, G for the gapfilled file.
+
+Optionally, two Excel files with values in "calendar form": one with
+daily data and one with monthly data, the fist one with a ad_ prefix and the
+second one with the am_ prefix.
 }
 \description{
-Shiny application of the  functions \code{\link{h_timestep}} and \code{\link{h_month}}
+Computes time-series with a fixed timestep from infra-daily to monthly within a shiny web page.
 }
 \details{
-The output files are written in same folder as the starting hts file.
+First of all, one must select a "starting" hts file, instantaneous or already with
+a fixed timestep.
 
-In the case of the monthly time step, the modes max-av an max-max mean that in the first case the daily max
-is computed and the monthly average of the daily max, in the second case, the monthly max of the daily max is
-given (idem for the min values)
+Then one must choose the computing time-step and mode, between the possible choices. Note that
+the timezone considered is the timezone of the "starting" file.
+
+Possible time-steps are: 5, 10 or 30 minutes, 1, 2, 3, 6 or 12 hours, 1 day, 1 month.
+It shall be noted that when computing the monthly time step, the daily time step is previously computed.
+
+Possible modes are: average, sum, max or min. For monthly time step, max and min offers two options:
+daily max averages, respectively min, or absolute, respectively min.
+
+In the case of a daily timestep, a shift value (in hours) allows to shift the time interval.
+For example if shift = 6, the date is computed from 6am until 6am the following day. The result is
+dated in the middle of the interval, i.e. if shift = 6; the datetime is 18.
+
+In the case of a monthly timestep, associated additional time series can be optionally
+computed:
+
+\itemize{
+  \item A mean monthly climatology, taking into account or not the missing daily values with the
+  option "remove NA". Climatology files are by convention awarded to year 2000.
+  \item Excel files: with a calendar presentation (days in rows, months in columns,
+   years in sheets): option caledit_j ; with the monthly means (or sums): option caledit_m.
+  \item Missing values can be replaced by the mean of the existing values for
+  other years: option gapfill.
+  \item Extract year stat
+}
+
+The output files are written in same folder as the starting hts file.
 }
 \author{
-P. Chevallier - Dec 2020 - Sep 2023
+P. Chevallier - Oct 2017 - Sep 2023
 }

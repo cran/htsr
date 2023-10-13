@@ -5,7 +5,10 @@
 \title{Plot wind roses}
 \usage{
 p_wind(
-  data_wind,
+  fsq,
+  sta,
+  swd,
+  swv,
   ws.int = 0.5,
   angle = 45,
   grid.line = 10,
@@ -17,7 +20,13 @@ p_wind(
 )
 }
 \arguments{
-\item{data_wind}{Name of the tibble containing the wind data}
+\item{fsq}{Full name of the htsr data base}
+
+\item{sta}{Station id}
+
+\item{swd}{Id of wind direction sensor}
+
+\item{swv}{Id of wind speed sensor}
 
 \item{ws.int}{Size of speed intervals}
 
@@ -40,20 +49,13 @@ if TRUE, rectangular}
 A wind rose plot
 }
 \description{
-Plot wind roses using the "data_wind" tibble created with the
-function \code{\link{d_wind}}.
+Plot wind roses
 }
 \details{
 For a detailed description of all parameters see \code{\link[openair]{windRose}}
 }
-\examples{
-\dontrun{
-p_wind (data_wind = data_wind)
-}
-
-}
 \seealso{
-\code{\link{d_wind}}, \code{\link[openair]{windRose}}
+\code{\link[openair]{windRose}}
 }
 \author{
 P. Chevallier - Dec 2019 - Sep 2023
