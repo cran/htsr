@@ -252,7 +252,7 @@ ds_sensor <- function(){
 		titlePanel("Create, remove or modify a sensor"),
 
 		fluidRow(
-			shinyFilesButton("file", "File select", "Please select a sqlite data base",
+			shinyFilesButton("file", "Select database", "Please select a sqlite data base",
 											 multiple = FALSE, viewtype = "detail", class ="btn btn-primary"),
 			textOutput("fsq"),
 			hr()

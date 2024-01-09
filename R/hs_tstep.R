@@ -318,10 +318,16 @@ hs_tstep <- function (){
 			(shift * 3600) else td <- (date.deb %/% 86400) * 86400
 		if (tst == 1440) te <- ((date.end %/% 86400) + 1) * 86400 +
 			(shift * 3600) else te <- ((date.end %/% 86400) + 1) * 86400
-		te <- as.integer(te-td)
+
+		if (td < 0) tshift <- -td else tshift <- 0
+		td <- td + tshift
+		te <- as.numeric(te + tshift)
+
+		te <- (te-td)
 		ni <- te / (60 * tst)
 		message("nb of iterations ",ni)
-		yd <- as.integer(y$Date)-td
+
+		yd <- as.integer(y$Date)-td +tshift
 		yv <- as.numeric(y$Value)
 		if (op == "S") iop <- 1
 		if (op == "M") iop <- 0
@@ -333,15 +339,15 @@ hs_tstep <- function (){
 
 		#Calcul date
 		xd <- vector(mode="integer", length = ni)
-		for (i in 1:ni) xd[i] <- td + (i-1)* tst * 60
+		for (i in 1:ni) xd[i] <- (td-tshift) + (i-1)* tst * 60
 		if (tst == 1440) xd = xd-43200
 
 		#Ecriture
 		x <- tibble(Date=as_datetime(xd), Value=xv)
 		tstab <- mutate(x, Station = as.factor(sta), Sensor = as.factor(capt))
 		save(tstab,file=fileo)
-		message("Init ", as.character(as.POSIXct(td,origin="1970-1-1")),
-						" End ", as.character(as.POSIXct(te+td,origin="1970-1-1")))
+		message("Init ", as.character(as.POSIXct(td-tshift,origin="1970-1-1")),
+						" End ", as.character(as.POSIXct(te+td-tshift,origin="1970-1-1")))
 		message("Timestep ", tst, " minutes")
 		if (op=="S") message("Sum values")
 		if (op=="M") message("Mean values")

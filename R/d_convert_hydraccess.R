@@ -9,7 +9,7 @@
 #' @param fsq Full name of the sqlite data base
 #' @param db.hydraccess Full name of the hydraccess data base
 #'
-#' @seealso \code{\link{ds_inventory}} for displaying
+#' @seealso \code{\link{ds_inventory_station}} and \code{\link{ds_inventory_sensor}} for displaying
 #' the content of the sqlite data base;
 #'  \code{\link{ds_exp_hts}} for extracting a time-series.
 #'
@@ -21,7 +21,7 @@
 #' An 32b ODBC Microsoft driver must be configured
 #' in the "administrative tools" and installed for the
 #' hydraccess data base. The correct functioning can be verified
-#' using the sub-function u_test_rodbc(db.hydraccess),
+#' using the sub-function u_test_rodbc (db.hydraccess),
 #' which must be successful.
 #'
 #' @return A new or a replaced sqlite htsr data base.
@@ -33,7 +33,7 @@
 #'
 #'
 
-d_convert_hydraccess <- function(fsq,db.hydraccess){
+d_convert_hydraccess <- function(fsq, db.hydraccess){
 
 	requireNamespace("RODBC", quietly = TRUE)
 

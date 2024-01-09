@@ -248,7 +248,7 @@ ds_exp_hts <- function () {
 		fluidRow(sidebarLayout(
 			sidebarPanel(
 				width = 5,
-				shinyFilesButton("file", "File select", "Please select a sqlite data base",
+				shinyFilesButton("file", "Select database", "Please select a sqlite data base",
 												 multiple = FALSE, viewtype = "detail", class = "btn btn-primary"),
 				textInput("Station_id", "Station ID"),
 				textInput("Sensor_id", "Sensor ID"),

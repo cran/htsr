@@ -4,12 +4,12 @@
 \alias{d_imp_hts}
 \title{Import a hts file into a data base}
 \usage{
-d_imp_hts(fsq, file, table, bku = TRUE)
+d_imp_hts(fsq, filein, table, bku = TRUE)
 }
 \arguments{
 \item{fsq}{Full name of the data base}
 
-\item{file}{Full name of hts file to import}
+\item{filein}{Full name of hts file to import}
 
 \item{table}{Table}
 
@@ -22,11 +22,11 @@ Actualized data base
 Import a hts file into a tshm sqlite base
 }
 \details{
-The main table where the data have to be removed must be selected with one the
+The main table where the data have to be imported must be selected with one of the
 following abbreviation: WL (water level), DI (discharge), WE (weather), PR (precipitation)
 or QU (quality)
 If records already exist during the same interval, they are removed and replaced.
 }
 \author{
-P. Chevallier - jan 2019
+P. Chevallier - jan 2019-jan 2024
 }

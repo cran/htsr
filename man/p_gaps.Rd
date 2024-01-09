@@ -7,7 +7,7 @@
 p_gaps(files, title = "Inventory", BW = FALSE, margin = 0.1)
 }
 \arguments{
-\item{files}{List of series to plot}
+\item{files}{List of series to plot (hts files)}
 
 \item{title}{Plot title, default is "Inventory"}
 

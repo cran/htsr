@@ -1,17 +1,17 @@
 #' @title Import a hts file into a data base
 #'
-#' @author P. Chevallier - jan 2019
+#' @author P. Chevallier - jan 2019-jan 2024
 #'
 #' @description Import a hts file into a tshm sqlite base
 #'
 #' @details
-#' The main table where the data have to be removed must be selected with one the
+#' The main table where the data have to be imported must be selected with one of the
 #' following abbreviation: WL (water level), DI (discharge), WE (weather), PR (precipitation)
 #' or QU (quality)
 #' If records already exist during the same interval, they are removed and replaced.
 
 #' @param fsq Full name of the data base
-#' @param file Full name of hts file to import
+#' @param filein Full name of hts file to import
 #' @param table Table
 #' @param bku Automatic Backup TRUE (default) / FALSE
 #'
@@ -20,19 +20,15 @@
 #'
 
 
-d_imp_hts <- function(fsq, file, table, bku = TRUE) {
+d_imp_hts <- function(fsq, filein, table, bku = TRUE) {
 
   #Init
   tstab <- Table <- Station <- Sensor <- Value <-NULL
-  load(file)
-  sta <- as.character(tstab$Station[1])
-  sen <- as.character(tstab$Sensor[1])
-
 
   # Warnings
   if (!file.exists(fsq))
     return(warning("\nThis data base doesn't exist, Verify!\n"))
-    conn <- dbConnect(SQLite(),fsq)
+  conn <- dbConnect(SQLite(),fsq)
   ltable <- dbListTables(conn)
   dbDisconnect(conn)
   if(!("ST") %in% ltable || !("SS") %in% ltable)
@@ -43,6 +39,12 @@ d_imp_hts <- function(fsq, file, table, bku = TRUE) {
     return(warning("\nNo table", table, "in the data base.\n"))
   if((table %in% c("WL", "DI", "QU"))) type_st <- "H"
   if((table %in% c("WE", "PR"))) type_st <- "M"
+
+  load(file=filein)
+  sta <- as.character(tstab$Station[1])
+  sen <- as.character(tstab$Sensor[1])
+
+
   conn <- dbConnect(SQLite(),fsq)
     selec <- paste ("SELECT * FROM ST")
     xst <- dbGetQuery(conn, selec)
@@ -77,7 +79,8 @@ d_imp_hts <- function(fsq, file, table, bku = TRUE) {
   nrl <- nrow(x)
   conn <- dbConnect(SQLite(),fsq)
     dbWriteTable(conn, name=table, x, append = TRUE)
-  message("\n ",nrl, " records have been added to the table.\n")
+  	message("\n ",nrl, " records have been added to the table.\n")
+  dbDisconnect(conn)
 }
 
 #Fin

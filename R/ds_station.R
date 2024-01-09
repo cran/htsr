@@ -218,7 +218,7 @@ ds_station <- function(){
 		titlePanel("Create, remove or modify a station"),
 
 		fluidRow(
-			shinyFilesButton("file", "Sqlite File select", "Please select a sqlite data base",
+			shinyFilesButton("file", "Select database", "Please select a sqlite data base",
 											 multiple = FALSE, viewtype = "detail", class ="btn btn-primary"),
 			textOutput("fsq"),
 			hr()

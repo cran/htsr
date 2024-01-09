@@ -23,13 +23,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // u_timestep
-NumericVector u_timestep(int te, IntegerVector yd, NumericVector yv, int tst, int iop);
+NumericVector u_timestep(double te, NumericVector yd, NumericVector yv, int tst, int iop);
 RcppExport SEXP _htsr_u_timestep(SEXP teSEXP, SEXP ydSEXP, SEXP yvSEXP, SEXP tstSEXP, SEXP iopSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type te(teSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type yd(ydSEXP);
+    Rcpp::traits::input_parameter< double >::type te(teSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type yd(ydSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type yv(yvSEXP);
     Rcpp::traits::input_parameter< int >::type tst(tstSEXP);
     Rcpp::traits::input_parameter< int >::type iop(iopSEXP);

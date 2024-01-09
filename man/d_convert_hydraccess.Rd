@@ -26,7 +26,7 @@ is requested to overwrite it.
 An 32b ODBC Microsoft driver must be configured
 in the "administrative tools" and installed for the
 hydraccess data base. The correct functioning can be verified
-using the sub-function u_test_rodbc(db.hydraccess),
+using the sub-function u_test_rodbc (db.hydraccess),
 which must be successful.
 }
 \examples{
@@ -38,7 +38,7 @@ d_import_hydraccess("foo.sqlite","foo.mdb")
 
 }
 \seealso{
-\code{\link{ds_inventory}} for displaying
+\code{\link{ds_inventory_station}} and \code{\link{ds_inventory_sensor}} for displaying
 the content of the sqlite data base;
  \code{\link{ds_exp_hts}} for extracting a time-series.
 }

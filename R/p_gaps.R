@@ -15,7 +15,7 @@
 #' Default value is 0.1 of the difference between the minimum and the maximum date. It shall be adjusted
 #' following the length of the labels.
 #'
-#' @param files List of series to plot
+#' @param files List of series to plot (hts files)
 #' @param title Plot title, default is "Inventory"
 #' @param BW Black & white plot TRUE / FALSE (default)
 #' @param margin Reserved space for label writing - default is 0.1
@@ -27,18 +27,17 @@
 #'
 p_gaps <- function (files, title = "Inventory", BW = FALSE, margin = 0.1){
 
-	requireNamespace("directlabels", quietly = "TRUE")
+#	requireNamespace("directlabels", quietly = "TRUE")
+	requireNamespace("directlabels")
+
 
   valeur <- stacapt <- NULL
 
 # constitution du fichier de trace
   nbf <- length(files)
   for (i in 1:nbf) {
-    f <- files[i]
-    if(tools::file_ext(f) != "gap"){
-      warning("Not a gap file!\n")
-      stop()
-    }
+  	f_properties(files[i], gaps = TRUE)
+  	f <- paste0(tools::file_path_sans_ext(files[i]),".gap")
     load(f)
     if (i == 1) {
       z <- ze

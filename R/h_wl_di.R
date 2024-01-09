@@ -451,5 +451,5 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
   # écriture fichier et enregistrement dans la base de données
   save(tstab, file = fileo)
   message("File written: ", fileo)
-  if (dbo) d_imp_hts(fsq=fsq, file = fileo, table = "DI", bku = TRUE)
+  if (dbo) d_imp_hts(fsq=fsq, filein = fileo, table = "DI", bku = TRUE)
 }

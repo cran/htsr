@@ -12,7 +12,7 @@
 #'
 #' @seealso
 #' \itemize{
-#'  \item \code{\link{ds_inventory}} to list the content of the base ;
+#'  \item \code{\link{ds_inventory_station}} and \code{\link{ds_inventory_station}} to list the content of the base ;
 #'  \item \code{\link{ds_exp_hts}} to extract a time-series
 #' }
 #'

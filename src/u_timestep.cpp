@@ -16,12 +16,12 @@ using namespace Rcpp;
 
 //[[Rcpp::depends(Rcpp)]]
 // [[Rcpp::export]]
-NumericVector u_timestep (int te, IntegerVector yd, NumericVector yv, int tst, int iop) {
+NumericVector u_timestep (double te, NumericVector yd, NumericVector yv, int tst, int iop) {
 	Rcout.precision(2);
   int m = yd.size();
   int n = te/(tst*60);
 
-  IntegerVector xd(n), l(n);
+  NumericVector xd(n), l(n);
   NumericVector xv(n);
   NumericVector yyv(m);
 
