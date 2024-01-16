@@ -1,10 +1,10 @@
-c9ffb65fd3468a0c2cbd2b61981eb324 *DESCRIPTION
+c5acef4b0cfd1f06fab5675ae522c317 *DESCRIPTION
 78c432f5752473d5824e1adecb7447fe *NAMESPACE
 4152f442b17a96d93ff2fc60acc66f28 *R/RcppExports.R
 0c512dd58fcf5c99010051021a548802 *R/d_backup.R
 7bc4e193ca4d0316eeca0d5b8baa3d06 *R/d_compact.R
 6e2ef982a2e6d4e63a717d38bde6a2f5 *R/d_convert_hydraccess.R
-f3e72627e1c36e62ef3a4ca21a47596f *R/d_convert_meteofrance_d.R
+5ec65361a60df5959b87223a665ed466 *R/d_convert_meteofrance_d.R
 00f8a1a608448b340e3c27da85b817fd *R/d_convert_weewx.R
 04e295e6f6309d3321072ca15f2908f6 *R/d_create.R
 a7956bf255d474dd53420f401090cdc1 *R/d_exp_discalib.R
@@ -12,7 +12,7 @@ a7956bf255d474dd53420f401090cdc1 *R/d_exp_discalib.R
 a6fd817a432333f08f165fdcdbe8b0a8 *R/d_rem_hts.R
 674e2aa42d34d51afdabad84f4fd4d82 *R/d_table.R
 e1b77219d9781d552dceebb9a9d4c3cf *R/ds_exp_hts.R
-4c605fbb0f88541d065ba00e6875165d *R/ds_inventory_sensor.R
+4cfebde5d3a0cdad8542b996c0480a80 *R/ds_inventory_sensor.R
 e2244f5a47bbc71c4530c275af7605e6 *R/ds_inventory_station.R
 e0f0519e9b698210a3960a52fd20bc6b *R/ds_sensor.R
 6a81cef1bd7a4407007f1601db1b0ee5 *R/ds_station.R
@@ -23,6 +23,7 @@ def0de4eff7e513f53ea5da1a859645d *R/f_change_id.R
 84f397d05c6c5ffbaeabedaf0af90459 *R/f_properties.R
 cac7ddd858699372ae334e7916c7e14e *R/fc.R
 9bc7c3eb731bf735cfd0bfc49905789a *R/h_addna.R
+d7b5baff5e1e042dc3a5906a3c77a5c2 *R/h_adjust.R
 23144823b0f4b3e69b13077b46f6a2fb *R/h_avday.R
 2be68dbec5040cc52482528c85872043 *R/h_change_tz.R
 b493d3d48b9c99c5ee93669adb52bd01 *R/h_common.R
@@ -43,7 +44,7 @@ b1bed7a44359cb3114a230c05d8caa13 *R/h_substitute.R
 12019f1284260f13ce05963e6815e89a *R/h_weightedsum.R
 37dacf7ebb08e01df65bcb78c908fbf6 *R/h_wl_di.R
 9dc084729de3daa355718e77a698c1b3 *R/h_year.R
-39070e3efb39a6f05fa87a1e845ecd49 *R/hs_tstep.R
+ec6b455d6db20bc7739ddde282aa9c93 *R/hs_tstep.R
 df6cc46bc7fae1a55b713f3d5065b35a *R/htsr-package.R
 afbd3652cdb8a6e8d99b6a97a14bb676 *R/p_box_month.R
 5720c732ee3d23ef108da63367785645 *R/p_clim.R
@@ -60,15 +61,15 @@ cc9e13a515f8834ee01721eef1a6c497 *R/w_temp_alt.R
 faf15abeb7bd2b82f0583e639f2130f8 *R/z_coord.R
 457498db9296f32ad13252e3bfeeee6d *build/vignette.rds
 5e270ae6034b339c2a13d20a5f7d2dec *inst/doc/htsr-package.R
-20590ac0c4791d731f5dc6cb5856d260 *inst/doc/htsr-package.Rmd
-e8141e1d99646f3e3ffea3a1e9b9a05a *inst/doc/htsr-package.html
+eb124f77d1e2315344b69f9d1b313285 *inst/doc/htsr-package.Rmd
+2b58a537ddcf8713827eeb0cea88c3d4 *inst/doc/htsr-package.html
 33ad5af9932cf5cbe8847ebf03ede929 *inst/extdata/conf.RData
 aff19cbfe8ba49e67bf913d9adbce46a *inst/extdata/fil.RData
 beee733f8e51c35382c03b2834e1aa10 *inst/extdata/settings.RData
 1e2c79d3adefd99ffd4b1edd2744dcc3 *man/d_backup.Rd
 50d046cfd5543dd4d9aa3821f3c39204 *man/d_compact.Rd
 089cd0b7b86a81e20863f56ceabfc1bf *man/d_convert_hydraccess.Rd
-ca53c4d3a58d970a2cd38ce2c3bd9a01 *man/d_convert_meteofrance_d.Rd
+3201edb9a1de6577c7f2866532f7adf3 *man/d_convert_meteofrance_d.Rd
 8cd312aa9accf6207d8f6229a52e8324 *man/d_convert_weewx.Rd
 9ba2745a4e2cedc37cb0e957ea8a73fd *man/d_create.Rd
 dac05520ec74a22829cf764a7af808a4 *man/d_exp_discalib.Rd
@@ -76,7 +77,7 @@ dac05520ec74a22829cf764a7af808a4 *man/d_exp_discalib.Rd
 be1f239caa04693736ccf9086559a915 *man/d_rem_hts.Rd
 70c99844866464c0b1b6ff1e7573bf6e *man/d_table.Rd
 322d9ea6b0739e6a392af580b78d33f4 *man/ds_exp_hts.Rd
-799f33dffa95cd99857b7ebdd8d56b80 *man/ds_inventory_sensor.Rd
+f7b02c141b475313b939cc1c522f4f28 *man/ds_inventory_sensor.Rd
 6fa0d48f1cfe64b73be97c1a3e067032 *man/ds_inventory_station.Rd
 0ac32f307dd4719b3ee4c416a92a4d02 *man/ds_sensor.Rd
 429c2ad69ffc1e27e5b780e4243edcd5 *man/ds_station.Rd
@@ -87,6 +88,7 @@ e0ab2843d7e5a6ecfb5285b6c65646d9 *man/f_convert.Rd
 f81413ccce5462ec0cd3817660608ba7 *man/f_properties.Rd
 fdb23b76f027b50a4766d7996edd8eb3 *man/fc.Rd
 b020331bf188d60d2d4fc0464c00ff05 *man/h_addna.Rd
+0ba9a5cd7dddfcf5eb6f82df22e377a2 *man/h_adjust.Rd
 c5d54426718f943e52ac138df84bc52e *man/h_avday.Rd
 f3b2c946857457cd6d0f402716e3d963 *man/h_changetz.Rd
 1e22fae9249ff983b65a9df45ecb4274 *man/h_common.Rd
@@ -126,5 +128,5 @@ a37e2dfb44ba208c555ef55b681894e3 *man/w_spechum2relhum.Rd
 f6163568904145629db180a9ff9bc3b6 *man/z_coord.Rd
 dc24b4fecb3a434a54c53de11872d6cf *src/RcppExports.cpp
 0c54c640d08af56127cd18840e6813ad *src/u_index.cpp
-51ee3ea51ce0c8ef7220b3d700cbba3d *src/u_timestep.cpp
-20590ac0c4791d731f5dc6cb5856d260 *vignettes/htsr-package.Rmd
+9e30c1482e6a895ce46634f0d09975a1 *src/u_timestep.cpp
+eb124f77d1e2315344b69f9d1b313285 *vignettes/htsr-package.Rmd

@@ -1,12 +1,17 @@
 #' @title Convert a Meteo-France csv daily basic data file into a htsr sqlite base
 #'
-#' @author P. Chevallier - dec 2023
+#' @author P. Chevallier - dec 2023 - jan 2024
 #'
-#' @description Convert a meteo-france csv data file into a htsr sqlite base. It regards
+#' @description Convert a Meteo-France csv daily data file into a htsr sqlite base. It regards
 #' the "basic" data file, which includes precipitation, temperature and wind data. For other
 #' variables the function d_convert_meteofrance_d1 shall be used with the corresponding csv file.
 #' The csv file shall be downloaded from https://meteo.data.gouv.fr/
 #' The name of the created sqlite file is the same as the csv file with an extension .sqlite.
+#'
+#' @details
+#' The sensors have an additional prefix d (as daily) in order to distinguish them from sensors with another
+#' time reference.
+#'
 #'
 #' @param fmeteo Full name of the Meteo-France csv file
 
@@ -409,9 +414,10 @@
 
 		# cas precipitation
 		l <- "RR"
-		for (i in 1:length(cod_sta)) map(l, function(.x) d_sensor(fsq, op = "C", sta = cod_sta[i], sen=.x,
+		for (i in 1:length(cod_sta)) map(l, function(.x) d_sensor(fsq, op = "C", sta = cod_sta[i],
+																	sen=paste0("d",.x),
 																	 table = "PR", bku = FALSE))
-		xx <- transmute(x,Type_Station="M",Id_Station=NUM_POSTE, Capteur="RR", Date = AAAAMMJJ, Valeur = RR, Tabl = "PR", Qualite = QRR)
+		xx <- transmute(x,Type_Station="M",Id_Station=NUM_POSTE, Capteur="dRR", Date = AAAAMMJJ, Valeur = RR, Tabl = "PR", Qualite = QRR)
 		conn <- dbConnect(SQLite(),fsq)
 		dbWriteTable(conn, name="PR", xx, append = TRUE)
 		dbDisconnect(conn)
@@ -422,12 +428,13 @@
 										 "DXY","HXY","FXI","DXI","HXI",
 										 "FXI2","DXI2","HXI2","FXI3S","DXI3S","HXI3S"))
 
-		for (i in 1:length(cod_sta)) map(l, function(.x) d_sensor(fsq, op = "C", sta = cod_sta[i], sen=.x,
+		for (i in 1:length(cod_sta)) map(l, function(.x) d_sensor(fsq, op = "C", sta = cod_sta[i],
+																sen=paste0("d",.x),
 																 table = "WE", bku = FALSE))
 		for (j in 1:length (l)) {
 			xval <- x[,7+j*2]
 			xqval <- x[,8+j*2]
-			xx <- transmute(x,Type_Station="M",Id_Station=NUM_POSTE, Capteur=l[j], Date = AAAAMMJJ, xval, Tabl = "WE" , xqval)
+			xx <- transmute(x,Type_Station="M",Id_Station=NUM_POSTE, Capteur=paste0("d",l[j]), Date = AAAAMMJJ, xval, Tabl = "WE" , xqval)
 			colnames(xx) <- c("Type_Station", "Id_Station", "Capteur", "Date", "Valeur", "Tabl" ,"Qualite")
 			conn <- dbConnect(SQLite(),fsq)
 			dbWriteTable(conn, name="WE", xx, append = TRUE)

@@ -10,12 +10,16 @@ d_convert_meteofrance_d(fmeteo)
 \item{fmeteo}{Full name of the Meteo-France csv file}
 }
 \description{
-Convert a meteo-france csv data file into a htsr sqlite base. It regards
+Convert a Meteo-France csv daily data file into a htsr sqlite base. It regards
 the "basic" data file, which includes precipitation, temperature and wind data. For other
 variables the function d_convert_meteofrance_d1 shall be used with the corresponding csv file.
 The csv file shall be downloaded from https://meteo.data.gouv.fr/
 The name of the created sqlite file is the same as the csv file with an extension .sqlite.
 }
+\details{
+The sensors have an additional prefix d (as daily) in order to distinguish them from sensors with another
+time reference.
+}
 \author{
-P. Chevallier - dec 2023
+P. Chevallier - dec 2023 - jan 2024
 }

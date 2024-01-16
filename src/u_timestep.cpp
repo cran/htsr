@@ -19,16 +19,16 @@ using namespace Rcpp;
 NumericVector u_timestep (double te, NumericVector yd, NumericVector yv, int tst, int iop) {
 	Rcout.precision(2);
   int m = yd.size();
-  int n = te/(tst*60);
+  long long n = (te-yd[0])/(tst) + 1;
 
   NumericVector xd(n), l(n);
   NumericVector xv(n);
   NumericVector yyv(m);
 
-  for(int k=0; k<n; ++k) xd[k] = k*tst*60;
+  for(int k=0; k<n; ++k) xd[k] = k*tst;
   xv[0]=NA_REAL;
 
-  for(int k=1; k<n; ++k) {
+  for(long long k=1; k<n; ++k) {
     l[k]=0;
     for(int i=0; i<m; ++i) if((yd[i] > xd[k-1]) && (yd[i] <= xd[k])) {
       l[k]=l[k]+1;

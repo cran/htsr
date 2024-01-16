@@ -60,6 +60,7 @@ hs_tstep <- function (){
 	lmodem <- c("average", "max-av", "max-max", "min-av", "min-min", "sum")
 
 	# function h_month
+	# --------------------------------------------------------------------------
 
 	h_month <- function (file, op="M", ba=NA, rmna = FALSE, climedit = FALSE,
 											 caledit_j=FALSE, caledit_m=FALSE, gapfill = FALSE,
@@ -221,8 +222,6 @@ hs_tstep <- function (){
 			message ("Daily Excel file written: ",fileo,"\n")
 		}
 
-
-
 		# climatologies mensuelles
 		mens <- NA ; length(mens) <- 12
 		for (j in 1:12) {
@@ -286,9 +285,11 @@ hs_tstep <- function (){
 		if (gapfill == TRUE) return(list(filem, tss_mens, tss_clim, tss_gapf))
 		else return(list(filem, tss_mens, tss_clim))
 	}
+	# ----------------------------------------------------
 	# end function h_month
 
 	# function h_time_step
+	# ---------------------------------------------------
 	h_timestep <- function(file,tst,op="M", shift=0){
 
 		#controle
@@ -302,7 +303,6 @@ hs_tstep <- function (){
 			stop(warning("the shift value must be in the interval [0-23]"))
 
 		#initialisation
-		ptm <- proc.time()
 		load(file)
 		y <- tstab
 		sta <- y$Station[1]
@@ -314,54 +314,53 @@ hs_tstep <- function (){
 		#infrajour
 		date.deb <- as.numeric(y$Date[1])
 		date.end <- as.numeric(y$Date[nrow(y)])
-		if (tst == 1440) td <- (date.deb %/% 86400) * 86400 +
-			(shift * 3600) else td <- (date.deb %/% 86400) * 86400
-		if (tst == 1440) te <- ((date.end %/% 86400) + 1) * 86400 +
-			(shift * 3600) else te <- ((date.end %/% 86400) + 1) * 86400
+		if (tst == 1440) td <- as.double(date.deb %/% 86400) * 86400 +
+			(shift * 3600) else td <- as.double(date.deb %/% 86400) * 86400
+		if (tst == 1440) te <- as.double((date.end %/% 86400) + 1) * 86400 +
+			(shift * 3600) else te <- as.double((date.end %/% 86400) + 1) * 86400
 
-		if (td < 0) tshift <- -td else tshift <- 0
-		td <- td + tshift
-		te <- as.numeric(te + tshift)
+		dte <- te/86400
+		dtd <- td/86400
+		dtst <- (tst*60)/86400
 
-		te <- (te-td)
-		ni <- te / (60 * tst)
+		dtte <- (dte-dtd)
+		ni <- dtte / dtst
 		message("nb of iterations ",ni)
 
-		yd <- as.integer(y$Date)-td +tshift
+		yd <- as.double(y$Date)/86400-dtd
 		yv <- as.numeric(y$Value)
+
 		if (op == "S") iop <- 1
 		if (op == "M") iop <- 0
 		if (op == "Mn") iop <- -2
 		if (op == "Mx") iop <- 2
 
 		#Boucle cpp pour calcul valeur
-		xv <- u_timestep (te, yd, yv, tst, iop)
+		xv <- u_timestep (dtte, yd, yv, dtst, iop)
 
 		#Calcul date
 		xd <- vector(mode="integer", length = ni)
-		for (i in 1:ni) xd[i] <- (td-tshift) + (i-1)* tst * 60
+		for (i in 1:ni) xd[i] <- (td) + (i-1)* tst * 60
 		if (tst == 1440) xd = xd-43200
 
 		#Ecriture
 		x <- tibble(Date=as_datetime(xd), Value=xv)
 		tstab <- mutate(x, Station = as.factor(sta), Sensor = as.factor(capt))
 		save(tstab,file=fileo)
-		message("Init ", as.character(as.POSIXct(td-tshift,origin="1970-1-1")),
-						" End ", as.character(as.POSIXct(te+td-tshift,origin="1970-1-1")))
+		message("Init ", as.character(as.POSIXct(td,origin="1970-1-1")),
+						" End ", as.character(as.POSIXct(te,origin="1970-1-1")))
 		message("Timestep ", tst, " minutes")
 		if (op=="S") message("Sum values")
 		if (op=="M") message("Mean values")
 		if (op=="Mn") message("Min values")
 		if (op=="Mx") message("Max values")
-		texte <- proc.time()-ptm
-		texte <- round(texte[1],1)
-		message("Execution time : ", texte, " seconds")
 
 		# retour
 		message("File written with ", nrow(tstab), "rows.
   Can be renamed for a future use.\n")
 		return(fileo)
 	}
+	# -------------------------------------------
 	# end funtion h_timestep
 
 
