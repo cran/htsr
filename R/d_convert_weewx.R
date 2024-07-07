@@ -1,12 +1,13 @@
 #' @title Convert a weewx data base into a htsr sqlite base
 #'
-#' @author P. Chevallier - Feb 2018 - Sep 2023
+#' @author P. Chevallier - Feb 2018 - Jul 2024
 #'
 #' @description Convert (or update) a weewx data base into a htsr sqlite base
 #'
 #' @param db.weewx Full name of the weewx data base
 #' @param fsq Full name of the htsr data base
 #' @param update (default = TRUE)
+#' @param tzo Time zone, Olson syntax (default = "Europe/Paris")
 #' @param sta Station id (default = NA)
 #' @param name_st Station name (default = NA)
 #'
@@ -21,7 +22,8 @@
 #' }
 #'
 
-d_convert_weewx <- function(db.weewx, fsq = NA, update=TRUE, sta = NA, name_st = NA){
+d_convert_weewx <- function(db.weewx, fsq = NA, update=TRUE, tzo = "Europe/Paris",
+	sta = NA, name_st = NA){
 
 	# function d_station
 	d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
@@ -400,7 +402,8 @@ d_convert_weewx <- function(db.weewx, fsq = NA, update=TRUE, sta = NA, name_st =
     selection <- paste ("SELECT dateTime FROM archive")
     date <- RSQLite::dbGetQuery(conn, selection)
     date <- date$dateTime
-    date <- as.POSIXct(date, origin = "1970-01-01")
+#    date <- as.POSIXct(date, origin = "1970-01-01")
+    date <- with_tz(date, tzone = tzo)
     selection <- paste ("SELECT", l[i],  "FROM archive")
     value <- RSQLite::dbGetQuery(conn, selection)
     value <- value[,1]

@@ -243,7 +243,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <p><em>HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines
 Ales), France</em></p>
-<p><strong>v 2.1.4</strong></p>
+<p><strong>v 2.1.5</strong></p>
 <div id="content" class="section level1">
 <h1>Content</h1>
 <ul>
@@ -511,9 +511,13 @@ full Hydraccess database into a new htsr sqlite database.
 <strong>NB:</strong> Only works in Windows environment with a 32b R
 session.</p></li>
 <li><p><code>d_convert_weewx(fsq, db.weewx, sta, name_st, tzo = &quot;CET&quot;, bku = TRUE)</code>,
-converts a weewx data base (<a href="http://weewx.com/" class="uri">http://weewx.com/</a>) into a htsr sqlite base</p></li>
-<li><p><code>d_convert_meteofrance_d(fmeteo)</code>, converts a Meteo
-France csv daily data file into a htsr sqlite base</p></li>
+converts a weewx data base (<a href="http://weewx.com/" class="uri">http://weewx.com/</a>) into a htsr sqlite base.</p></li>
+<li><p><code>d_convert_meteofrance_d(fmeteo)</code> and
+<code>d_convert_meteofrance_h(fmeteo)</code>, convert a Meteo France csv
+daily data, respectively hourly, file into a htsr sqlite base.</p></li>
+<li><p><code>d_convert_hubeau(hubeau.dir, station.id, fsqname = &quot;hubeau&quot;)</code>,
+one or more hydrological station data from the data.eau.france
+collection into a htsr sqlite base.</p></li>
 </ul>
 </div>
 </div>

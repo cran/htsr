@@ -4,7 +4,14 @@
 \alias{d_convert_weewx}
 \title{Convert a weewx data base into a htsr sqlite base}
 \usage{
-d_convert_weewx(db.weewx, fsq = NA, update = TRUE, sta = NA, name_st = NA)
+d_convert_weewx(
+  db.weewx,
+  fsq = NA,
+  update = TRUE,
+  tzo = "Europe/Paris",
+  sta = NA,
+  name_st = NA
+)
 }
 \arguments{
 \item{db.weewx}{Full name of the weewx data base}
@@ -12,6 +19,8 @@ d_convert_weewx(db.weewx, fsq = NA, update = TRUE, sta = NA, name_st = NA)
 \item{fsq}{Full name of the htsr data base}
 
 \item{update}{(default = TRUE)}
+
+\item{tzo}{Time zone, Olson syntax (default = "Europe/Paris")}
 
 \item{sta}{Station id (default = NA)}
 
@@ -32,5 +41,5 @@ d_convert_weewx("weewx.sql", "foo.sqlite")
 
 }
 \author{
-P. Chevallier - Feb 2018 - Sep 2023
+P. Chevallier - Feb 2018 - Jul 2024
 }
