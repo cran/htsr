@@ -53,8 +53,8 @@ ds_exp_hts <- function () {
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
@@ -135,8 +135,8 @@ ds_exp_hts <- function () {
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
@@ -392,8 +392,8 @@ ds_exp_hts <- function () {
 				if(rtime) {
 					if(is.na(dstart)) dstart <-date_start
 					if(is.na(dend)) dend <- date_end
-					z <- filter(z, Date > dstart)
-					z <- filter(z, Date <= dend)
+					z <- dplyr::filter(z, Date > dstart)
+					z <- dplyr::filter(z, Date <= dend)
 				}
 
 				nomfic <- paste (dirname(fsq),"/",sen,"_",sta,".hts",sep="")

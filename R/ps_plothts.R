@@ -63,8 +63,8 @@ ps_plothts <- function(){
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
@@ -145,8 +145,8 @@ ps_plothts <- function(){
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))

@@ -138,7 +138,7 @@ p_discalib <- function (fsq, sta, sen = "IH", plotcalib= TRUE, plotdism=TRUE,
 
 # preparation jaugeages
   if(plotdism==TRUE) {
-    d2 <- filter(dismtab, dismtab$Sensor == sen)
+    d2 <- dplyr::filter(dismtab, dismtab$Sensor == sen)
     d2 <- transmute(d2, Date = as_datetime(Date), H2 = as.numeric(d2$H),
       Q2 = as.numeric(d2$Q), active = as.numeric(d2$Active), Calibration = "no_calib")
     for (i in 1:nrow(d2)) {

@@ -53,8 +53,8 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
@@ -135,8 +135,8 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
 			y <- select(tstab, Date, Value)
 
 			if (conf[4])  {
-				y <- filter(y, Date >= as_date(as.numeric(conf[5])))
-				y <- filter(y, Date <= as_date(as.numeric(conf[6])))
+				y <- dplyr::filter(y, Date >= as_date(as.numeric(conf[5])))
+				y <- dplyr::filter(y, Date <= as_date(as.numeric(conf[6])))
 			}
 			if (nrow(y)==0)
 				stop (paste("The time-series", fil$plot.label[i],"has no data.\n"))
@@ -374,8 +374,8 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
   		if(is.na(dstart)) dstart <-date_start
   		if(is.na(dend)) dend <- date_end
   		# z <- window (z, start = dstart, end = dend)
-  		z <- filter(z, Date > dstart)
-  		z <- filter(z, Date <= dend)
+  		z <- dplyr::filter(z, Date > dstart)
+  		z <- dplyr::filter(z, Date <= dend)
   	}
 
   	nomfic <- paste (dirname(fsq),"/",sen,"_",sta,".hts",sep="")
@@ -419,7 +419,7 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
   if(nc==1) {
     Hc <- calib$H
     Qc <- calib$Q
-    xhf1 <- filter(xh, Date < dcdeb[1])
+    xhf1 <- dplyr::filter(xh, Date < dcdeb[1])
     xhf1$Value <- NA
     xhf2 <- dplyr::filter (xh, Date >= dcdeb[1])
     a <- vector(mode = "double", length = nrow(xhf2))
@@ -435,7 +435,7 @@ h_wl_di <- function(fsq, sta, seni, seno, dstart=NA, dend=NA, dbo = TRUE){
       Hc <- calibi$H
       Qc <- calibi$Q
       if (i == 1) {
-        x <- filter(xh, Date < dcdeb[1])
+        x <- dplyr::filter(xh, Date < dcdeb[1])
         x$Value <- NA
       }
       xhf <- dplyr::filter(xh, (Date >= dcdeb[i]))

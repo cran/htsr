@@ -1,6 +1,6 @@
 #' @title Convert Hubeau station files into a htsr sqlite base
 #'
-#' @author P. Chevallier - jul 2024
+#' @author P. Chevallier - Jul/Aug 2024
 #'
 #' @description Convert a Hubeau  hydrological file into a htsr sqlite base. It regards
 #' the "basic" data file, which includes water level and discharge data. .
@@ -17,11 +17,11 @@
 #'
 #' @param hubeau.dir Full path of the hubeau folder (character)
 #' @param station.id Id list of the stations to convert (character)
-#' @param fsqname Name of the sqlite data base without extension (default = "hubeau")
+#' @param fsqname Name of the sqlite data base without extension (character)
 
 
 # function d_convert_hubeau
-	d_convert_hubeau <- function (hubeau.dir, station.id, fsqname = "hubeau") {
+	d_convert_hubeau <- function (hubeau.dir, station.id, fsqname) {
 
 		# function d_station
 		d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
@@ -359,22 +359,17 @@
 
 		#---------------------------
 
-		# library(tidyverse)
-		# library(htsr)
-		# library(RSQLite)
-
 		requireNamespace("RSQLite", quietly = TRUE)
 
 		# creation base de données
-		# fsq <- paste0(station.id,".sqlite")
 		fsq <- paste0(hubeau.dir, "/",fsqname, ".sqlite")
 		d_create(fsq)
 
-		cdentite <- dtmesure <- hauteur <- qualh <- debit <- qualq <- NULL
+		cdentite <- dtmesure <- hauteur <- qualh <- debit <- qualq <- NA
 
 		# creation stations
 		x <- read_delim(file = paste0(hubeau.dir,"/stations/stations.csv"), delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
-		x <- filter (x, cdentite %in% station.id)
+		x <- dplyr::filter (x, cdentite %in% station.id)
 		for (i in 1:length(station.id)) {
 				d_station (fsq, op = "C", sta = x$cdentite[i], ty_st = "H",
 																						name_st = x$lbstationhydro[i],
@@ -383,27 +378,45 @@
 																						bku = TRUE)
 		}
 
-		# constitution du tableau de données
+		# creation capteurs
 		for (i in 1:length(station.id)) {
-			folder <- paste0(hubeau.dir,"/stations/data/",station.id[i])
-			files <-  list.files(folder, pattern = ".", all.files = FALSE, recursive = TRUE, full.names = TRUE)
-			for (j in 1:length(files)) {
-				if (i==1 && j==1) x <- tibble(read.csv2(gzfile(files[1])))
-				else x <- bind_rows (x, read.csv2(gzfile(files[j])))}
+			d_sensor (fsq, op = "C", sta = x$cdentite[i], sen = "IH", table = "WL")
+			d_sensor (fsq, op = "C", sta = x$cdentite[i], sen = "IQ", table = "DI")
+		}
+
+
+		# constitution du tableau de données
+		x <- NULL
+		slst <- NULL
+		for (i in 1:length(station.id)) {
+			folders <- list.dirs(paste0(hubeau.dir,"/stations/data/"), full.names = FALSE, recursive = FALSE)
+			folder <- station.id[i]
+			if (folder %in% folders == FALSE) {
+				cat("\n", station.id[i], " is not in the data base\n")
+			} else {
+				folder <- paste0(hubeau.dir,"/stations/data/", folder)
+				slst <- c(slst, folder)
+				files <-  list.files(folder, pattern = ".", all.files = FALSE, recursive = TRUE, full.names = TRUE)
+				for (j in 1:length(files)) {
+#					if (i==1 && j==1) x <- tibble(read.csv2(gzfile(files[1])))
+					x <- bind_rows (x, read.csv2(gzfile(files[j])))}
+			}
 		}
 		x$dtmesure <- force_tz(ymd_hms(x$dtmesure), tzone = "Europe/Paris")
+		if (is.null(x$hauteur)) x$hauteur = NA
+		if (is.null(x$debit)) x$debit = NA
 		x$hauteur <- as.numeric(x$hauteur)
 		x$debit <- as.numeric(x$debit) / 1000
 
 		# cas hauteur
-		for (i in 1:length(station.id)) d_sensor(fsq, op = "C", sta = station.id[i], sen = "IH", table = "WL", bku = FALSE)
+#		for (i in 1:length(slst)) d_sensor(fsq, op = "C", sta = slst[i], sen = "IH", table = "WL", bku = FALSE)
 		xx <- transmute(x,Type_Station="H",Id_Station=cdentite, Capteur="IH", Date = dtmesure, Valeur = hauteur, Tabl = "WL", Qualite = qualh)
 		conn <- dbConnect(SQLite(),fsq)
 		dbWriteTable(conn, name="WL", xx, overwrite = TRUE)
 		dbDisconnect(conn)
 
 		# cas debit
-		for (i in 1:length(station.id)) d_sensor(fsq, op = "C", sta = station.id[i], sen = "IQ", table = "DI", bku = FALSE)
+#		for (i in 1:length(slst)) d_sensor(fsq, op = "C", sta = slst[i], sen = "IQ", table = "DI", bku = FALSE)
 		xx <- transmute(x,Type_Station="H",Id_Station=cdentite, Capteur="IQ", Date = dtmesure, Valeur = debit, Tabl = "DI", Qualite = qualq)
 		conn <- dbConnect(SQLite(),fsq)
 		dbWriteTable(conn, name="DI", xx, overwrite = TRUE)

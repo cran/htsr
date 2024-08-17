@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 2.1.5**
+**v 2.1.6**
   
 # Content
 * Origin
@@ -203,7 +203,7 @@ Infos on their uses are detailed in the on-line help or using in the console the
 
 * `d_convert_meteofrance_d(fmeteo)` and `d_convert_meteofrance_h(fmeteo)`, convert a Meteo France csv daily data, respectively hourly, file into a htsr sqlite base.
 
-* `d_convert_hubeau(hubeau.dir, station.id, fsqname = "hubeau")`, one or more hydrological station data from the data.eau.france collection into a htsr sqlite base.
+* `d_convert_hubeau(hubeau.dir, station.id, fsqname)`, one or more hydrological station data from the data.eau.france collection into a htsr sqlite base.
 
 
 ## File functions (prefix `f_`)

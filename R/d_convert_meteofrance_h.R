@@ -408,7 +408,7 @@
 		alt_sta <- vector(mode = "numeric", length = length(cod_sta))
 
 		for (i in 1:length(cod_sta)){
-			y <- filter(x, NUM_POSTE == cod_sta[i])
+			y <- dplyr::filter(x, NUM_POSTE == cod_sta[i])
 			lon_sta[i] <- y$LON[1]
 			lat_sta[i] <- y$LAT[1]
 			alt_sta[i] <- y$ALTI[1]

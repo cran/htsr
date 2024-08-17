@@ -22,7 +22,7 @@ The function returns a time-series of annual values.
 Annual time series
 }
 \details{
-The function computes an annual time-series using the annual mean or the 
+The function computes an annual time-series using the annual mean or the
 annual sum of daily values. It allows the use of hydrological years. The date corresponds
 to the middle of the year, i.e. the 182th day.
 }

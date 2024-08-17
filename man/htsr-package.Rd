@@ -16,4 +16,8 @@ Useful links:
 }
 
 }
+\author{
+\strong{Maintainer}: Pierre Chevallier \email{pierre.chevallier@mailo.com}
+
+}
 \keyword{internal}

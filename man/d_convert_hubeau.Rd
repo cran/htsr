@@ -4,14 +4,14 @@
 \alias{d_convert_hubeau}
 \title{Convert Hubeau station files into a htsr sqlite base}
 \usage{
-d_convert_hubeau(hubeau.dir, station.id, fsqname = "hubeau")
+d_convert_hubeau(hubeau.dir, station.id, fsqname)
 }
 \arguments{
 \item{hubeau.dir}{Full path of the hubeau folder (character)}
 
 \item{station.id}{Id list of the stations to convert (character)}
 
-\item{fsqname}{Name of the sqlite data base without extension (default = "hubeau")}
+\item{fsqname}{Name of the sqlite data base without extension (character)}
 }
 \description{
 Convert a Hubeau  hydrological file into a htsr sqlite base. It regards
@@ -27,5 +27,5 @@ must be chosen and included in the station.id list parameter.
 The units of water level data is cm and of discharge data is m3/s.
 }
 \author{
-P. Chevallier - jul 2024
+P. Chevallier - Jul/Aug 2024
 }

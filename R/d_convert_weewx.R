@@ -493,7 +493,7 @@ d_convert_weewx <- function(db.weewx, fsq = NA, update=TRUE, tzo = "Europe/Paris
 
   nrx <- nrow (x)
   if (update) {
-  	x <- filter(x, date > dmx)
+  	x <- dplyr::filter(x, date > dmx)
   	nrx <- nrow (x)
   } else {
 	  # Creation station

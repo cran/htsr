@@ -122,7 +122,7 @@ ds_inventory_sensor <- function (){
 					nrec <- datedeb <- datefin <- vector(mode="numeric", length = length(list_capt))
 					if (length(list_capt) !=0) {
 						for (i in 1:length(list_capt)){
-							xx1 <- filter(xx, Capteur == list_capt[i])
+							xx1 <- dplyr::filter(xx, Capteur == list_capt[i])
 							nrec[i] <- nrow(xx1)
 							datedeb [i] <- min(xx1$Date)
 							datefin [i] <- max(xx1$Date)

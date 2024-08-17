@@ -101,8 +101,8 @@ p_wind <- function(fsq, sta, swd, swv, ws.int=0.5, angle=45, grid.line=10,
 			if(rtime) {
 				if(is.na(dstart)) dstart <-date_start
 				if(is.na(dend)) dend <- date_end
-				z <- filter(z, Date > dstart)
-				z <- filter(z, Date <= dend)
+				z <- dplyr::filter(z, Date > dstart)
+				z <- dplyr::filter(z, Date <= dend)
 			}
 
 			nomfic <- paste (dirname(fsq),"/",sen,"_",sta,".hts",sep="")
