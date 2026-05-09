@@ -19,5 +19,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Pierre Chevallier \email{pierre.chevallier@mailo.com}
 
+Authors:
+\itemize{
+  \item Pierre Chevallier \email{pierre.chevallier@mailo.com}
+}
+
 }
 \keyword{internal}

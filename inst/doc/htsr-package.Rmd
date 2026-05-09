@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 *HydroSciences Laboratory (IRD, CNRS, Univ. Montpellier, IMT Mines Ales), France*   
 
-**v 2.1.6**
+**v 2.1.7**
   
 # Content
 * Origin
@@ -63,7 +63,7 @@ on the hydro-meteo time-series data base application Hydraccess.
 It works on Linux, Windows or MacOS platforms, with the free programming language R and the interface RStudio preliminary installed.
 
 ## Hydraccess
-Hydraccess was developed at IRD (<https://www.ird.fr>) by Philippe Vauchel. It is based on several tools provided by Microsoft Office (R) including Microsoft Access. It can be obtained from <https://hybam.obs-mip.fr/fr/hydraccess-2/>
+Hydraccess was developed at IRD by Philippe Vauchel. It is based on several tools provided by Microsoft Office (R) including Microsoft Access. It can be obtained from <https://hybam.obs-mip.fr/hydraccess/>
 
 Hydracces is available in French, English, Spanish, Portuguese and Russian.
 
@@ -334,7 +334,6 @@ O'Reilly. 190p. ISBN 978-1-491-91059-7. Actualized version on <https://r-pkgs.or
 
 * Wickham H. & Grolemund G., 2017. R for Data Science - Import, tidy, transform, visualize, and model data. O'Reilly. 494p. ISBN 978-1-491-91039-9. <https://r4ds.had.co.nz/>
 
-* <https://www.tidyverse.org/>
 
 # Appendix
 ## Correspondence of the data base tables between Hydraccess and Sqlite htsr

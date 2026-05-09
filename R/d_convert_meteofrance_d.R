@@ -1,24 +1,82 @@
-#' @title Convert a Meteo-France csv daily basic data file into a htsr sqlite base
+#' @title Convert a Meteo-France csv daily department data files into a htsr sqlite base
 #'
-#' @author P. Chevallier - dec 2023 - jan 2024
+#' @author P. Chevallier - dec 2023 - may 2026
 #'
-#' @description Convert a Meteo-France csv daily data file into a htsr sqlite base. It regards
-#' the "basic" data file, which includes precipitation, temperature and wind data. For other
-#' variables the function d_convert_meteofrance_d1 shall be used with the corresponding csv file.
-#' The csv file shall be downloaded from https://meteo.data.gouv.fr/
-#' The name of the created sqlite file is the same as the csv file with an extension .sqlite.
+#' @description Convert a Meteo-France csv (or csv.gz) daily data files into a htsr sqlite base. It regards
+#' the "basic" data file, which includes precipitation, temperature and wind data. It doesn't process the 
+#' complementary files.
+#' 
+#' The csv files shall be downloaded from https://meteo.data.gouv.fr/. They are archived by department
+#' administrative divisions, including for each one three files: "avant", which is before 1950; "previous",
+#' which is from 1950 until the precedent year as the current one; and "latest", which is the the full last
+#' year and the current one.
 #'
 #' @details
 #' The sensors have an additional prefix d (as daily) in order to distinguish them from sensors with another
 #' time reference.
+#' 
+#' The following variables are considered:
+#' 
+#' RR: daily amount of precipitation (mm)
+#' 
+#' TN: min temperature (deg C)
+#' 
+#' HTN: time of TN (hhmm)
+#' 
+#' TX: min temperature (deg C)
+#' 
+#' HTX: time of TX
+#' 
+#' TM: averaged temperature
+#' 
+#' TNTXM: average of TN and TX
+#' 
+#' TAMPLI: amplitude of temperature
+#' 
+#' TNSOL: min temperature at the soil surface
+#' 
+#' TN50: min temp at
+#' 
+#' DG:
+#' 
+#' FFM:
+#' 
+#' FF2M:
+#' 
+#' FXY:
+#' 
+#' DXY:
+#' 
+#' HXY:
+#' 
+#' FXI:
+#' 
+#' DXI:
+#' 
+#' HXI:
+#' 
+#' FXI2:
+#' 
+#' DXI2:
+#' 
+#' HXI:
+#' 
+#' FXI3S:
+#' 
+#' DXI3S:
+#' 
+#' HXI3S: 
 #'
 #'
-#' @param fmeteo Full name of the Meteo-France csv file
+#' @param fmeteo Name of the sqlite data base, extension not needed.
+#' @param f_avant Full name of the "avant" Meteo-France csv (or csv.gz) file.
+#' @param f_previous Full name of the "previous" Meteo-France csv (or csv.gz) file.
+#' @param f_latest Full name of the "latest" Meteo-France csv (or csv.gz) file.
 
 
 # function d_convert_meteofrance_d
-	d_convert_meteofrance_d <- function(fmeteo) {
-
+	d_convert_meteofrance_d <- function(fmeteo, f_avant, f_previous, f_latest) {
+		
 		# function d_station
 		d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
 													name_fld=NA, value_fld=NA, bku = FALSE) {
@@ -372,12 +430,24 @@
 		d_create(fsq)
 
 		# lecture du fichier meteo et selection des variables
-		x <- read_delim(file = fmeteo, delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
-		xcol <- colnames(x)
-		if("QFXI2S" %in% xcol) x <- rename(x, QFXI2 = QFXI2S) #resolution bug QFXI2/QFXI2S
+		x1 <- read_delim(file = f_avant, delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+		xcol <- colnames(x1)
+		if("QFXI2S" %in% xcol) x1 <- rename(x, QFXI2 = QFXI2S) #resolution bug QFXI2/QFXI2S
 		if (!("RR" %in%xcol)) stop ("Verify the input file!") #cas des autres variables
-		xcol <- colnames(x)
 
+		x2 <- read_delim(file = f_previous, delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+		xcol <- colnames(x2)
+		if("QFXI2S" %in% xcol) x2 <- rename(x, QFXI2 = QFXI2S) #resolution bug QFXI2/QFXI2S
+		if (!("RR" %in%xcol)) stop ("Verify the input file!") #cas des autres variables
+
+		x3 <- read_delim(file = f_latest, delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+		xcol <- colnames(x3)
+		if("QFXI2S" %in% xcol) x3 <- rename(x, QFXI2 = QFXI2S) #resolution bug QFXI2/QFXI2S
+		if (!("RR" %in%xcol)) stop ("Verify the input file!") #cas des autres variables
+		
+		x <- bind_rows(x1,x2,x3)
+		xcol <- colnames(x)
+		
 		# station et temps
 		x$NUM_POSTE = parse_factor(x$NUM_POSTE)
 		x$NOM_USUEL = parse_character(x$NOM_USUEL)

@@ -2,24 +2,85 @@
 % Please edit documentation in R/d_convert_meteofrance_d.R
 \name{d_convert_meteofrance_d}
 \alias{d_convert_meteofrance_d}
-\title{Convert a Meteo-France csv daily basic data file into a htsr sqlite base}
+\title{Convert a Meteo-France csv daily department data files into a htsr sqlite base}
 \usage{
-d_convert_meteofrance_d(fmeteo)
+d_convert_meteofrance_d(fmeteo, f_avant, f_previous, f_latest)
 }
 \arguments{
-\item{fmeteo}{Full name of the Meteo-France csv file}
+\item{fmeteo}{Name of the sqlite data base, extension not needed.}
+
+\item{f_avant}{Full name of the "avant" Meteo-France csv (or csv.gz) file.}
+
+\item{f_previous}{Full name of the "previous" Meteo-France csv (or csv.gz) file.}
+
+\item{f_latest}{Full name of the "latest" Meteo-France csv (or csv.gz) file.}
 }
 \description{
-Convert a Meteo-France csv daily data file into a htsr sqlite base. It regards
-the "basic" data file, which includes precipitation, temperature and wind data. For other
-variables the function d_convert_meteofrance_d1 shall be used with the corresponding csv file.
-The csv file shall be downloaded from https://meteo.data.gouv.fr/
-The name of the created sqlite file is the same as the csv file with an extension .sqlite.
+Convert a Meteo-France csv (or csv.gz) daily data files into a htsr sqlite base. It regards
+the "basic" data file, which includes precipitation, temperature and wind data. It doesn't process the 
+complementary files.
+
+The csv files shall be downloaded from https://meteo.data.gouv.fr/. They are archived by department
+administrative divisions, including for each one three files: "avant", which is before 1950; "previous",
+which is from 1950 until the precedent year as the current one; and "latest", which is the the full last
+year and the current one.
 }
 \details{
 The sensors have an additional prefix d (as daily) in order to distinguish them from sensors with another
 time reference.
+
+The following variables are considered:
+
+RR: daily amount of precipitation (mm)
+
+TN: min temperature (deg C)
+
+HTN: time of TN (hhmm)
+
+TX: min temperature (deg C)
+
+HTX: time of TX
+
+TM: averaged temperature
+
+TNTXM: average of TN and TX
+
+TAMPLI: amplitude of temperature
+
+TNSOL: min temperature at the soil surface
+
+TN50: min temp at
+
+DG:
+
+FFM:
+
+FF2M:
+
+FXY:
+
+DXY:
+
+HXY:
+
+FXI:
+
+DXI:
+
+HXI:
+
+FXI2:
+
+DXI2:
+
+HXI:
+
+FXI3S:
+
+DXI3S:
+
+HXI3S:
 }
 \author{
-P. Chevallier - dec 2023 - jan 2024
+P. Chevallier - dec 2023 - may 2026
 }

@@ -4,21 +4,87 @@
 \alias{d_convert_meteofrance_h}
 \title{Convert a Meteo-France csv hourly basic data file into a htsr sqlite base}
 \usage{
-d_convert_meteofrance_h(fmeteo)
+d_convert_meteofrance_h(fmeteo, ncsv)
 }
 \arguments{
-\item{fmeteo}{Full name of the Meteo-France csv file}
+\item{fmeteo}{Name of the sqlite data base, extension not needed.}
+
+\item{ncsv}{Number of csv files to process}
 }
 \description{
-Convert a Meteo-France csv hourly data file into a htsr sqlite base. It regards
+Convert a Meteo-France csv (or csv.gz) hourly data file into a htsr sqlite base. It regards
 the "basic" data file, which includes precipitation, temperature and wind data.
 The csv file shall be downloaded from https://meteo.data.gouv.fr/
-The name of the created sqlite file is the same as the csv file with an extension .sqlite.
 }
 \details{
 The sensors have an additional prefix h (as hourly) in order to distinguish them from sensors with another
 time reference.
+
+The processing considers the binding of several successive cvs files. They must be selected in the
+chronologic order.
+
+The following variables are considered:
+
+RR1: amount of precipitation in 1h (mm)
+
+DRR1: duration of precipitation (mn)
+
+FF: 10mn averaged wind velocity at 10m high (m/s)
+
+DD: direction of FF (in deg)
+
+FXY: max of FF in 1h
+
+DXY: direction of FXY
+
+HXY: time of FXY (hhmm)
+
+FXI: max wind velocity at 10m high (m/s)
+
+DXI: direction of FXI
+
+HXI: time of FXI
+
+FF2: 10mn averaged wind velocity at 2m high (m/s)
+
+DD2: direction of FF2 (in deg)
+
+FXI2: max wind velocity at 10m high (m/s)
+
+DXI2: direction of FXI2
+
+HXI2: time of FXI2
+
+FXI3S: 3s averaged max wind velocity (m/s)
+
+DXI3S: direction of FXI3S
+
+HXI3S: time of FXI3S
+
+T: instantaneous temperature (deg C)
+
+TD: temperature of dew point (deg C)
+
+TN: min temperature in the hour
+
+HTN: time of TN
+
+
+TX: max temperature in the hour
+HTX:time of TX
+
+U: relative humidity (%)
+
+UN: min U in the hour
+
+HUN: time of UN
+
+UX: max U in the hour
+
+HUX: time of UX
+
+PSTAT: pressure at the station (hPa)
 }
 \author{
-P. Chevallier - jan 2024
+P. Chevallier - jan 2024 - may 2026
 }

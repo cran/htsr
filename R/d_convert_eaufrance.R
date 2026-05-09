@@ -1,27 +1,37 @@
-#' @title Convert Hubeau station files into a htsr sqlite base
+#' @title Convert eaufrance station files into a htsr sqlite base
 #'
 #' @author P. Chevallier - Jul/Aug 2024
 #'
-#' @description Convert a Hubeau  hydrological file into a htsr sqlite base. It regards
+#' @description Convert a eaufrance  hydrological file into a htsr sqlite base. It regards
 #' the "basic" data file, which includes water level and discharge data. .
 #'
 #' @details
-#' The data base is build from selected stations in the "stations.tar" file available on the data.eau.france web site.
-#' This file must be first downloaded and extracted in the folder hubeau.dir. For the extraction the R
+#' The data base is build from selected stations in the "stations.tar" file available
+#' on the data.eaufrance web site : \url{https://data.ofb.fr/catalogue/data-eaufrance/fre/catalog.search}.
+#' This file must be first downloaded and extracted in the folder eaufrance.dir. For the extraction the R
 #' function untar() can be used.
-#' Secondly Within the hubeau.dir, the file stations/stations.csv give the full list of the available stations. One or more station ids
-#' must be chosen and included in the station.id list parameter.
 #'
 #' @details
-#' The units of water level data is cm and of discharge data is m3/s.
+#' Secondly, within the eaufrance.dir, the file stations/stations.csv give the full list of the available stations.
+#' One or more station ids
+#' must be chosen and included in the station.id list parameter.
+#' Another possibility is to consult the "Hydro Portail"
+#' (\url{https://www.hydro.eaufrance.fr/rechercher/entites-hydrometriques}) in order
+#' to select the station ids.
 #'
-#' @param hubeau.dir Full path of the hubeau folder (character)
+#' @details
+#' In the sqlite data base, the units of water level data is cm and of discharge data is m3/s.
+#'
+#' @param eaufrance.dir Full path of the folder were the eaufrance data base is extracted (character)
 #' @param station.id Id list of the stations to convert (character)
-#' @param fsqname Name of the sqlite data base without extension (character)
+#' @param fsqname Name of the returned sqlite data base without extension (character)
+#'
+#' @return
+#' A sqlite database compatible with the htsr library.
 
 
-# function d_convert_hubeau
-	d_convert_hubeau <- function (hubeau.dir, station.id, fsqname) {
+# function d_convert_eaufrance
+	d_convert_eaufrance <- function (eaufrance.dir, station.id, fsqname) {
 
 		# function d_station
 		d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
@@ -362,13 +372,13 @@
 		requireNamespace("RSQLite", quietly = TRUE)
 
 		# creation base de données
-		fsq <- paste0(hubeau.dir, "/",fsqname, ".sqlite")
+		fsq <- paste0(eaufrance.dir, "/",fsqname, ".sqlite")
 		d_create(fsq)
 
 		cdentite <- dtmesure <- hauteur <- qualh <- debit <- qualq <- NA
 
 		# creation stations
-		x <- read_delim(file = paste0(hubeau.dir,"/stations/stations.csv"), delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+		x <- read_delim(file = paste0(eaufrance.dir,"/stations/stations.csv"), delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
 		x <- dplyr::filter (x, cdentite %in% station.id)
 		for (i in 1:length(station.id)) {
 				d_station (fsq, op = "C", sta = x$cdentite[i], ty_st = "H",
@@ -389,34 +399,31 @@
 		x <- NULL
 		slst <- NULL
 		for (i in 1:length(station.id)) {
-			folders <- list.dirs(paste0(hubeau.dir,"/stations/data/"), full.names = FALSE, recursive = FALSE)
+			folders <- list.dirs(paste0(eaufrance.dir,"/stations/data/"), full.names = FALSE, recursive = FALSE)
 			folder <- station.id[i]
 			if (folder %in% folders == FALSE) {
 				cat("\n", station.id[i], " is not in the data base\n")
 			} else {
-				folder <- paste0(hubeau.dir,"/stations/data/", folder)
+				folder <- paste0(eaufrance.dir,"/stations/data/", folder)
 				slst <- c(slst, folder)
 				files <-  list.files(folder, pattern = ".", all.files = FALSE, recursive = TRUE, full.names = TRUE)
 				for (j in 1:length(files)) {
-#					if (i==1 && j==1) x <- tibble(read.csv2(gzfile(files[1])))
 					x <- bind_rows (x, read.csv2(gzfile(files[j])))}
 			}
 		}
 		x$dtmesure <- force_tz(ymd_hms(x$dtmesure), tzone = "Europe/Paris")
 		if (is.null(x$hauteur)) x$hauteur = NA
 		if (is.null(x$debit)) x$debit = NA
-		x$hauteur <- as.numeric(x$hauteur)
+		x$hauteur <- as.numeric(x$hauteur) /10
 		x$debit <- as.numeric(x$debit) / 1000
 
 		# cas hauteur
-#		for (i in 1:length(slst)) d_sensor(fsq, op = "C", sta = slst[i], sen = "IH", table = "WL", bku = FALSE)
 		xx <- transmute(x,Type_Station="H",Id_Station=cdentite, Capteur="IH", Date = dtmesure, Valeur = hauteur, Tabl = "WL", Qualite = qualh)
 		conn <- dbConnect(SQLite(),fsq)
 		dbWriteTable(conn, name="WL", xx, overwrite = TRUE)
 		dbDisconnect(conn)
 
 		# cas debit
-#		for (i in 1:length(slst)) d_sensor(fsq, op = "C", sta = slst[i], sen = "IQ", table = "DI", bku = FALSE)
 		xx <- transmute(x,Type_Station="H",Id_Station=cdentite, Capteur="IQ", Date = dtmesure, Valeur = debit, Tabl = "DI", Qualite = qualq)
 		conn <- dbConnect(SQLite(),fsq)
 		dbWriteTable(conn, name="DI", xx, overwrite = TRUE)

@@ -1,22 +1,87 @@
 #' @title Convert a Meteo-France csv hourly basic data file into a htsr sqlite base
 #'
-#' @author P. Chevallier - jan 2024
+#' @author P. Chevallier - jan 2024 - may 2026
 #'
-#' @description Convert a Meteo-France csv hourly data file into a htsr sqlite base. It regards
+#' @description Convert a Meteo-France csv (or csv.gz) hourly data file into a htsr sqlite base. It regards
 #' the "basic" data file, which includes precipitation, temperature and wind data.
 #' The csv file shall be downloaded from https://meteo.data.gouv.fr/
-#' The name of the created sqlite file is the same as the csv file with an extension .sqlite.
 #'
 #' @details
 #' The sensors have an additional prefix h (as hourly) in order to distinguish them from sensors with another
 #' time reference.
+#' 
+#' The processing considers the binding of several successive cvs files. They must be selected in the
+#' chronologic order.
+#' 
+#' The following variables are considered:
+#' 
+#' RR1: amount of precipitation in 1h (mm)
+#' 
+#' DRR1: duration of precipitation (mn)
+#' 
+#' FF: 10mn averaged wind velocity at 10m high (m/s)
+#' 
+#' DD: direction of FF (in deg)
+#' 
+#' FXY: max of FF in 1h
+#' 
+#' DXY: direction of FXY
+#' 
+#' HXY: time of FXY (hhmm)
+#' 
+#' FXI: max wind velocity at 10m high (m/s)
+#' 
+#' DXI: direction of FXI
+#' 
+#' HXI: time of FXI
+#' 
+#' FF2: 10mn averaged wind velocity at 2m high (m/s)
+#' 
+#' DD2: direction of FF2 (in deg)
+#' 
+#' FXI2: max wind velocity at 10m high (m/s)
+#' 
+#' DXI2: direction of FXI2
+#' 
+#' HXI2: time of FXI2
+#' 
+#' FXI3S: 3s averaged max wind velocity (m/s)
+#' 
+#' DXI3S: direction of FXI3S
+#' 
+#' HXI3S: time of FXI3S
+#' 
+#' T: instantaneous temperature (deg C)
+#' 
+#' TD: temperature of dew point (deg C)
+#' 
+#' TN: min temperature in the hour
+#' 
+#' HTN: time of TN
+#' 
+#' 
+#' TX: max temperature in the hour
+#' HTX:time of TX
+#' 
+#' U: relative humidity (%)
+#' 
+#' UN: min U in the hour
+#' 
+#' HUN: time of UN
+#' 
+#' UX: max U in the hour
+#' 
+#' HUX: time of UX
+#' 
+#' PSTAT: pressure at the station (hPa)
+#' 
 #'
-#'
-#' @param fmeteo Full name of the Meteo-France csv file
+#' @param fmeteo Name of the sqlite data base, extension not needed.
+#' @param ncsv Number of csv files to process
 
 
 # function d_convert_meteofrance_h
-	d_convert_meteofrance_h <- function(fmeteo) {
+	d_convert_meteofrance_h <- function(fmeteo, ncsv) {
 
 		# function d_station
 		d_station <- function(fsq, op = "C", sta, ty_st = NA, name_st=NA,
@@ -358,35 +423,42 @@
 
 		"NUM_POSTE" <- "NOM_USUEL" <- "LAT" <- "LON" <- "ALTI" <- "AAAAMMJJHH" <- "RR1" <-
 		"QRR1" <- "DRR1" <- "QDRR1" <- "FF" <- "QFF" <- "DD" <- "QDD" <-
-		"FXY" <- "QFXY" <- "DXY" <- "QDXY" <- "HXY" <- "QHXY" <- " FXI" <-
+		"FXY" <- "QFXY" <- "DXY" <- "QDXY" <- "HXY" <- "QHXY" <- "FXI" <-
 		"QFXI" <- "DXI" <- "QDXI" <- "HXI" <- "QHXI" <- "FF2" <- "QFF2" <-
 		"DD2" <- "QDD2" <- "FXI2" <- "QFXI2" <- "DXI2" <- "QDXI2" <- "HXI2" <-
 		"QHXI2" <- "FXI3S" <- "QFXI3S" <- "DXI3S" <- "QDXI3S" <- "HFXI3S" <- "QHFXI3S" <-
-		" T" <- "QT" <- "TD" <- "QTD" <- "TN" <- "QTN" <- "HTN" <-
+		"T" <- "QT" <- "TD" <- "QTD" <- "TN" <- "QTN" <- "HTN" <-
 		"QHTN" <- "TX" <- "QTX" <- "HTX" <- "QHTX" <- "U" <- "QU" <- "UN" <- "QUN" <- "HUN" <-
-		"QHUN" <- "UX" <- "QUX" <- "HUX" <- "QHUX" <- "PMER" <- "QPMER" <-"PSTAT" <-
-		"QPSTAT" <- "PMERMIN" <- "QPERMIN" <- "GEOP" <- "QGEOP" <- NULL
+		"QHUN" <- "UX" <- "QUX" <- "HUX" <- "QHUX" <-"PSTAT" <- "QPSTAT" <- NULL
+
 
 		# creation base de données
 
 		fsq <- paste0(tools::file_path_sans_ext(fmeteo),".sqlite")
 		d_create(fsq)
 
-		# lecture du fichier meteo et selection des variables
-		x <- read_delim(file = fmeteo, delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+
+		# lecture des fichiers csv
+		x <- NULL
+		for (i in 1:ncsv) {
+			cat ("Enter the csv file", i)
+			x1 <- read_delim(file = fc(), delim = ";", col_names = TRUE, col_types = cols(.default = col_character()))
+			x <- bind_rows(x,x1)
+		}
 		xcol <- colnames(x)
-		# if("QFXI2S" %in% xcol) x <- rename(x, QFXI2 = QFXI2S) #resolution bug QFXI2/QFXI2S
-		if (!("RR1" %in%xcol)) stop ("Verify the input file!") #cas des autres variables
-		# xcol <- colnames(x)
+		
+		if (!("RR1" %in%xcol)) stop ("Verify the input files!") 
+		
+		#cas des autres variables
+		# 
 		x <- select(x, "NUM_POSTE", "NOM_USUEL", "LAT", "LON", "ALTI", "AAAAMMJJHH", "RR1",
 								 "QRR1", "DRR1", "QDRR1", "FF", "QFF", "DD", "QDD", "FXY", "QFXY", "DXY",
-								 "QDXY", "HXY", "QHXY", " FXI", "QFXI", "DXI", "QDXI", "HXI", "QHXI",
+								 "QDXY", "HXY", "QHXY", "FXI", "QFXI", "DXI", "QDXI", "HXI", "QHXI",
 								 "FF2", "QFF2",	"DD2", "QDD2", "FXI2", "QFXI2", "DXI2", "QDXI2", "HXI2",
 								 "QHXI2", "FXI3S", "QFXI3S", "DXI3S", "QDXI3S", "HFXI3S", "QHFXI3S",
-								 " T", "QT", "TD", "QTD", "TN", "QTN", "HTN", "QHTN", "TX", "QTX",
+								 "T", "QT", "TD", "QTD", "TN", "QTN", "HTN", "QHTN", "TX", "QTX",
 								 "HTX", "QHTX", "U", "QU", "UN", "QUN", "HUN", "QHUN", "UX", "QUX",
-								 "HUX", "QHUX", "PMER", "QPMER","PSTAT", "QPSTAT", "PMERMIN", "QPERMIN",
-								 "GEOP", "QGEOP")
+								 "HUX", "QHUX", "PSTAT", "QPSTAT")
 
 		# station et temps
 		x$NUM_POSTE = parse_factor(x$NUM_POSTE)
@@ -398,7 +470,7 @@
 
 		# variable
 		x <- mutate_at(x, c(7,9,11,13,15,17,21,23,27,29,31,33,37,39,
-												43,45,47,51,55,57,61,65,67,69,71), as.numeric)
+												43,45,47,51,55,57,61,65), as.numeric)
 
 		# identification stations
 		cod_sta <- levels(x$NUM_POSTE)
@@ -433,10 +505,10 @@
 		dbDisconnect(conn)
 
 		# autres cas
-		l <- as.vector(c("DRR1", "FF", "DD", "FXY", "DXY", "HXY", " FXI", "DXI", "HXI",
+		l <- as.vector(c("DRR1", "FF", "DD", "FXY", "DXY", "HXY", "FXI", "DXI", "HXI",
 										 "FF2", "DD2", "FXI2", "DXI2", "HXI2", "FXI3S", "DXI3S", "HFXI3S",
-										 " T", "TD", "TN", "HTN", "TX", "HTX", "U", "UN", "HUN", "UX",
-										 "HUX", "PMER", "PSTAT", "PMERMIN", "GEOP"))
+										 "T", "TD", "TN", "HTN", "TX", "HTX", "U", "UN", "HUN", "UX",
+										 "HUX", "PSTAT"))
 
 		for (i in 1:length(cod_sta)) map(l, function(.x) d_sensor(fsq, op = "C", sta = cod_sta[i],
 																sen=paste0("h",.x),
